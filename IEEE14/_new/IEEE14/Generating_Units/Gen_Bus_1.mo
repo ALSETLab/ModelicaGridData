@@ -9,7 +9,7 @@ model Gen_Bus_1
   parameter OpenIPSL.Types.PerUnit v_0=1
   "Initial voltage magnitude (pu)"
   annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.Angle angle_0=0
+  parameter Real angle_0=0
   "Initial voltage angle"
   annotation (Dialog(group="Power flow data"));
   OpenIPSL.Interfaces.PwPin pwPin

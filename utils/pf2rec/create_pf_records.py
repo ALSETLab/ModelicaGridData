@@ -119,11 +119,13 @@ def create_pf_records(model_name, model_mo_path, data_path = None, openipsl_vers
     if openipsl_version == '1.5.0':
         type_p = 'OpenIPSL.Types.ActivePowerMega'
         type_q = 'OpenIPSL.Types.ReactivePowerMega'
+        type_voltage_pu = 'Modelica.SIunits.PerUnit'
         type_angle = 'Modelica.SIunits.Conversions.NonSIunits.Angle_deg' # angle in deg
     else:
-        type_p = 'OpenIPSL.Types.ActivePower'
-        type_q = 'OpenIPSL.Types.ReactivePower'
-        type_angle = 'OpenIPSL.Types.Angle' # angle in rad
+        type_p = 'Real'#'OpenIPSL.Types.ActivePower'
+        type_q = 'Real'#OpenIPSL.Types.ReactivePower'
+        type_voltage_pu = 'Real' #'OpenIPSL.Types.PerUnit'
+        type_angle = 'Modelica.SIunits.Conversions.NonSIunits.Angle_deg'#'OpenIPSL.Types.Angle' # angle in rad
 
     ###########################
     ####### BUS TEMPLATE ######
@@ -156,7 +158,7 @@ def create_pf_records(model_name, model_mo_path, data_path = None, openipsl_vers
         for n_bus, bus in enumerate(components['buses']):
 
             # Write V, A (and delta for the slack)
-            bus_template.write(f"parameter Modelica.SIunits.PerUnit V{n_bus + 1} \"(pu) {bus}\" annotation(Dialog(enable = false));\n")
+            bus_template.write(f"parameter {type_voltage_pu} V{n_bus + 1} \"(pu) {bus}\" annotation(Dialog(enable = false));\n")
             bus_template.write(f"parameter {type_angle} A{n_bus + 1} \"{bus}\" annotation(Dialog(enable = false));\n\n")
 
         bus_template.write("end Bus_Template;")

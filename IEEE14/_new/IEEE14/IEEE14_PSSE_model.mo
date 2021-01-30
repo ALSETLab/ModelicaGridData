@@ -33,7 +33,7 @@ model IEEE14_PSSE_model
     X=0.22304,
     G=0,
     B=0.0246) annotation (Placement(transformation(extent={{-52,-28},{-32,-8}})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_02(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_02(
     V_b=69000,
     P_0=pf.powerflow.loads.PL1,
     Q_0=pf.powerflow.loads.QL1,
@@ -52,7 +52,7 @@ model IEEE14_PSSE_model
     V_b=69000,
     nn=3,
     np=1) annotation (Placement(transformation(extent={{-2,-102},{0,-82}})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_03(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_03(
     V_b=69000,
     P_0=pf.powerflow.loads.PL2,
     Q_0=pf.powerflow.loads.QL2,
@@ -70,7 +70,7 @@ model IEEE14_PSSE_model
     X=0.04211,
     G=0,
     B=0)      annotation (Placement(transformation(extent={{-8,-32},{12,-12}})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_05(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_05(
     V_b=69000,
     P_0=pf.powerflow.loads.PL4,
     Q_0=pf.powerflow.loads.QL4,
@@ -80,7 +80,7 @@ model IEEE14_PSSE_model
         extent={{-5,-5},{5,5}},
         rotation=180,
         origin={-23,1})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_04(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_04(
     V_b=69000,
     P_0=pf.powerflow.loads.PL3,
     Q_0=pf.powerflow.loads.QL3,
@@ -136,7 +136,7 @@ model IEEE14_PSSE_model
         extent={{-6,-4},{6,4}},
         rotation=90,
         origin={-8,8})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_06(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_06(
     V_b=138000,
     P_0=pf.powerflow.loads.PL5,
     Q_0=pf.powerflow.loads.QL5,
@@ -212,7 +212,7 @@ model IEEE14_PSSE_model
     V_b=69000,
     nn=1,
     np=1) annotation (Placement(transformation(extent={{86,-64},{88,-44}})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_09(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_09(
     V_b=138000,
     P_0=pf.powerflow.loads.PL6,
     Q_0=pf.powerflow.loads.QL6,
@@ -250,7 +250,7 @@ model IEEE14_PSSE_model
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={100,38})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_10(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_10(
     V_b=138000,
     P_0=pf.powerflow.loads.PL7,
     Q_0=pf.powerflow.loads.QL7,
@@ -260,7 +260,7 @@ model IEEE14_PSSE_model
         extent={{-5,-5},{5,5}},
         rotation=90,
         origin={65,45})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_14(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_14(
     V_b=138000,
     P_0=pf.powerflow.loads.PL11,
     Q_0=pf.powerflow.loads.QL11,
@@ -319,7 +319,7 @@ model IEEE14_PSSE_model
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={32,80})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_12(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_12(
     V_b=138000,
     P_0=pf.powerflow.loads.PL9,
     Q_0=pf.powerflow.loads.QL9,
@@ -329,7 +329,7 @@ model IEEE14_PSSE_model
         extent={{-5,-5},{5,5}},
         rotation=0,
         origin={-91,23})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_13(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_13(
     V_b=138000,
     P_0=pf.powerflow.loads.PL10,
     Q_0=pf.powerflow.loads.QL10,
@@ -339,7 +339,7 @@ model IEEE14_PSSE_model
         extent={{-5,-5},{5,5}},
         rotation=90,
         origin={11,91})));
-  OpenIPSL.Electrical.Loads.PSSE.Load           LOAD_11(
+  OpenIPSL.Electrical.Loads.PSSE.Load LOAD_11(
     V_b=138000,
     P_0=pf.powerflow.loads.PL11,
     Q_0=pf.powerflow.loads.QL11,
