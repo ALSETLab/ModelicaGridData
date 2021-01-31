@@ -351,7 +351,7 @@ model IEEE14_PSSE_model
         origin={41,63})));
   OpenIPSL.Electrical.Events.PwFault pwFault(
     R=0.01,
-    X=0.1,
+    X=0.02,
     t1=10,
     t2=10.01)
              annotation (Placement(transformation(extent={{42,-46},{54,-34}})));
@@ -397,11 +397,9 @@ model IEEE14_PSSE_model
     v_0=pf.powerflow.bus.V8,
     angle_0=pf.powerflow.bus.A8)
     annotation (Placement(transformation(extent={{70,-98},{90,-78}})));
-  OpenIPSL.Electrical.Banks.PSSE.Shunt shunt(B=15.00569/100,
-                                                          G=0)
+  OpenIPSL.Electrical.Banks.PSSE.Shunt shunt(B=0.1500569, G=0)
     annotation (Placement(transformation(extent={{70,86},{82,98}})));
-  OpenIPSL.Electrical.Banks.PSSE.Shunt shunt1(B=19/100,
-                                                      G=0)
+  OpenIPSL.Electrical.Banks.PSSE.Shunt shunt1(B=0.19, G=0)
     annotation (Placement(transformation(extent={{106,0},{118,12}})));
   IEEE14.PF_Data.Power_Flow pf(redeclare record PowerFlow =
         IEEE14.PF_Data.PF_00000)

@@ -1,15 +1,15 @@
 within IEEE14.Generating_Units;
 model Gen_Bus_6
-  parameter OpenIPSL.Types.ActivePower P_0(displayUnit="MW")=1e6
+  parameter OpenIPSL.Types.ActivePower P_0
   "Initial active power"
   annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.ReactivePower Q_0(displayUnit="Mvar")=0
+  parameter OpenIPSL.Types.ReactivePower Q_0
   "Initial reactive power"
   annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.PerUnit v_0=1
+  parameter OpenIPSL.Types.PerUnit v_0
   "Initial voltage magnitude (pu)"
   annotation (Dialog(group="Power flow data"));
-  parameter Real angle_0=0
+  parameter Real angle_0
   "Initial voltage angle"
   annotation (Dialog(group="Power flow data"));
   OpenIPSL.Electrical.Controls.PSSE.ES.IEEET1 iEEET1_1(
