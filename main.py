@@ -3,6 +3,7 @@ import warnings
 import argparse
 import datetime
 import sys
+import multiprocessing as mp
 
 # Importing global constants and variables useful for the execution of the code
 from utils import *
@@ -231,7 +232,7 @@ if __name__ == "__main__":
                 if _n_proc > (mp.cpu_count() - 1):
                     print(f"Too many processes. I can handle maximum {mp.cpu_count() - 1} processes")
                     print(f"Setting number of processes to {_n_proc - 1}")
-                if _n_cores > 1 or _n_cores == (mp.cpu_count() - 1):
+                if _n_cores == (mp.cpu_count() - 1):
                     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
                     val_params['n_cores'] = 1
                     print(f"Setting number of cores to {val_params['n_cores']} per process")
@@ -259,20 +260,20 @@ if __name__ == "__main__":
                     if _tool == 'dymola':
                         if _n_proc == 1:
                             apfun = p.apply_async(dymola_validation,
-                                args = (pf_dist, _data_path, val_params, np, ))
+                                args = (pf_dist, _data_path, val_params, np + 1, ))
                             process.append(apfun)
                         else:
                             apfun = p.apply_async(dymola_validation,
-                                args = (pf_dist[np], _data_path, val_params, np, ))
+                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
                             apfun = p.apply_async(om_validation,
-                                args = (pf_dist, _data_path, val_params, np, ))
+                                args = (pf_dist, _data_path, val_params, np + 1, ))
                             process.append(apfun)
                         else:
                             apfun = p.apply_async(om_validation,
-                                args = (pf_dist[np], _data_path, val_params, np, ))
+                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
                             process.append(apfun)
                 p.close()
                 p.join()

@@ -6,7 +6,6 @@ import sdf
 import os
 import time
 import re
-import multiprocessing as mp
 import shutil
 
 import platform
@@ -27,7 +26,8 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
 
         # Extracting and formatting paths
         _openipsl_path = os.path.abspath(val_params['openipsl_path_linux'])
-        _working_directory = os.path.abspath(val_params['working_directory_linux'])
+        # Making sure each process has an independent working directory
+        _working_directory = os.path.join(os.path.abspath(val_params['working_directory_linux']), str(n_proc))
         _dymola_path = os.path.abspath(val_params['dymola_path_linux'])
 
         # Instantiating dymola object
@@ -36,15 +36,15 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     if dymolaInstance is not None:
         print(f"{n_proc}: dymola using port: {dymolaInstance._portnumber}\n")
     else:
-        print("Failed to instantiate dymola instance")
+        print(f"{n_proc}: Failed to instantiate dymola instance")
 
     _model_path = os.path.abspath(val_params['model_path'])
     _model_package = val_params['model_package']
     _model_name = val_params['model_name']
 
-    print(f"Working directory:\n{_working_directory}")
-    print(f"OpenIPSL path:\n{_openipsl_path}")
-    print(f"Model path:\n{_model_path}")
+    print(f"{n_proc}: Working directory:\n{_working_directory}")
+    print(f"{n_proc}: OpenIPSL path:\n{_openipsl_path}")
+    print(f"{n_proc}: Model path:\n{_model_path}\n")
 
     # Extracting simulation parameters
     _n_cores = val_params['n_cores']
@@ -58,17 +58,17 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
 
     # Opening library
     result = dymolaInstance.openModel(_openipsl_path)
-    if result: print("Library opened")
+    if result: print(f"{n_proc}: Library opened")
 
     # Opening model
     result = dymolaInstance.openModel(_model_path)
-    if result: print("Model opened successfully")
+    if result: print(f"{n_proc}: Model opened successfully")
 
     # Changing working directory
     if not os.path.exists(_working_directory):
         os.makedirs(_working_directory)
     result = dymolaInstance.cd(_working_directory)
-    if result: print("Working directory changed successfully")
+    if result: print(f"{n_proc}: Working directory changed successfully\n")
 
     # Executing special commands to speed up execution time
     dymolaInstance.ExecuteCommand("Advanced.TranslationInCommandLog = true")
@@ -76,8 +76,10 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
         dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
 
     dymolaInstance.ExecuteCommand(f"Advanced.NumberOfCores = {_n_cores}")
-    count = 0
-    for pf in pf_list:
+
+    total = len(pf_list)
+
+    for n, pf in enumerate(pf_list):
 
         # Getting power flow name and identifier via regex
         pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
@@ -99,7 +101,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             tolerance = _tolerance)
 
         if result:
-            print(f"Simulation successful for power flow {pf_name}")
+            print(f"{n_proc}: Simulation successful for power flow {pf_name} ({n + 1}/{total})")
             result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}.mat")
             sdfData = sdf.load(result_path)
 
@@ -115,8 +117,8 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
 
             if deltaV2 > 0.005 or deltaV4 > 0.005:
-                print(f"Power flow {pf_name} did not initialize the model flat")
-                print(f"Removing {pf_name} result...")
+                print(f"{n_proc}: Power flow {pf_name} did not initialize the model flat")
+                print(f"{n_proc}: Removing {pf_name} result...")
 
                 pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
                     'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
@@ -128,9 +130,9 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
                     if os.path.isfile(pf_path[file]):
                         os.unlink(pf_path[file])
             else:
-                print(f"Power flow {pf_name} converged")
+                print(f"{n_proc}: Power flow {pf_name} converged")
         else:
-            print("Simulation fails")
+            print(f"{n_proc}: Simulation fails for {pf_name}")
 
     # Remove all `.mat` files from working directory: they are useless
     print("Removing all '.mat' files from current working directory")

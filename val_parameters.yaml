@@ -22,7 +22,7 @@ model_path: 'IEEE14/_old/IEEE14/package.mo'
 # model_path: 'IEEE14/_new/IEEE14/package.mo'
 data_path: 'IEEE14/_old/IEEE14/PF_Data'
 # data_path: 'IEEE14/_new/IEEE14/PF_Data'
-n_proc: 1
+n_proc: 40
 
 # ===========================
 # == SIMULATION PARAMETERS ==
