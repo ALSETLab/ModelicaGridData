@@ -233,7 +233,7 @@ if __name__ == "__main__":
                     print(f"Setting number of processes to {_n_proc - 1}")
                 if _n_cores > 1 or _n_cores == (mp.cpu_count() - 1):
                     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
-                    val_params['n_cores'] = min(mp.cpu_count(), 2)
+                    val_params['n_cores'] = 1
                     print(f"Setting number of cores to {val_params['n_cores']} per process")
 
                 # Getting power flow list from `PF_Data` directory
@@ -259,20 +259,20 @@ if __name__ == "__main__":
                     if _tool == 'dymola':
                         if _n_proc == 1:
                             apfun = p.apply_async(dymola_validation,
-                                args = (pf_dist, val_params, np, ))
+                                args = (pf_dist, _data_path, val_params, np, ))
                             process.append(apfun)
                         else:
                             apfun = p.apply_async(dymola_validation,
-                                args = (pf_dist[np], val_params, np, ))
+                                args = (pf_dist[np], _data_path, val_params, np, ))
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
                             apfun = p.apply_async(om_validation,
-                                args = (pf_dist, val_params, np, ))
+                                args = (pf_dist, _data_path, val_params, np, ))
                             process.append(apfun)
                         else:
                             apfun = p.apply_async(om_validation,
-                                args = (pf_dist[np], val_params, np, ))
+                                args = (pf_dist[np], _data_path, val_params, np, ))
                             process.append(apfun)
                 p.close()
                 p.join()

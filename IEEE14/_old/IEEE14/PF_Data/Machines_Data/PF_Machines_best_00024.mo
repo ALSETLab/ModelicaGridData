@@ -4,28 +4,28 @@ extends IEEE14.PF_Data.Machines_Data.Machines_Template(
 
 // MACHINE: '1_1'
 // Bus: BUS1'
-PG1 = (36.5111981),
-QG1 = (-11.4699758),
+PG1 = (67.6855758),
+QG1 = (-18.5216854),
 
 // MACHINE: '2_1'
 // Bus: BUS2'
 PG2 = (40.0000000),
-QG2 = (18.3842619),
+QG2 = (24.8878751),
 
 // MACHINE: '3_1'
 // Bus: BUS3'
 PG3 = (40.0000000),
-QG3 = (1.7327991),
+QG3 = (11.9141889),
 
 // MACHINE: '6_1'
 // Bus: BUS6'
 PG4 = (30.0000000),
-QG4 = (12.3663381),
+QG4 = (16.2889673),
 
 // MACHINE: '8_1'
 // Bus: BUS8'
 PG5 = (35.0000000),
-QG5 = (4.1318616)
+QG5 = (6.1892156)
 
 );
 end PF_Machines_best_00024;

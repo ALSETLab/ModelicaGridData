@@ -7,10 +7,11 @@ import os
 import time
 import re
 import multiprocessing as mp
+import shutil
 
 import platform
 
-def dymola_validation(pf_list, val_params, n_proc):
+def dymola_validation(pf_list, data_path, val_params, n_proc):
     '''
 
     '''
@@ -75,33 +76,21 @@ def dymola_validation(pf_list, val_params, n_proc):
         dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
 
     dymolaInstance.ExecuteCommand(f"Advanced.NumberOfCores = {_n_cores}")
-
-    # # Executing a simulation
-    # result = dymolaInstance.simulateModel(f"{_model_package}.{_model_name}",
-    #     startTime = _startTime,
-    #     stopTime = _stopTime,
-    #     resultFile = f"IEEE14_test",
-    #     method = _method,
-    #     tolerance = _tolerance,
-    #     numberOfIntervals = _numberOfIntervals)
-    #
-
+    count = 0
     for pf in pf_list:
 
         # Getting power flow name and identifier via regex
         pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
         pf_name = pf_name_regex.findall(pf)[0]
 
-        pf_identifier_regex = re.compile(r'(\d{5})')
+        pf_identifier_regex = re.compile(r'(?:PF_)([\w+]*_\d{5})')
         pf_identifier = pf_identifier_regex.findall(pf)[0]
 
         # Constructing `pf_path` and `pf_modifier`
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
         pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
-        # print('here')
-        # print(f"{_model_package}.{_model_name}({pf_modifier})")
-
+        # Simulating model with different
         result = dymolaInstance.simulateModel(f"{_model_package}.{_model_name}({pf_modifier})",
             stopTime = _stopTime,
             resultFile = f"IEEE14_{pf_name}",
@@ -110,7 +99,7 @@ def dymola_validation(pf_list, val_params, n_proc):
             tolerance = _tolerance)
 
         if result:
-
+            print(f"Simulation successful for power flow {pf_name}")
             result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}.mat")
             sdfData = sdf.load(result_path)
 
@@ -118,14 +107,36 @@ def dymola_validation(pf_list, val_params, n_proc):
             v_mag2 = sdfData["Bus_02"]["V"]
             v_mag4 = sdfData["Bus_04"]["V"]
 
-            t = np.asarray(tData.data)
-            v_mag2np = np.asarray(v_mag2.data)
-            v_mag4np = np.asarray(v_mag4.data)
+            t = np.array(tData.data)
+            v_mag2np = np.array(v_mag2.data)
+            v_mag4np = np.array(v_mag4.data)
 
-            plt.plot(t, v_mag2np, t, v_mag4np)
-            plt.show()
+            deltaV2 = np.max(v_mag2np) - np.min(v_mag2np)
+            deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
 
+            if deltaV2 > 0.005 or deltaV4 > 0.005:
+                print(f"Power flow {pf_name} did not initialize the model flat")
+                print(f"Removing {pf_name} result...")
+
+                pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
+                    'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
+                    'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
+                    'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
+                    'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
+
+                for file in pf_path:
+                    if os.path.isfile(pf_path[file]):
+                        os.unlink(pf_path[file])
+            else:
+                print(f"Power flow {pf_name} converged")
         else:
-            print("nah, it fails")
+            print("Simulation fails")
 
-        break
+    # Remove all `.mat` files from working directory: they are useless
+    print("Removing all '.mat' files from current working directory")
+    for file_object in os.listdir(_working_directory):
+        file_object_path = os.path.join(_working_directory, file_object)
+        if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
+            os.unlink(file_object_path)
+        else:
+            shutil.rmtree(file_object_path)
