@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import shutil
+from tqdm import tqdm
 
 current_year = datetime.datetime.now().year
 
@@ -24,12 +25,10 @@ def download_nyiso_data(start_year = current_year, destination_folder = os.path.
     - verbose: if 'True', prints verbose statements to show progress of the download and the data organization processes.
 
     OUTPUTS:
-
     None.
 
     LAST MODIFICATION DATE:
 
-    04/06/2020 by SADR
 
     '''
 
@@ -81,8 +80,9 @@ def download_nyiso_data(start_year = current_year, destination_folder = os.path.
     if start_year <= 2001:
         start_year = 2001
 
+    print(f"Downloading load forecast data from {start_year} to {now.year}")
     # Download '.zip' files for monthly information
-    for year in range(start_year, now.year + 1):
+    for year in tqdm(range(start_year, now.year + 1)):
 
         download_folder = os.path.join(raw_lf_data_path, f"{year}")
 
@@ -137,6 +137,7 @@ def download_nyiso_data(start_year = current_year, destination_folder = os.path.
     if verbose:
         print(f"Load forecast '.zip' file download completed up to {now.month}/{now.day-1}/{now.year}")
 
+    print("Organizing forecast data")
     organizing_forecast_data_per_zone(raw_lf_data_path, processed_lf_data_path)
 
     if verbose:
@@ -146,8 +147,9 @@ def download_nyiso_data(start_year = current_year, destination_folder = os.path.
     ###### DOWNLOADING ACTUAL DATA #######
     ######################################
 
+    print(f"\nDownloading actual load data from {start_year} to {now.year}")
     # Downloading data of actual load (with hourly time-stamp)
-    for year in range(start_year, now.year + 1):
+    for year in tqdm(range(start_year, now.year + 1)):
 
         # Download folder
         download_folder = os.path.join(raw_actual_load_path, f"{year}")
@@ -196,6 +198,7 @@ def download_nyiso_data(start_year = current_year, destination_folder = os.path.
     if verbose:
         print(f"Actual load '.zip' file download completed up to {now.month}/{now.day-1}/{now.year}")
 
+    print(f"\nOrganizing data")
     # ORGANIZING ACTUAL LOAD DATA PER ZONE
     organizing_actual_load_data_per_zone(raw_actual_load_path, processed_actual_load_path)
 
@@ -210,7 +213,7 @@ def organizing_actual_load_data_per_zone(raw_data_path, write_data_path):
     # Getting subfolders
     year_subfolders = os.listdir(raw_data_path)
 
-    for year_subfolder in year_subfolders:
+    for year_subfolder in tqdm(year_subfolders):
 
         year_subfolder_path = os.path.join(raw_data_path, year_subfolder)
 
@@ -351,7 +354,7 @@ def organizing_forecast_data_per_zone(raw_data_path, write_data_path):
     # Getting subfolders
     year_subfolders = os.listdir(raw_data_path)
 
-    for year_subfolder in year_subfolders:
+    for year_subfolder in tqdm(year_subfolders):
 
         year_subfolder_path = os.path.join(raw_data_path, year_subfolder)
 

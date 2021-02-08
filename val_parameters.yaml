@@ -1,0 +1,40 @@
+# sim_parameters.yaml file
+
+######################################
+### General settings
+######################################
+
+dymola_path_linux: '/opt/dymola-2021-x86_64/bin64/dymola.sh'
+
+working_directory_linux : '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/_working_directory/_experiments'
+working_directory_windows : 'C:\temp\Dymola'
+
+# The OpenIPSL path is absolute
+openipsl_path_windows: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # windows path 1.5
+openipsl_path_linux: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # linux path 1.5
+# openipsl_path = # linux path 1.5
+# openipsl_path = # linux path 2.0
+
+# RELATIVE PATHS
+# These paths are relative to the model folder
+# We assumed the model directory (`IEEE14`) is located in the same folder as `main.py`
+model_path: 'IEEE14/_old/IEEE14/package.mo'
+# model_path: 'IEEE14/_new/IEEE14/package.mo'
+data_path: 'IEEE14/_old/IEEE14/PF_Data'
+# data_path: 'IEEE14/_new/IEEE14/PF_Data'
+n_proc: 1
+
+# ===========================
+# == SIMULATION PARAMETERS ==
+# ===========================
+model_package: 'IEEE14'
+model_name: 'IEEE14_Base_Case'
+# model_name: 'IEEE14.IEEE14_PSSE_model' # for OpenIPSL 2.0
+n_cores: 1
+startTime: 0.0
+stopTime: 5.0
+numberOfIntervals: 1000 # do not pass in scientific format! (1e-7) will generate an error
+method: 'dassl'
+tolerance: 0.0001
+fixedstepsize: 0.0 # for fixed step solver
+resultFile: 'default'
