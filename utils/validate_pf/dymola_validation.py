@@ -18,7 +18,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     if platform.system() == 'Windows':
         # Extracting and formatting paths
         _openipsl_path = os.path.abspath(val_params['openipsl_path_windows'])
-        _working_directory = os.path.abspath(val_params['working_directory_windows'])
+        _working_directory = os.path.join(os.path.abspath(val_params['working_directory_windows']), str(n_proc))
 
         # Instantiating dymola object
         dymolaInstance = DymolaInterface()

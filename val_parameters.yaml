@@ -11,7 +11,8 @@ working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory
 working_directory_windows : 'C:\temp\Dymola'
 
 # The OpenIPSL path is absolute
-openipsl_path_windows: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # windows path 1.5
+#openipsl_path_windows: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # windows path 1.5
+openipsl_path_windows: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo'
 #openipsl_path_linux: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # linux path 1.5
 openipsl_path_linux: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' #fatboy
 
@@ -22,7 +23,7 @@ model_path: 'IEEE14/_old/IEEE14/package.mo'
 # model_path: 'IEEE14/_new/IEEE14/package.mo'
 data_path: 'IEEE14/_old/IEEE14/PF_Data'
 # data_path: 'IEEE14/_new/IEEE14/PF_Data'
-n_proc: 40
+n_proc: 1
 
 # ===========================
 # == SIMULATION PARAMETERS ==
