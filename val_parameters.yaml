@@ -6,14 +6,14 @@
 
 dymola_path_linux: '/opt/dymola-2021-x86_64/bin64/dymola.sh'
 
-working_directory_linux : '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/_working_directory/_experiments'
+#working_directory_linux : '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/_working_directory/_experiments'
+working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory/_experiments' #fatboy
 working_directory_windows : 'C:\temp\Dymola'
 
 # The OpenIPSL path is absolute
 openipsl_path_windows: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # windows path 1.5
-openipsl_path_linux: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # linux path 1.5
-# openipsl_path = # linux path 1.5
-# openipsl_path = # linux path 2.0
+#openipsl_path_linux: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # linux path 1.5
+openipsl_path_linux: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' #fatboy
 
 # RELATIVE PATHS
 # These paths are relative to the model folder
