@@ -125,7 +125,10 @@ def create_pf_records(model_name, model_mo_path, data_path = None, openipsl_vers
         type_p = 'OpenIPSL.Types.ActivePower'#'Real'
         type_q = 'OpenIPSL.Types.ReactivePower'#'Real'
         type_voltage_pu = 'OpenIPSL.Types.PerUnit'#'Real'
-        type_angle = 'Real'#'Modelica.SIunits.Conversions.NonSIunits.Angle_deg'#'OpenIPSL.Types.Angle' # angle in rad
+        type_angle = 'Real'
+        # 'Real'
+        #'Modelica.SIunits.Conversions.NonSIunits.Angle_deg'
+        #'OpenIPSL.Types.Angle' # angle in rad
 
     ###########################
     ####### BUS TEMPLATE ######
