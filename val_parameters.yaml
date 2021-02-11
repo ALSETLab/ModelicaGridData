@@ -13,6 +13,8 @@ dymola_path_linux: '/opt/dymola-2021-x86_64/bin64/dymola.sh'
 
 working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory/_experiments' #fatboy
 working_directory_windows : 'C:\temp\Dymola'
+om_working_directory_linux : 'some directory'
+om_working_directory_windows : 'C:\temp\OpenModelica'
 
 # The OpenIPSL path is absolute
 openipsl_path_windows_old: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5

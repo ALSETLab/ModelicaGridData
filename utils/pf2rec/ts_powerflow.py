@@ -1,7 +1,6 @@
 from GridCal.Engine import ReactivePowerControlMode
 from GridCal.Engine.IO.file_handler import FileOpen
 
-#from GridCal.Engine.Devices import *
 from GridCal.Engine.Core.multi_circuit import MultiCircuit
 
 from GridCal.Engine.Simulations.PowerFlow.power_flow_worker import PowerFlowOptions, SolverType
@@ -64,10 +63,7 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     # Grid model in GridCal
     data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model, "IEEE14"))
 
-    if _model == '_new':
-        path_mo_file = os.path.join(data_path, "IEEE14_PSSE_model.mo")
-    elif _model == '_old':
-        path_mo_file = os.path.join(data_path, "IEEE14_Base_Case.mo")
+    path_mo_file = os.path.join(data_path, "IEEE14_Base_Case.mo")
 
     # Deleting previous power flow results
     if _delete:
@@ -75,10 +71,6 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
         if os.path.exists(pf_data_path):
             shutil.rmtree(pf_data_path)
             print("Previous power flow results deleted\n")
-        else:
-            pass
-    else:
-        pass
 
     # Creating records structure
     create_pf_records("IEEE14",
