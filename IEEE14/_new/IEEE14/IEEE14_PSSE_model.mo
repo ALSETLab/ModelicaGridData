@@ -341,8 +341,8 @@ model IEEE14_PSSE_model
         origin={11,91})));
   OpenIPSL.Electrical.Loads.PSSE.Load LOAD_11(
     V_b=138000,
-    P_0=pf.powerflow.loads.PL11,
-    Q_0=pf.powerflow.loads.QL11,
+    P_0=pf.powerflow.loads.PL8,
+    Q_0=pf.powerflow.loads.QL8,
     v_0=pf.powerflow.bus.V11,
     angle_0=pf.powerflow.bus.A11)
             annotation (Placement(transformation(
