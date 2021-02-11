@@ -102,20 +102,22 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     pf_fail = [] # list of power flows for which the simulation fails
     total = len(pf_list)
 
+    # Regex for getting power flow name
+    pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
+
+    ##################################################################
+    # Evaluating power flows via dynamic simulations
+    ##################################################################
     for n, pf in enumerate(pf_list):
 
         # Getting power flow name and identifier via regex
-        pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
         pf_name = pf_name_regex.findall(pf)[0]
-
-        pf_identifier_regex = re.compile(r'(?:PF_)([\w+]*_\d{5})')
-        pf_identifier = pf_identifier_regex.findall(pf)[0]
 
         # Constructing `pf_path` and `pf_modifier`
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
         pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
-        print(f"{n_proc}: Simulating power flow {pf_name} ({n+1}/{total})")
+        print(f"{n_proc}: Simulating power flow {pf_name} ({n + 1}/{total})")
 
         try:
             # Simulating model with different
@@ -129,8 +131,10 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
                 print(f"{n_proc}: Simulation successful for power flow {pf_name}")
                 pf_succ.append(pf_name)
             else:
+                # Simulation fails for given power flow
                 print(f"{n_proc}: Simulation fails for {pf_name}")
                 pf_fail.append(pf_name)
+
         except DymolaException as ex:
             print("Error: " + str(ex))
 
@@ -138,8 +142,15 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     dymolaInstance.close()
     dymolaInstance = None
 
+    ##################################################################
     # Validating power flows
+    ##################################################################
+    pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
+
     for pf_name in pf_succ:
+
+        pf_identifier = pf_identifier_regex.findall(pf_name)[0]
+
         result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}.mat")
         sdfData = sdf.load(result_path)
 
@@ -172,6 +183,9 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             print(f"{n_proc}: Power flow {pf_name} converged")
 
     for pf_name in pf_fail:
+
+        pf_identifier = pf_identifier_regex.findall(pf)[0]
+
         pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
             'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
             'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
@@ -182,8 +196,11 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             if os.path.isfile(pf_path[file]):
                 os.unlink(pf_path[file])
 
+    ##################################################################
     # Remove all `.mat` files from working directory: they are useless
+    ##################################################################
     print("Removing all '.mat' files from current working directory")
+
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)
         if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
