@@ -68,7 +68,6 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     _method = val_params['method']
     _tolerance = val_params['tolerance']
     _fixedstepsize = val_params['fixedstepsize']
-    _resultFile = val_params['resultFile']
 
     # Opening library
     result = dymolaInstance.openModel(_openipsl_path)
@@ -187,6 +186,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
         else:
             print(f"({n_proc}): Power flow {pf_name} converged")
 
+    # This is temporary commented out for debugging
     # for pf_name in pf_fail:
     #
     #     pf_identifier = pf_identifier_regex.findall(pf)[0]

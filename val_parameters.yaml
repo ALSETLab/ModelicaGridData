@@ -2,28 +2,44 @@
 
 # '_old' stands for version 1.5.0 (2017 release) of OpenIPSL
 # '_new' stands for version 2.0.0.beta of OpenIPSL
-#
-#
-#
 
-######################################
-### General settings
-######################################
+############################################################################
+### GENERAL SETTINGS
+### Note: The dymola, OpenIPSL and working directory paths are absolute
+############################################################################
+
 dymola_path_linux: '/opt/dymola-2021-x86_64/bin64/dymola.sh'
 
-working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory/_experiments' #fatboy
+# virtual machine
+working_directory_linux : '/home/sergio/Dymola/_working_directory/_experiments'
+# test machine
+# working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory/_experiments'
+
+# virtual and test machine
 working_directory_windows : 'C:\temp\Dymola'
+
+# virtual machine
 om_working_directory_linux : 'some directory'
+# test machine
+# om_working_directory_linux : ''
+
+# virtual and test machine
 om_working_directory_windows : 'C:\temp\OpenModelica'
 
-# The OpenIPSL path is absolute
+# virtual machine
 openipsl_path_windows_old: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
 openipsl_path_windows_new: 'Z:\Documents\Dymola\Library\OpenIPSL_2_beta\OpenIPSL\package.mo' # version 2.0
-#openipsl_path_windows_old: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
-#openipsl_path_windows_new: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_2_beta\OpenIPSL\package.mo' # version 2.0
+# test machine
+# openipsl_path_windows_old: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
+# openipsl_path_windows_new: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_2_beta\OpenIPSL\package.mo' # version 2.0
 
-openipsl_path_linux_old: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # fatboy
-openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
+# virtual machine
+openipsl_path_linux_old: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
+openipsl_path_linux_new: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_2_beta/OpenIPSL/package.mo'
+
+# test machine
+# openipsl_path_linux_old: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
+# openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
 
 # RELATIVE PATHS
 # These paths are relative to the model folder
@@ -33,10 +49,6 @@ model_path_new: 'models/_new/IEEE14/package.mo'
 
 data_path_old: 'models/_old/IEEE14/PF_Data'
 data_path_new: 'models/_new/IEEE14/PF_Data'
-
-# move towards user inputs, too uncomfortable to adjust everytime
-n_proc: 4
-n_cores: 1
 
 # ===========================
 # == SIMULATION PARAMETERS ==
@@ -49,4 +61,4 @@ numberOfIntervals: 1000 # do not pass in scientific format! (1e-7) will generate
 method: 'dassl'
 tolerance: 0.0001
 fixedstepsize: 0.0 # for fixed step solver
-resultFile: 'default'
+# resultFile: 'default'
