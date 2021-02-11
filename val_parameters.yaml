@@ -17,11 +17,11 @@ working_directory_windows : 'C:\temp\Dymola'
 # The OpenIPSL path is absolute
 openipsl_path_windows_old: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
 openipsl_path_windows_new: 'Z:\Documents\Dymola\Library\OpenIPSL_2_beta\OpenIPSL\package.mo' # version 2.0
-
 #openipsl_path_windows_old: 'Z:\Documents\Dymola\Library\OpenIPSL_2.0\OpenIPSL\package.mo' # version 1.5
 #openipsl_path_windows_new: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 2.0
-openipsl_path_linux_old: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # linux path 1.5
-openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' #fatboy
+
+openipsl_path_linux_old: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo' # fatboy
+openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
 
 # RELATIVE PATHS
 # These paths are relative to the model folder

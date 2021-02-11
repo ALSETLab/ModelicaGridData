@@ -1,4 +1,5 @@
-from dymola.dymola_interface import DymolaInterface, DymolaException
+from dymola.dymola_interface import DymolaInterface
+from dymola.dymola_exception import DymolaException
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -102,7 +103,6 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     total = len(pf_list)
 
     for n, pf in enumerate(pf_list):
-        print(f"{n_proc}: Simulating power flow {pf_name} ({n+1}/{total})")
 
         # Getting power flow name and identifier via regex
         pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
@@ -115,6 +115,8 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
         pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
+        print(f"{n_proc}: Simulating power flow {pf_name} ({n+1}/{total})")
+
         try:
             # Simulating model with different
             result = dymolaInstance.simulateModel(f"{_model_package}.{_model_name}({pf_modifier})",
@@ -123,7 +125,6 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
                 numberOfIntervals = _numberOfIntervals,
                 method = _method,
                 tolerance = _tolerance)
-
             if result:
                 print(f"{n_proc}: Simulation successful for power flow {pf_name}")
                 pf_succ.append(pf_name)
