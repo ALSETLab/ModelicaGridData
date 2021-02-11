@@ -1,19 +1,6 @@
 within IEEE14.Generating_Units;
 model Gen_Bus_1
-  parameter OpenIPSL.Types.ActivePower P_0
-  "Initial active power"
-  annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.ReactivePower Q_0
-  "Initial reactive power"
-  annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.PerUnit v_0
-  "Initial voltage magnitude (pu)"
-  annotation (Dialog(group="Power flow data"));
-  parameter Real angle_0
-  "Initial voltage angle"
-  annotation (Dialog(group="Power flow data"));
-  OpenIPSL.Interfaces.PwPin pwPin
-    annotation (Placement(transformation(extent={{80,-10},{100,10}})));
+  extends OpenIPSL.Interfaces.Generator;
   OpenIPSL.Electrical.Machines.PSSE.GENROU gENROU(
     V_b=69000,
     P_0=P_0,
@@ -97,8 +84,6 @@ equation
           {-4,-90},{59,-90}}, color={0,0,127}));
   connect(gENROU.XADIFD, iEEET1_1.XADIFD) annotation (Line(points={{23.7,11.9},{
           30,11.9},{30,-82},{-46.6,-82},{-46.6,-77.3}},       color={0,0,127}));
-  connect(gENROU.p, pwPin)
-    annotation (Line(points={{20,47},{60,47},{60,0},{90,0}}, color={0,0,255}));
   connect(gENROU.SPEED, tGOV1_1.SPEED) annotation (Line(points={{23.7,74.3},{60,
           74.3},{60,143.6},{24,143.6}},          color={0,0,127}));
   connect(gENROU.PMECH0, tGOV1_1.PMECH0) annotation (Line(points={{23.7,66.5},{48,
@@ -111,22 +96,8 @@ equation
           47.6},{-186,90},{38,90},{38,74.3},{23.7,74.3}},    color={0,0,127}));
   connect(pSS2A.V_S2, gENROU.PELEC) annotation (Line(points={{-186.7,36.4},{-186,
           36.4},{-186,4},{46,4},{46,58.7},{23.7,58.7}},    color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -120},{120,160}}),
-                        graphics={ Ellipse(
-          extent={{-120,100},{80,-100}},
-          lineColor={0,0,0},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),Line(
-          points={{0,-20},{30,-40},{60,0}},
-          color={0,0,0},
-          thickness=0.5),Text(
-          extent={{-60,20},{20,-20}},
-          lineColor={0,0,0},
-          textString="%name"),           Line(
-          points={{-40,20},{-70,40},{-100,0}},
-          color={0,0,0},
-          thickness=0.5)}),
-                          Diagram(coordinateSystem(preserveAspectRatio=false,
+  connect(gENROU.p, pwPin) annotation (Line(points={{20,47},{70,47},{70,0},{110,
+          0}}, color={0,0,255}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=true,
           extent={{-200,-120},{120,160}})));
 end Gen_Bus_1;

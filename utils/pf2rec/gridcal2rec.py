@@ -78,8 +78,7 @@ def _write_single_pf(grid, pf, model_name, data_dirs, pf_num, export_pf_results,
         adjust_angle = 180/np.pi # converting angle to deg
     else:
         adjust_units = '1e06*'
-        adjust_angle = 1
-        180/np.pi#1 # leaving angle in rad
+        adjust_angle = 1 # leaving angle in rad
 
     #####################################
     ### WRITING LOAD POWER FLOW DATA ####

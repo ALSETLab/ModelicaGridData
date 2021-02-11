@@ -75,10 +75,6 @@ model Gen_2
     M=5,
     N=1)
     annotation (Placement(transformation(extent={{-246,-18},{-132,36}})));
-  OpenIPSL.Interfaces.PwPin pwPin annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={110,10})));
 equation
   connect(iEEET1_1.EFD, gENROU.EFD) annotation (Line(points={{-21,-9},{-14,-9},{
           -14,-5},{-6,-5}},  color={0,0,127}));
@@ -109,8 +105,6 @@ equation
                 color={0,0,127}));
   connect(gENROU.PELEC, pSS2A.V_S2) annotation (Line(points={{63,19},{96,19},{96,
           -82},{-250,-82},{-250,-1.8},{-251.7,-1.8}}, color={0,0,127}));
-  connect(pwPin, pwPin)
-    annotation (Line(points={{110,10},{110,10}}, color={0,0,255}));
-  connect(gENROU.p, pwPin)
-    annotation (Line(points={{60,10},{110,10}}, color={0,0,255}));
+  connect(gENROU.p, pwPin) annotation (Line(points={{60,10},{80,10},{80,0},{110,
+          0}}, color={0,0,255}));
 end Gen_2;

@@ -50,8 +50,8 @@ model IEEE14_PSSE_model
     v_0=pf.powerflow.bus.V3,
     angle_0=pf.powerflow.bus.A3,
     V_b=69000,
-    nn=3,
-    np=1) annotation (Placement(transformation(extent={{-2,-102},{0,-82}})));
+    nn=2,
+    np=2) annotation (Placement(transformation(extent={{-2,-102},{0,-82}})));
   OpenIPSL.Electrical.Loads.PSSE.Load LOAD_03(
     V_b=69000,
     P_0=pf.powerflow.loads.PL2,
@@ -348,7 +348,7 @@ model IEEE14_PSSE_model
             annotation (Placement(transformation(
         extent={{-5,-5},{5,5}},
         rotation=90,
-        origin={41,63})));
+        origin={41,65})));
   OpenIPSL.Electrical.Events.PwFault pwFault(
     R=0.01,
     X=0.02,
@@ -371,32 +371,6 @@ model IEEE14_PSSE_model
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-26,60})));
-  Generating_Units.Gen_Bus_2 gen_Bus_2_1(
-    P_0=pf.powerflow.machines.PG2,
-    Q_0=pf.powerflow.machines.QG2,
-    v_0=pf.powerflow.bus.V2,
-    angle_0=pf.powerflow.bus.A2)
-    annotation (Placement(transformation(extent={{-114,-82},{-90,-60}})));
-  Generating_Units.Gen_Bus_3 gen_Bus_3_1(
-    P_0=pf.powerflow.machines.PG3,
-    Q_0=pf.powerflow.machines.QG3,
-    v_0=pf.powerflow.bus.V3,
-    angle_0=pf.powerflow.bus.A3)
-    annotation (Placement(transformation(extent={{-32,-82},{-10,-62}})));
-  Generating_Units.Gen_Bus_6 gen_Bus_6_1(
-    P_0=pf.powerflow.machines.PG4,
-    Q_0=pf.powerflow.machines.QG4,
-    v_0=pf.powerflow.bus.V6,
-    angle_0=pf.powerflow.bus.A6)         annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={10,32})));
-  Generating_Units.Gen_Bus_8 gen_Bus_8_1(
-    P_0=pf.powerflow.machines.PG5,
-    Q_0=pf.powerflow.machines.QG5,
-    v_0=pf.powerflow.bus.V8,
-    angle_0=pf.powerflow.bus.A8)
-    annotation (Placement(transformation(extent={{70,-98},{90,-78}})));
   OpenIPSL.Electrical.Banks.PSSE.Shunt shunt(B=0.1500569, G=0)
     annotation (Placement(transformation(extent={{70,86},{82,98}})));
   OpenIPSL.Electrical.Banks.PSSE.Shunt shunt1(B=0.19, G=0)
@@ -409,7 +383,37 @@ model IEEE14_PSSE_model
     Q_0=pf.powerflow.machines.QG1,
     v_0=pf.powerflow.bus.V1,
     angle_0=pf.powerflow.bus.A1)
-    annotation (Placement(transformation(extent={{-120,-32},{-88,-4}})));
+    annotation (Placement(transformation(extent={{-106,-30},{-86,-10}})));
+  Generating_Units.Gen_Bus_2 gen_Bus_2_1(
+    P_0=pf.powerflow.machines.PG2,
+    Q_0=pf.powerflow.machines.QG2,
+    v_0=pf.powerflow.bus.V2,
+    angle_0=pf.powerflow.bus.A2)
+    annotation (Placement(transformation(extent={{-108,-80},{-88,-60}})));
+  Generating_Units.Gen_Bus_3 gen_Bus_3_1(
+    P_0=pf.powerflow.machines.PG3,
+    Q_0=pf.powerflow.machines.QG3,
+    v_0=pf.powerflow.bus.V3,
+    angle_0=pf.powerflow.bus.A3) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={28,-104})));
+  Generating_Units.Gen_Bus_6 gen_Bus_6_1(
+    P_0=pf.powerflow.machines.PG4,
+    Q_0=pf.powerflow.machines.QG4,
+    v_0=pf.powerflow.bus.V6,
+    angle_0=pf.powerflow.bus.A6) annotation (Placement(transformation(
+        extent={{-7,-7},{7,7}},
+        rotation=180,
+        origin={5,33})));
+  Generating_Units.Gen_Bus_8 gen_Bus_8_1(
+    P_0=pf.powerflow.machines.PG5,
+    Q_0=pf.powerflow.machines.QG5,
+    v_0=pf.powerflow.bus.V8,
+    angle_0=pf.powerflow.bus.A8) annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={108,-52})));
 equation
   connect(pwLine.n, Bus_01.p[1])
     annotation (Line(points={{-56,-37},{-56,-23},{-66,-23}},
@@ -421,11 +425,10 @@ equation
     annotation (Line(points={{-72,-88},{-72,-77},{-66,-77}}, color={0,0,255}));
   connect(pwLine2.p, Bus_02.p[1]) annotation (Line(points={{-45,-76},{-52,-76},{
           -52,-78.5},{-64,-78.5}}, color={0,0,255}));
-  connect(LOAD_03.p, Bus_03.n[1]) annotation (Line(points={{-31,-102},{-22,
-          -102},{-22,-96},{-2,-96}},
-                               color={0,0,255}));
+  connect(LOAD_03.p, Bus_03.n[1]) annotation (Line(points={{-31,-102},{-22,-102},
+          {-22,-95},{-2,-95}}, color={0,0,255}));
   connect(pwLine2.n, Bus_03.n[2]) annotation (Line(points={{-27,-76},{-24,-76},
-          {-24,-92},{-2,-92}},color={0,0,255}));
+          {-24,-89},{-2,-89}},color={0,0,255}));
   connect(pwLine3.n, Bus_04.n[1]) annotation (Line(points={{11,-22},{14,-22},{14,
           -24},{18,-24}}, color={0,0,255}));
   connect(pwLine3.p, Bus_05.p[1]) annotation (Line(points={{-7,-22},{-12,-22},{-12,
@@ -447,7 +450,7 @@ equation
   connect(pwLine5.n, Bus_04.n[3]) annotation (Line(points={{-10,-37},{-10,-28},{
           14,-28},{14,-16},{18,-16}}, color={0,0,255}));
   connect(pwLine6.p, Bus_03.p[1])
-    annotation (Line(points={{8,-55},{8,-92},{0,-92}}, color={0,0,255}));
+    annotation (Line(points={{8,-55},{8,-95},{0,-95}}, color={0,0,255}));
   connect(pwLine6.n, Bus_04.p[1]) annotation (Line(points={{8,-37},{8,-34},{
           26,-34},{26,-24.5},{20,-24.5}},
                               color={0,0,255}));
@@ -480,8 +483,8 @@ equation
                                     color={0,0,255}));
   connect(pwLine9.n, Bus_11.n[1]) annotation (Line(points={{7,48},{10,48},{10,54},
           {14,54}}, color={0,0,255}));
-  connect(pwLine9.p, Bus_06.p[2]) annotation (Line(points={{-11,48},{-14,48},
-          {-14,32},{-16,32}},
+  connect(pwLine9.p, Bus_06.p[2]) annotation (Line(points={{-11,48},{-14,48},{
+          -14,32},{-16,32}},
                          color={0,0,255}));
   connect(pwLine10.n, Bus_10.n[1]) annotation (Line(points={{39,44},{42,44},{42,
           42},{44,42}}, color={0,0,255}));
@@ -507,8 +510,9 @@ equation
           40},{-70,40}}, color={0,0,255}));
   connect(LOAD_13.p, Bus_13.p[2]) annotation (Line(points={{6,91},{-2,91},{-2,
           90},{-8,90},{-8,87},{-18,87}}, color={0,0,255}));
-  connect(LOAD_11.p, Bus_11.p[2]) annotation (Line(points={{36,63},{34,63},{34,62},
-          {30,62},{30,57},{16,57}}, color={0,0,255}));
+  connect(LOAD_11.p, Bus_11.p[2]) annotation (Line(points={{36,65},{34,65},{34,
+          62},{30,62},{30,57},{16,57}},
+                                    color={0,0,255}));
   connect(twoWindingTransformer1.n, Bus_07.n[1])
     annotation (Line(points={{48.6,-12},{58,-12}},
                                                  color={0,0,255}));
@@ -532,18 +536,6 @@ equation
           {72,14},{72,18},{86,18}}, color={0,0,255}));
   connect(pwLine14.p, Bus_09.n[3]) annotation (Line(points={{72,5.4},{76,5.4},{76,
           22},{86,22}}, color={0,0,255}));
-  connect(gen_Bus_2_1.pwPin, Bus_02.n[2]) annotation (Line(points={{-90.75,
-          -71.7857},{-77.5,-71.7857},{-77.5,-71},{-66,-71}},
-                                              color={0,0,255}));
-  connect(gen_Bus_3_1.pwPin, Bus_03.n[3]) annotation (Line(points={{-10.6875,
-          -73.4286},{-6,-73.4286},{-6,-89},{-2,-89},{-2,-88}},
-                                               color={0,0,255}));
-  connect(gen_Bus_6_1.pwPin, Bus_06.p[3]) annotation (Line(points={{0.625,
-          33.4286},{-8,33.4286},{-8,36},{-16,36}},
-                                    color={0,0,255}));
-  connect(gen_Bus_8_1.pwPin, Bus_08.p[1]) annotation (Line(points={{89.375,
-          -89.2857},{100,-89.2857},{100,-54},{88,-54}},
-                                           color={0,0,255}));
   connect(shunt.p, Bus_14.p[3]) annotation (Line(points={{76,98},{96,98},{96,
           76},{88,76}},         color={0,0,255}));
   connect(shunt1.p, Bus_09.p[3])
@@ -551,7 +543,15 @@ equation
   connect(pwFault.p, Bus_04.p[4]) annotation (Line(points={{41,-40},{34,-40},
           {34,-15.5},{20,-15.5}}, color={0,0,255}));
   connect(gen_Bus_1_1.pwPin, Bus_01.n[1])
-    annotation (Line(points={{-91,-20},{-68,-20}}, color={0,0,255}));
+    annotation (Line(points={{-85,-20},{-68,-20}}, color={0,0,255}));
+  connect(gen_Bus_2_1.pwPin, Bus_02.n[2]) annotation (Line(points={{-87,-70},{
+          -76,-70},{-76,-71},{-66,-71}}, color={0,0,255}));
+  connect(gen_Bus_3_1.pwPin, Bus_03.p[2]) annotation (Line(points={{17,-104},{
+          14,-104},{14,-89},{2.22045e-16,-89}}, color={0,0,255}));
+  connect(gen_Bus_6_1.pwPin, Bus_06.p[3])
+    annotation (Line(points={{-2.7,33},{-16,33},{-16,36}}, color={0,0,255}));
+  connect(gen_Bus_8_1.pwPin, Bus_08.p[1]) annotation (Line(points={{97,-52.2},{
+          92.5,-52.2},{92.5,-54},{88,-54}}, color={0,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
             {120,100}})),
                         Diagram(coordinateSystem(preserveAspectRatio=false,

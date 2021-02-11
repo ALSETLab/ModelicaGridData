@@ -1,17 +1,6 @@
 within IEEE14.Generating_Units;
 model Gen_Bus_6
-  parameter OpenIPSL.Types.ActivePower P_0
-  "Initial active power"
-  annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.ReactivePower Q_0
-  "Initial reactive power"
-  annotation (Dialog(group="Power flow data"));
-  parameter OpenIPSL.Types.PerUnit v_0
-  "Initial voltage magnitude (pu)"
-  annotation (Dialog(group="Power flow data"));
-  parameter Real angle_0
-  "Initial voltage angle"
-  annotation (Dialog(group="Power flow data"));
+  extends OpenIPSL.Interfaces.Generator;
   OpenIPSL.Electrical.Controls.PSSE.ES.IEEET1 iEEET1_1(
     T_R=0.06,
     K_A=20,
@@ -73,22 +62,6 @@ equation
           {78,-26},{-86,-26},{-86,-1.8},{-83,-1.8}}, color={0,0,127}));
   connect(gENROU.PMECH0, gENROU.PMECH) annotation (Line(points={{70.7,23.5},{82,
           23.5},{82,48},{-8,48},{-8,23.5},{8.6,23.5}}, color={0,0,127}));
-annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -120},{120,160}}),
-                        graphics={ Ellipse(
-          extent={{-120,100},{80,-100}},
-          lineColor={0,0,0},
-          fillColor={215,215,215},
-          fillPattern=FillPattern.Solid),Line(
-          points={{0,-20},{30,-40},{60,0}},
-          color={0,0,0},
-          thickness=0.5),Text(
-          extent={{-60,20},{20,-20}},
-          lineColor={0,0,0},
-          textString="%name"),           Line(
-          points={{-40,20},{-70,40},{-100,0}},
-          color={0,0,0},
-          thickness=0.5)}),
-                          Diagram(coordinateSystem(preserveAspectRatio=false,
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=true,
           extent={{-200,-120},{120,160}})));
 end Gen_Bus_6;
