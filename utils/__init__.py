@@ -19,7 +19,7 @@ HELP_YEAR = "(`nyiso`) Year from which the NYISO data download begins (defaults 
 HELP_PATH = "(`nyiso`) Path for the files downloaded from NYISO. Defaults to './data'"
 
 # HELP TO FILES IN 'run_pf' FUNCTION
-HELP_VERSION = "(`run_pf` and `run_sim`) OpenIPSL version to generate the time-series power flows. Defaults to '1.5.0'"
+HELP_VERSION = "(`run_pf` and `val_pf`) OpenIPSL version to generate the time-series power flows. Also required for power flow validation and dynamic simulation. Defaults to '1.5.0'"
 HELP_WINDOW = "(`run_pf`) Length of the time window to run the power flow computation ('day', 'week', 'month'). Defaults to 'day'"
 HELP_DATE = "(`run_pf`) Date to run the power flow. Must be passed in mm/dd/YYYY format for 'day' and 'week' (it can be any day of the week), and 'mm/YYYY' for month. 'Defaults to current day - 1'"
 HELP_LOADS = "(`run_pf`) Number of loads to change according to the time series data. Defaults to '12' (maximum 12 loads will be varied simultaneously)"
@@ -27,4 +27,6 @@ HELP_DELETE = "(`run_pf`) Delete previous power flow results. Defaults to 'True'
 HELP_SEED = "(`run_pf`) Seed value for load randomization. Defaults to '0'"
 
 # HELP TO FILES IN 'run_sim' FUNCTION
-HELP_TOOL = "(`run_sim`) Tool to run time-domain simulations. 'OM' for OpenModelica and 'dymola' for Dymola. Defaults to 'dymola'"
+HELP_TOOL = "(`val_pf`) Tool to run time-domain simulations. 'OM' for OpenModelica and 'dymola' for Dymola. Defaults to 'dymola'"
+HELP_PROC = "(`val_pf`) Number of processes (i.e., parallel serial instances) executed simultaneously"
+HELP_CORES = "(`val_pf`) Number of cores to be used inside a process"

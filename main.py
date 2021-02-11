@@ -4,6 +4,7 @@ import argparse
 import datetime
 import sys
 import multiprocessing as mp
+import psutil
 
 # Importing global constants and variables useful for the execution of the code
 from utils import *
@@ -16,15 +17,17 @@ parser.add_argument("--year", help = HELP_YEAR, type = int)
 parser.add_argument("--path", help = HELP_PATH)
 
 # Arguments to `run_pf`
-parser.add_argument("--version", help = HELP_VERSION) # also needed for `run_sim`
+parser.add_argument("--version", help = HELP_VERSION) # also needed for `val_pf`
 parser.add_argument("--window", help = HELP_WINDOW)
 parser.add_argument("--date", help = HELP_DATE)
 parser.add_argument("--loads", help = HELP_LOADS, type = int)
 parser.add_argument("--delete", help = HELP_DELETE, type = bool)
 parser.add_argument("--seed", help = HELP_SEED, type = int)
 
-# Arguments to and `val_pf` and `run_sim`
+# Arguments to and `val_pf`
 parser.add_argument("--tool", help = HELP_TOOL)
+parser.add_argument("--proc", help = HELP_PROC, type = int)
+parser.add_argument("--cores", help = HELP_CORES, type = int)
 
 args = parser.parse_args()
 
@@ -211,31 +214,59 @@ if __name__ == "__main__":
                 if args.tool:
                     _tool = args.tool
                     if _tool not in ['dymola', 'om']:
-                        raise ValueError('Invalid tool. Only `dymola` and `om` (OpenModelica) are supported')
+                        raise ValueError("Invalid tool. Only 'dymola' and 'om' (OpenModelica) are supported")
                 else:
-                    print("No tool specified. Using `dymola` by default\n")
+                    print("No tool specified. Using 'dymola' by default")
                     _tool = 'dymola'
+
+                if args.version:
+                    _version = args.version
+                    if _version not in ['1.5.0', '2.0.0']:
+                        raise ValueError('Invalid version. Only OpenIPSL 1.5.0 and 2.0.0 are supported')
+                else:
+                    print("No OpenIPSL version specified. Defaulting to '1.5.0'") # TBD
+                    _version = '1.5.0'
+
 
                 # Loading validation parameters
                 with open(r'val_parameters.yaml') as f:
                     val_params = yaml.load(f, Loader = yaml.FullLoader)
 
                 # Converting relative path to absolute paths
-                _data_path = os.path.abspath(os.path.join(os.getcwd(), val_params['data_path']))
-                _model_path = os.path.abspath(os.path.join(os.getcwd(), val_params['model_path']))
+                if _version == '1.5.0':
+                    _data_path = os.path.abspath(os.path.join(os.getcwd(), val_params['data_path_old']))
+                    _model_path = os.path.abspath(os.path.join(os.getcwd(), val_params['model_path_old']))
+                elif _version == '2.0.0':
+                    _data_path = os.path.abspath(os.path.join(os.getcwd(), val_params['data_path_new']))
+                    _model_path = os.path.abspath(os.path.join(os.getcwd(), val_params['model_path_new']))
 
-                # Extracting other parameters
-                _n_proc = val_params['n_proc']
-                _n_cores = val_params['n_cores']
+                if args.proc:
+                    _n_proc = args.proc
+                else:
+                    _n_proc = 1
+                    print(f"Multiprocessing not specified. Defaulting to serial processing (n_proc = {_n_proc})")
+
+                if args.cores:
+                    _n_cores = args.n_cores
+                else:
+                    _n_cores = psutil.cpu_count(logical = False) - 1
+                    print("Cores to use for simulation not specified")
+                    print(f"Setting number of cores to {_n_cores}")
 
                 # Validating number of processes and cores
-                if _n_proc > (mp.cpu_count() - 1):
-                    print(f"Too many processes. I can handle maximum {mp.cpu_count() - 1} processes")
-                    print(f"Setting number of processes to {_n_proc - 1}")
-                if _n_cores == (mp.cpu_count() - 1):
+                if _n_proc > (psutil.cpu_count(logical = False) - 1) and _n_proc > 1:
+                    print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
+                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                    _n_proc = psutil.cpu_count(logical = False) - 1
+                if _n_cores == (psutil.cpu_count(logical = False) - 1) and _n_cores > 1:
                     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
-                    val_params['n_cores'] = 1
-                    print(f"Setting number of cores to {val_params['n_cores']} per process")
+                    _n_cores = 1
+                    print(f"Setting number of cores to {_n_cores} per process")
+
+                val_params['version'] = _version
+                val_params['n_cores'] = _n_cores
+                val_params['n_proc'] = _n_proc
+                val_params['model_path'] = _model_path
 
                 # Getting power flow list from `PF_Data` directory
                 pf_list = get_pf_files(_data_path)
@@ -247,9 +278,10 @@ if __name__ == "__main__":
                 print('Summary of power flow validation')
                 print(f"{'':-^45}")
                 print(f"{'Model name':<30} {val_params['model_name']} in package {val_params['model_package']}")
+                print(f"{'OpenIPSL version:':<30} {_version}")
                 print(f"{'Tool':<30} {_tool:<20}")
                 print(f"{'Process(es)':<30} {_n_proc:<20}")
-                print(f"{'Core(s) per process':<30} {val_params['n_cores']:<20}")
+                print(f"{'Core(s) per process':<30} {_n_cores:<20}")
                 print(f"{'Power flow validations':<30} {len(pf_list):<20}\n")
 
                 # Commanding parallel simulations using multiprocessing

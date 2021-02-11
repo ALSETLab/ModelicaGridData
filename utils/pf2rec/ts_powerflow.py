@@ -62,7 +62,7 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     grid = None
 
     # Grid model in GridCal
-    data_path = os.path.abspath(os.path.join(os.getcwd(), "IEEE14", _model, "IEEE14"))
+    data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model, "IEEE14"))
 
     if _model == '_new':
         path_mo_file = os.path.join(data_path, "IEEE14_PSSE_model.mo")
@@ -72,8 +72,11 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     # Deleting previous power flow results
     if _delete:
         pf_data_path = os.path.join(data_path, "PF_Data")
-        shutil.rmtree(pf_data_path)
-        print("Previous power flow results deleted\n")
+        if os.path.exists(pf_data_path):
+            shutil.rmtree(pf_data_path)
+            print("Previous power flow results deleted\n")
+        else:
+            pass
     else:
         pass
 
