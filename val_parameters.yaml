@@ -39,7 +39,7 @@ openipsl_path_linux_new: '/home/sergio/Desktop/Parallels Shared Folders/Home/Doc
 
 # test machine
 # openipsl_path_linux_old: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
-# openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
+# openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_2_beta/OpenIPSL/package.mo'
 
 # RELATIVE PATHS
 # These paths are relative to the model folder

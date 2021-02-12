@@ -34,27 +34,69 @@ if __name__ == "__main__":
 
     # Creating working directory
     if platform.system() == 'Windows':
-        _working_directory = os.path.abspath(val_params['om_working_directory_windows'])
+
+        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_windows']), 'test')
+
         if _version == '1.5.0':
             _library_path = os.path.abspath(val_params['openipsl_path_windows_old'])
+            _model_path = os.path.join(os.getcwd(), os.path.abspath(val_params['model_path_old']))
         elif _version == '2.0.0':
             _library_path = os.path.abspath(val_params['openipsl_path_windows_new'])
+            _model_path = os.path.join(os.getcwd(), os.path.abspath(val_params['model_path_new']))
+
     elif platform.system() == 'Linux':
-        _working_directory = os.path.abspath(val_params['om_working_directory_linux'])
+
+        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_linux']), 'test')
+
         if _version == '1.5.0':
             _library_path = os.path.abspath(val_params['openipsl_path_linux_old'])
+            _model_path = os.path.join(os.getcwd(), os.path.abspath(val_params['model_path_old']))
         else:
             _library_path = os.path.abspath(val_params['openipsl_path_linux_new'])
+            _model_path = os.path.join(os.getcwd(), os.path.abspath(val_params['model_path_old']))
 
     if not os.path.exists(_working_directory):
         os.makedirs(_working_directory)
 
-    print(f"(Test): Changing working directory to {_working_directory}")
-    omc.sendExpression(f"cd(\"{_working_directory}\")")
+    # Extracting parameters from '.yaml' file
+    _model_package = val_params['model_package']
+    _model_name = val_params['model_name']
+    _startTime = val_params['startTime']
+    _stopTime = val_params['stopTime']
+    _method = val_params['method']
+    _numberOfIntervals = val_params['numberOfIntervals']
+    _tolerance = val_params['tolerance']
+
+    _simSettings = f"startTime={_startTime},stopTime={_stopTime},numberOfIntervals={_numberOfIntervals},tolerance={_tolerance},method=\"{_method}\""
+
+    # Changing working directory
+    res = omc.sendExpression(f"cd(\"{_working_directory}\")")
+    if res:
+        print(f"(Test): Working directory changed to {_working_directory}\n")
+    else:
+        raise ValueError(f"(Test): Working directory could not be changed to {_working_directory}")
 
     # Opening library
+    print(f"(Test): Opening library at {_library_path}")
     omc.sendExpression(f"parseFile(\"{_library_path}\", \"UTF-8\")")
-    omc.sendExpression(f"loadFile(\"{_library_path}\", \"UTF-8\")")
-    omc.sendExpression(f"instantiateModel(OpenIPSL)")
+    res = omc.sendExpression(f"loadFile(\"{_library_path}\", \"UTF-8\")")
+    if res:
+        print(f"(Test): OpenIPSL library (version {_version}) loaded successfully\n")
+    else:
+        raise ValueError(f"(Test): OpenIPSL library (version {_version}) could not be loaded. Verify your path")
 
-    # Remove temporary working directory
+    # Opening model
+    omc.sendExpression(f"parseFile(\"{_model_path}\", \"UTF-8\")")
+    res = omc.sendExpression(f"loadFile(\"{_model_path}\", \"UTF-8\")")
+    if res:
+        print(f"(Test): Model in {_model_path} loaded successfully\n")
+
+    # Checking model (for debugging purposes)
+    print(f"(Test): Checking model {_model_package}.{_model_name}\n")
+    omc.sendExpression(f"instantiateModel({_model_package}.{_model_name})")
+    res = omc.sendExpression(f"checkModel({_model_package}.{_model_name})")
+    print(res)
+
+    # Simulating model
+    res = omc.sendExpression(f"simulate({_model_package}.{_model_name},{_simSettings})")
+    print(res)
