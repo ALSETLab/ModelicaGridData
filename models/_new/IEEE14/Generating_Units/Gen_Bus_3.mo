@@ -42,8 +42,6 @@ model Gen_Bus_3
     annotation (Placement(transformation(extent={{-74,-36},{-34,0}})));
   Modelica.Blocks.Sources.Constant const(k=0)
     annotation (Placement(transformation(extent={{-98,-92},{-78,-72}})));
-  OpenIPSL.Interfaces.PwPin pwPin
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
 equation
   connect(iEEET1_1.EFD, gENROU.EFD)
     annotation (Line(points={{-32,-18},{-20,-18},{-20,-16},{-6.2,-16}},
@@ -68,8 +66,6 @@ equation
                                                              color={0,0,127}));
   connect(gENROU.p, pwPin)
     annotation (Line(points={{62,0},{110,0}}, color={0,0,255}));
-  connect(pwPin, pwPin) annotation (Line(points={{110,0},{110,10},{110,10},
-          {110,0}}, color={0,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=true,
           extent={{-200,-120},{120,160}})));
 end Gen_Bus_3;

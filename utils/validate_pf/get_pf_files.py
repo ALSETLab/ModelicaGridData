@@ -28,7 +28,7 @@ def get_pf_files(pf_data_folder_path):
         for entry in entry_list:
             # Check if the entry is a file
             if entry.is_file():
-                if entry.name not in ['Power_Flow.mo', 'Power_Flow_Template.mo', 'package.mo', 'package.order']:
+                if entry.name not in ['Power_Flow.mo', 'Power_Flow_Template.mo', 'package.mo', 'package.order', '.DS_Store']:
                     pf_list.append(entry.name)
 
     if len(pf_list) == 0:

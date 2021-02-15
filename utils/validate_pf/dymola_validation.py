@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sdf
 import os
-import time
+
 import re
 import shutil
 
@@ -103,6 +103,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
 
     # Regex for getting power flow name
     pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
+    pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
 
     ##################################################################
     # Evaluating power flows via dynamic simulations
@@ -144,8 +145,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     ##################################################################
     # Validating power flows
     ##################################################################
-    print(f"({n_proc}): Validating power flows")
-    pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
+    print(f"({n_proc}): Validating power flow")
 
     for pf_name in pf_succ:
 
@@ -186,20 +186,19 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
         else:
             print(f"({n_proc}): Power flow {pf_name} converged")
 
-    # This is temporary commented out for debugging
-    # for pf_name in pf_fail:
-    #
-    #     pf_identifier = pf_identifier_regex.findall(pf)[0]
-    #
-    #     pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
-    #         'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
-    #         'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
-    #         'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
-    #         'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
-    #
-    #     for file in pf_path:
-    #         if os.path.isfile(pf_path[file]):
-    #             os.unlink(pf_path[file])
+    for pf_name in pf_fail:
+
+        pf_identifier = pf_identifier_regex.findall(pf)[0]
+
+        pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
+            'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
+            'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
+            'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
+            'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
+
+        for file in pf_path:
+            if os.path.isfile(pf_path[file]):
+                os.unlink(pf_path[file])
 
     ##################################################################
     # Remove all `.mat` files from working directory: they are useless

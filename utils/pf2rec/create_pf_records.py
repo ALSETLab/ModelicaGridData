@@ -106,7 +106,8 @@ def create_pf_records(model_name, model_mo_path, data_path = None, openipsl_vers
 
         # Header of the `.mo` file
         pf_data.write("within {}.PF_Data;\n".format(model_name))
-        pf_data.write("partial record Power_Flow_Template\n")
+        #pf_data.write("partial record Power_Flow_Template\n")
+        pf_data.write("record Power_Flow_Template\n")
         pf_data.write("extends Modelica.Icons.Record;\n\n")
 
         pf_data.write("end Power_Flow_Template;")

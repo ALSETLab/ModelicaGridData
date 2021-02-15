@@ -258,7 +258,7 @@ if __name__ == "__main__":
                     print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
                     print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
                     _n_proc = psutil.cpu_count(logical = False) - 1
-                if _n_cores == (psutil.cpu_count(logical = False) - 1) and _n_cores > 1:
+                if _n_cores == psutil.cpu_count(logical = False) and _n_cores > 1:
                     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
                     _n_cores = 1
                     print(f"Setting number of cores to {_n_cores} per process")
@@ -300,13 +300,15 @@ if __name__ == "__main__":
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
-                            apfun = p.apply_async(om_validation,
-                                args = (pf_dist, _data_path, val_params, np + 1, ))
-                            process.append(apfun)
+                            om_validation(pf_dist, _data_path, val_params, np + 1)
+                            # apfun = p.apply_async(om_validation,
+                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
                         else:
-                            apfun = p.apply_async(om_validation,
-                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
-                            process.append(apfun)
+                            om_validation(pf_dist, _data_path, val_params, np + 1)
+                            # apfun = p.apply_async(om_validation,
+                            #     args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
                 p.close()
                 p.join()
 
