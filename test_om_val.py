@@ -35,7 +35,7 @@ if __name__ == "__main__":
     # Creating working directory
     if platform.system() == 'Windows':
 
-        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_windows']), 'test')
+        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_windows']), '_test')
 
         if _version == '1.5.0':
             _library_path = os.path.abspath(val_params['openipsl_path_windows_old'])
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     elif platform.system() == 'Linux':
 
-        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_linux']), 'test')
+        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_linux']), '_test')
 
         if _version == '1.5.0':
             _library_path = os.path.abspath(val_params['openipsl_path_linux_old'])
@@ -57,6 +57,7 @@ if __name__ == "__main__":
 
     if not os.path.exists(_working_directory):
         os.makedirs(_working_directory)
+        print(f"Working directory created: {_working_directory}")
 
     # Extracting parameters from '.yaml' file
     _model_package = val_params['model_package']
@@ -67,14 +68,8 @@ if __name__ == "__main__":
     _numberOfIntervals = val_params['numberOfIntervals']
     _tolerance = val_params['tolerance']
 
-    _simSettings = f"startTime={_startTime},stopTime={_stopTime},numberOfIntervals={_numberOfIntervals},tolerance={_tolerance},method=\"{_method}\""
-
-    # Changing working directory
-    res = omc.sendExpression(f"cd(\"{_working_directory}\")")
-    if res:
-        print(f"(Test): Working directory changed to {_working_directory}\n")
-    else:
-        raise ValueError(f"(Test): Working directory could not be changed to {_working_directory}")
+    _simSettings = f"startTime={_startTime},stopTime={_stopTime}" \
+        + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
 
     # Opening library
     print(f"(Test): Opening library at {_library_path}")
@@ -97,6 +92,17 @@ if __name__ == "__main__":
     res = omc.sendExpression(f"checkModel({_model_package}.{_model_name})")
     print(res)
 
+    # Changing working directory
+    res = omc.sendExpression(f"cd(\"{_working_directory}\")")
+    print(res)
+    if res:
+        print(f"(Test): Working directory changed to {res}\n")
+    else:
+        raise ValueError(f"(Test): Working directory could not be changed to {_working_directory}")
+
     # Simulating model
     res = omc.sendExpression(f"simulate({_model_package}.{_model_name},{_simSettings})")
     print(res)
+    # Pretty print the simulation results with OM
+
+    # Remove all files but the '.mat' files
