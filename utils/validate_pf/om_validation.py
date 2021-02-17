@@ -184,13 +184,12 @@ def om_validation(pf_list, data_path, val_params, n_proc):
         sdfData = sdf.load(result_path)
 
         pf_converged = True
-        print("Hi?")
 
         for bus in bus_validation:
             if _version == '1.5.0':
                 v_mag = sdfData[bus]["V"]
             elif _version == '2.0.0':
-                v_mag =dfData[bus]["v"]
+                v_mag = sdfData[bus]["v"]
             v_magnp = np.array(v_mag.data)
             deltaV = np.max(v_magnp) - np.min(v_magnp)
 
