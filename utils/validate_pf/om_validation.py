@@ -11,11 +11,14 @@ import shutil
 
 import platform
 
+from .generate_component_list import *
+
 def om_validation(pf_list, data_path, val_params, n_proc):
     '''
 
     '''
     _version = val_params['version']
+    _model_path = os.path.abspath(val_params['model_path'])
 
     if _version == '2.0.0':
         print("OpenIPSL version 2.0.0 not compatible with this toolbox and OM")
@@ -30,18 +33,11 @@ def om_validation(pf_list, data_path, val_params, n_proc):
 
     # Creating working directory
     if platform.system() == 'Windows':
-
         _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_windows']), f"proc_{n_proc}")
-
         _openipsl_path = os.path.abspath(val_params['openipsl_path_windows_old'])
-        _model_path = os.path.join(os.getcwd(), os.path.abspath(val_params['model_path_old']))
-
     elif platform.system() == 'Linux':
-
         _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_linux']), f"proc_{n_proc}")
-
         _openipsl_path = os.path.abspath(val_params['openipsl_path_linux_old'])
-        _model_path = os.path.join(os.getcwd(), os.path.abspath(val_params['model_path_old']))
 
     # Extracting parameters from '.yaml' file
     _model_package = val_params['model_package']
@@ -81,8 +77,9 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     if os.path.exists(_working_directory):
         # Removing existing working directory
         shutil.rmtree(_working_directory, ignore_errors = True)
-        # Creating it again
-        os.makedirs(_working_directory)
+        # Creating it again if it has been deleted
+        if not os.path.exists(_working_directory):
+            os.makedirs(_working_directory)
     else:
         os.makedirs(_working_directory)
 
@@ -97,6 +94,15 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     ##########################################################################
     ######################### SIMULATING MODEL ###############################
     ##########################################################################
+
+    # Selecting 4 buses (or less) for validation
+    model_component_list = generate_component_list(_mo_model_path)
+    model_buses = model_component_list['buses']
+
+    n_buses = len(model_buses)
+    n_validation_buses = min(4, n_buses)
+    ind_validation = np.random.choice(np.arange(n_buses), n_validation_buses, replace = False)
+    bus_validation = [model_buses[ind] for ind in ind_validation]
 
     for n, pf in enumerate(pf_list):
 
@@ -114,7 +120,7 @@ def om_validation(pf_list, data_path, val_params, n_proc):
         model_mo_data = model_mo.read()
 
         # Finding the power flow record declaration via regex
-        _pf_regex = re.compile(r'pf\(redeclare record PowerFlow =\n \s*\w*.PF_Data.PF(?:_\w+)*_\d{5}\)')
+        _pf_regex = re.compile(r'pf\(redeclare record PowerFlow =\n* \s*\w*.PF_Data.PF(?:_\w+)*_\d{5}\)')
         _match = re.findall(_pf_regex, model_mo_data)
 
         # Replacing the declaration with the corresponding power flow
@@ -168,41 +174,43 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     ################### VALIDATING POWER FLOWS ###############################
     ##########################################################################
 
-    print(f"\n({n_proc}): Validating power flows")
+    print(f"\n({n_proc}): Validating power flows with buses")
+    print(bus_validation)
 
     for pf_name in pf_succ:
         pf_identifier = pf_identifier_regex.findall(pf_name)[0]
 
-        result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}_res.mat")
+        result_path = os.path.join(_working_directory, f"{_model_package}_{pf_name}_res.mat")
         sdfData = sdf.load(result_path)
 
-        # Warning: this validation is model-dependent. Please adjust accordingly for other models
-        tData = sdfData["time"]
-        v_mag2 = sdfData["Bus_02"]["V"]
-        v_mag4 = sdfData["Bus_04"]["V"]
+        pf_converged = True
+        print("Hi?")
 
-        t = np.array(tData.data)
-        v_mag2np = np.array(v_mag2.data)
-        v_mag4np = np.array(v_mag4.data)
+        for bus in bus_validation:
+            if _version == '1.5.0':
+                v_mag = sdfData[bus]["V"]
+            elif _version == '2.0.0':
+                v_mag =dfData[bus]["v"]
+            v_magnp = np.array(v_mag.data)
+            deltaV = np.max(v_magnp) - np.min(v_magnp)
 
-        deltaV2 = np.max(v_mag2np) - np.min(v_mag2np)
-        deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
+            if deltaV > 0.005:
+                pf_converged = False
+                print(f"({n_proc}): Power flow {pf_name} did not initialize the model flat")
+                print(f"({n_proc}): Removing {pf_name} result...")
 
-        if deltaV2 > 0.005 or deltaV4 > 0.005:
-            print(f"({n_proc}): Power flow {pf_name} did not initialize the model flat")
-            print(f"({n_proc}): Removing {pf_name} result...")
+                pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
+                    'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
+                    'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
+                    'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
+                    'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
 
-            pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
-                'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
-                'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
-                'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
-                'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
+                for file in pf_path:
+                    if os.path.isfile(pf_path[file]):
+                        os.unlink(pf_path[file])
+                break
 
-            for file in pf_path:
-                if os.path.isfile(pf_path[file]):
-                    os.unlink(pf_path[file])
-        else:
-            print(f"({n_proc}): Power flow {pf_name} converged")
+        if pf_converged: print(f"({n_proc}): Power flow {pf_name} converged")
 
     # Closing OM process
     omc.sendExpression("quit()")

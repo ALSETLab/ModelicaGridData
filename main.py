@@ -9,6 +9,8 @@ import psutil
 # Importing global constants and variables useful for the execution of the code
 from utils import *
 
+LIST_OF_MODELS = ['AVRI', 'IEEE9', 'IEEE14', 'SMIB', 'TwoAreas']
+
 parser = argparse.ArgumentParser()
 parser.add_argument("function", help = HELP_FUNCTION)
 
@@ -23,6 +25,7 @@ parser.add_argument("--date", help = HELP_DATE)
 parser.add_argument("--loads", help = HELP_LOADS, type = int)
 parser.add_argument("--delete", help = HELP_DELETE, type = bool)
 parser.add_argument("--seed", help = HELP_SEED, type = int)
+parser.add_argument("--model", help = HELP_MODEL)
 
 # Arguments to and `val_pf`
 parser.add_argument("--tool", help = HELP_TOOL)
@@ -97,11 +100,21 @@ if __name__ == "__main__":
                     _version = '1.5.0'
                     print(f"OpenIPSL version defaults to {_version}\n")
 
+                if args.model:
+                    _model = args.model
+                    if _model not in LIST_OF_MODELS:
+                        raise ValueError("Model not available")
+                else:
+                    _model = 'IEEE14'
+                    print(f"Model not specified. Defaulting to {_model}")
+
+                _model_name = f"{_model}_Base_Case"
+
                 if _version == '2.0.0':
                     print("Warning: All quantities in OpenIPSL > 2.0.0 are in SI units. I will do my best to parse them correctly. Proceed with caution.\n")
-                    _model = '_new'
+                    _model_lib = '_new'
                 elif _version == '1.5.0':
-                    _model = '_old'
+                    _model_lib = '_old'
 
                 if args.window:
                     _window = args.window
@@ -118,7 +131,7 @@ if __name__ == "__main__":
                         print(f"Warning: Specified loads to vary ({_loads}) exceeds the number of NYISO zones. Defaulting to 11.")
                         _loads = 11
                 else:
-                    _loads = 11
+                    _loads = 5
                     print(f"Number of loads to vary defaults to {_loads}")
 
                 if args.delete:
@@ -173,6 +186,7 @@ if __name__ == "__main__":
                 print(f"\n{'':-^45}")
                 print('Summary of power flow computation')
                 print(f"{'':-^45}")
+                print(f"{'Model':<30} {_model} ({_model_name})")
                 print(f"{'OpenIPSL':<30} {_version:<20}")
                 print(f"{'Window':<30} {_window:<20}")
                 print(f"{'Given date':<30} {_date:<20}")
@@ -180,25 +194,26 @@ if __name__ == "__main__":
                 print(f"{'Number of power flows':<30} {len(time_stamps)*3}")
                 print(f"{'':-^45}\n")
 
-                # Running time-series power flow
-
                 # Pack arguments in a dictionary
                 args_ts = dict()
 
+                args_ts['_model'] = _model
+                args_ts['_model_name'] = _model_name
                 args_ts['_loads'] = _loads
                 args_ts['_window'] = _window
-                args_ts['_model'] = _model
+                args_ts['_model_lib'] = _model_lib
                 args_ts['_version'] = _version
                 args_ts['_verbose'] = False
                 args_ts['_delete'] = _delete
                 args_ts['_seed'] = _seed
 
+                # Running time-series power flow
                 ts_powerflow(args_ts, _date, _load_profiles = load_profiles,
                     _time_stamps = time_stamps)
 
-                ################################################
-                ## VALIDATING POWER FLOW RESULTS
-                ################################################
+            ################################################
+            ## VALIDATING POWER FLOW RESULTS
+            ################################################
 
             if _function == "val_pf":
 
@@ -227,6 +242,16 @@ if __name__ == "__main__":
                     print("No OpenIPSL version specified. Defaulting to '1.5.0'") # TBD
                     _version = '1.5.0'
 
+                if args.model:
+                    _model = args.model
+                    if _model not in LIST_OF_MODELS:
+                        raise ValueError("Model not available")
+                else:
+                    _model = 'IEEE14'
+                    print(f"Model not specified. Defaulting to {_model}")
+
+                _model_name = f"{_model}_Base_Case"
+                _model_package = _model
 
                 # Loading validation parameters
                 with open(r'val_parameters.yaml') as f:
@@ -234,11 +259,15 @@ if __name__ == "__main__":
 
                 # Converting relative path to absolute paths
                 if _version == '1.5.0':
-                    _data_path = os.path.abspath(os.path.join(os.getcwd(), val_params['data_path_old']))
-                    _model_path = os.path.abspath(os.path.join(os.getcwd(), val_params['model_path_old']))
+                    _data_path_old = f"models/_old/{_model}/PF_Data"
+                    _model_path_old = f"models/_old/{_model}/package.mo"
+                    _data_path = os.path.abspath(os.path.join(os.getcwd(), _data_path_old))
+                    _model_path = os.path.abspath(os.path.join(os.getcwd(), _model_path_old))
                 elif _version == '2.0.0':
-                    _data_path = os.path.abspath(os.path.join(os.getcwd(), val_params['data_path_new']))
-                    _model_path = os.path.abspath(os.path.join(os.getcwd(), val_params['model_path_new']))
+                    _data_path_new = f"models/_new/{_model}/PF_Data"
+                    _model_path_new = f"models/_new/{_model}/package.mo"
+                    _data_path = os.path.abspath(os.path.join(os.getcwd(), _data_path_new))
+                    _model_path = os.path.abspath(os.path.join(os.getcwd(), _model_path_new))
 
                 if args.proc:
                     _n_proc = args.proc
@@ -247,26 +276,28 @@ if __name__ == "__main__":
                     print(f"Multiprocessing not specified. Defaulting to serial processing (n_proc = {_n_proc})")
 
                 if args.cores:
-                    _n_cores = args.n_cores
+                    _n_cores = args.cores
                 else:
                     _n_cores = psutil.cpu_count(logical = False) - 1
                     print("Cores to use for simulation not specified")
                     print(f"Setting number of cores to {_n_cores}")
 
                 # Validating number of processes and cores
-                if _n_proc > (psutil.cpu_count(logical = False) - 1) and _n_proc > 1:
-                    print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
-                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
-                    _n_proc = psutil.cpu_count(logical = False) - 1
-                if _n_cores == psutil.cpu_count(logical = False) and _n_cores > 1:
-                    print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
-                    _n_cores = 1
-                    print(f"Setting number of cores to {_n_cores} per process")
+                # if _n_proc > (psutil.cpu_count(logical = False) - 1) and _n_proc > 1:
+                #     print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
+                #     print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                #     _n_proc = psutil.cpu_count(logical = False) - 1
+                # if _n_cores == psutil.cpu_count(logical = False) and _n_cores > 1:
+                #     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
+                #     _n_cores = 1
+                #     print(f"Setting number of cores to {_n_cores} per process")
 
                 val_params['version'] = _version
                 val_params['n_cores'] = _n_cores
                 val_params['n_proc'] = _n_proc
                 val_params['model_path'] = _model_path
+                val_params['model_package'] = _model_package
+                val_params['model_name'] = _model_name
 
                 # Getting power flow list from `PF_Data` directory
                 pf_list = get_pf_files(_data_path)
@@ -277,7 +308,7 @@ if __name__ == "__main__":
                 print(f"\n{'':-^45}")
                 print('Summary of power flow validation')
                 print(f"{'':-^45}")
-                print(f"{'Model name':<30} {val_params['model_name']} in package {val_params['model_package']}")
+                print(f"{'Model name':<30} {_model_name} in package {_model_package}")
                 print(f"{'OpenIPSL version:':<30} {_version}")
                 print(f"{'Tool':<30} {_tool:<20}")
                 print(f"{'Process(es)':<30} {_n_proc:<20}")
@@ -291,42 +322,28 @@ if __name__ == "__main__":
                 for np in range(_n_proc):
                     if _tool == 'dymola':
                         if _n_proc == 1:
+                            # dymola_validation(pf_dist, _data_path, val_params, np + 1)
                             apfun = p.apply_async(dymola_validation,
                                 args = (pf_dist, _data_path, val_params, np + 1, ))
                             process.append(apfun)
                         else:
+                            # dymola_validation(pf_dist, _data_path, val_params, np + 1)
                             apfun = p.apply_async(dymola_validation,
                                 args = (pf_dist[np], _data_path, val_params, np + 1, ))
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
-                            om_validation(pf_dist, _data_path, val_params, np + 1)
-                            # apfun = p.apply_async(om_validation,
-                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
-                            # process.append(apfun)
+                            # om_validation(pf_dist, _data_path, val_params, np + 1)
+                            apfun = p.apply_async(om_validation,
+                                args = (pf_dist, _data_path, val_params, np + 1, ))
+                            process.append(apfun)
                         else:
-                            om_validation(pf_dist, _data_path, val_params, np + 1)
-                            # apfun = p.apply_async(om_validation,
-                            #     args = (pf_dist[np], _data_path, val_params, np + 1, ))
-                            # process.append(apfun)
+                            # om_validation(pf_dist, _data_path, val_params, np + 1)
+                            apfun = p.apply_async(om_validation,
+                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                            process.append(apfun)
                 p.close()
                 p.join()
-
-                # Change power flow value in model
-
-                # Load library
-
-                # Load model
-
-                # Run simulation (make sure no events occur)
-                # Set output directory to temporary directory
-
-                # Read simulation results
-                # Evaluate threshold
-                # If condition holds
-                # power flow is valid and kept
-                # if not
-                # power flow is deleted (and so its companion files)
 
             if _function == "run_sim":
                 print("\n")

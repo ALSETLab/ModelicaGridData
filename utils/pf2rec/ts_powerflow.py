@@ -45,10 +45,11 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     '''
 
     # Unpack arguments passed in the dictionary
-    # Pack arguments in a dictionary
+    _model = args_ts['_model']
+    _model_name = args_ts['_model_name']
     _loads = args_ts['_loads']
     _window = args_ts['_window']
-    _model = args_ts['_model']
+    _model_lib = args_ts['_model_lib']
     _version = args_ts['_version']
     _verbose = args_ts['_verbose']
     _delete = args_ts['_delete']
@@ -61,9 +62,9 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     grid = None
 
     # Grid model in GridCal
-    data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model, "IEEE14"))
+    data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model_lib, _model))
 
-    path_mo_file = os.path.join(data_path, "IEEE14_Base_Case.mo")
+    path_mo_file = os.path.join(data_path, f"{_model_name}.mo")
 
     # Deleting previous power flow results
     if _delete:
@@ -73,14 +74,14 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
             print("Previous power flow results deleted\n")
 
     # Creating records structure
-    create_pf_records("IEEE14",
+    create_pf_records(_model,
                       path_mo_file,
                       data_path,
                      openipsl_version = _version)
-
-    file_handler = FileOpen(os.path.abspath(os.path.join(data_path,
+    psse_raw_file = os.path.abspath(os.path.join(data_path,
                                                          "PSSE_Files",
-                                                         "IEEE14_Base_Case.raw")))
+                                                         f"{_model_name}.raw"))
+    file_handler = FileOpen(psse_raw_file)
 
     # Creating grid object
     grid = file_handler.open()
@@ -102,7 +103,7 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
 
     pf.run()
 
-    gridcal2rec(grid = grid, pf = pf, model_name = 'IEEE14',
+    gridcal2rec(grid = grid, pf = pf, model_name = _model,
         data_path = data_path,
         pf_num = 0, export_pf_results = False,
         is_time_series = False, openipsl_version = _version)
@@ -128,6 +129,9 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     random.seed(seed_value)
 
     # Load randomization
+    if _loads > len(load_names):
+        print(f"The system has {len(load_names)} loads. Setting number of varying loads to {len(load_names)}")
+    _loads = min(_loads, len(load_names)) # guaranteeing that number of loads does not exceed max number of loads in the system
     n_matches = min(_loads, len(NYISO_ZONES))
 
     # The `zip` is instantiated as a `list` since it vanishes after one iteration
@@ -171,7 +175,7 @@ def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
 
             pf.run()
 
-            gridcal2rec(grid = grid, pf = pf, model_name = 'IEEE14',
+            gridcal2rec(grid = grid, pf = pf, model_name = _model,
                 data_path = data_path,
                 pf_num = n_ts + 1, export_pf_results = False,
                 is_time_series = True, ts_name = _scenario,

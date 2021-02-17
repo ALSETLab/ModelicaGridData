@@ -11,6 +11,8 @@ import shutil
 
 import platform
 
+from .generate_component_list import *
+
 def dymola_validation(pf_list, data_path, val_params, n_proc):
     '''
 
@@ -18,6 +20,23 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
 
     # Getting version information
     _version = val_params['version']
+
+    # Extracting simulation parameters
+    _n_cores = val_params['n_cores']
+    _startTime = val_params['startTime']
+    _stopTime = val_params['stopTime']
+    _numberOfIntervals = val_params['numberOfIntervals']
+    _method = val_params['method']
+    _tolerance = val_params['tolerance']
+    _fixedstepsize = val_params['fixedstepsize']
+
+    _model_path = os.path.abspath(val_params['model_path'])
+    _model_package = val_params['model_package']
+    _model_name = val_params['model_name']
+
+    # Getting path to the '.mo' file of the model
+    _mo_model_folder = os.path.dirname(_model_path)
+    _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
     # Instantiating dymola object (according to operating system)
     if platform.system() == 'Windows':
@@ -28,7 +47,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             _openipsl_path = os.path.abspath(val_params['openipsl_path_windows_new'])
 
         # Making sure each process has its own working directory
-        _working_directory = os.path.join(os.path.abspath(val_params['working_directory_windows']), f"proc_{n_proc}")
+        _working_directory = os.path.join(os.path.abspath(val_params['working_directory_windows']), _model_package, f"proc_{n_proc}")
 
         # Instantiating dymola object
         dymolaInstance = DymolaInterface()
@@ -41,7 +60,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             _openipsl_path = os.path.abspath(val_params['openipsl_path_linux_new'])
 
         # Making sure each process has an independent working directory
-        _working_directory = os.path.join(os.path.abspath(val_params['working_directory_linux']), f"proc_{n_proc}")
+        _working_directory = os.path.join(os.path.abspath(val_params['working_directory_linux']), _model_package, f"proc_{n_proc}")
         _dymola_path = os.path.abspath(val_params['dymola_path_linux'])
 
         # Instantiating dymola object
@@ -52,22 +71,9 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     else:
         print(f"({n_proc}): Failed to instantiate dymola instance")
 
-    _model_path = os.path.abspath(val_params['model_path'])
-    _model_package = val_params['model_package']
-    _model_name = val_params['model_name']
-
     print(f"({n_proc}): {'Working directory:':<30} {_working_directory}")
     print(f"({n_proc}): {'OpenIPSL path:':<30} {_openipsl_path}")
     print(f"({n_proc}): {'Model path:':<30} {_model_path}\n")
-
-    # Extracting simulation parameters
-    _n_cores = val_params['n_cores']
-    _startTime = val_params['startTime']
-    _stopTime = val_params['stopTime']
-    _numberOfIntervals = val_params['numberOfIntervals']
-    _method = val_params['method']
-    _tolerance = val_params['tolerance']
-    _fixedstepsize = val_params['fixedstepsize']
 
     # Opening library
     result = dymolaInstance.openModel(_openipsl_path)
@@ -81,8 +87,9 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     if os.path.exists(_working_directory):
         # Removing existing working directory
         shutil.rmtree(_working_directory, ignore_errors = True)
-        # Creating it again
-        os.makedirs(_working_directory)
+        # Creating it again if it has been removed
+        if not os.path.exists(_working_directory):
+            os.makedirs(_working_directory)
     else:
         os.makedirs(_working_directory)
 
@@ -107,6 +114,15 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
     pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
 
+    # Selecting 4 buses (or less) for validation
+    model_component_list = generate_component_list(_mo_model_path)
+    model_buses = model_component_list['buses']
+
+    n_buses = len(model_buses)
+    n_validation_buses = min(4, n_buses)
+    ind_validation = np.random.choice(np.arange(n_buses), n_validation_buses, replace = False)
+    bus_validation = [model_buses[ind] for ind in ind_validation]
+
     ##################################################################
     # Evaluating power flows via dynamic simulations
     ##################################################################
@@ -125,7 +141,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
             # Simulating model with different
             result = dymolaInstance.simulateModel(f"{_model_package}.{_model_name}({pf_modifier})",
                 stopTime = _stopTime,
-                resultFile = f"IEEE14_{pf_name}",
+                resultFile = f"{_model_package}_{pf_name}",
                 numberOfIntervals = _numberOfIntervals,
                 method = _method,
                 tolerance = _tolerance)
@@ -147,46 +163,43 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     ##################################################################
     # Validating power flows
     ##################################################################
-    print(f"({n_proc}): Validating power flow")
+    print(f"\n({n_proc}): Validating power flows with buses")
+    print(bus_validation)
 
     for pf_name in pf_succ:
 
         pf_identifier = pf_identifier_regex.findall(pf_name)[0]
 
-        result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}.mat")
+        result_path = os.path.join(_working_directory, f"{_model_package}_{pf_name}.mat")
         sdfData = sdf.load(result_path)
 
-        # Warning: this validation is model-dependent. Please adjust accordingly for other models
-        tData = sdfData["Time"]
-        if _version == '1.5.0':
-            v_mag2 = sdfData["Bus_02"]["V"]
-            v_mag4 = sdfData["Bus_04"]["V"]
-        elif _version == '2.0.0':
-            v_mag2 = sdfData["Bus_02"]["v"]
-            v_mag4 = sdfData["Bus_04"]["v"]
+        pf_converged = True
 
-        t = np.array(tData.data)
-        v_mag2np = np.array(v_mag2.data)
-        v_mag4np = np.array(v_mag4.data)
+        for bus in bus_validation:
+            if _version == '1.5.0':
+                v_mag = sdfData[bus]["V"]
+            elif _version == '2.0.0':
+                v_mag = sdfData[bus]["v"]
+            v_magnp = np.array(v_mag.data)
+            deltaV = np.max(v_magnp) - np.min(v_magnp)
 
-        deltaV2 = np.max(v_mag2np) - np.min(v_mag2np)
-        deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
+            if deltaV > 0.005:
+                pf_converged = False
+                print(f"({n_proc}): Power flow {pf_name} did not initialize the model flat")
+                print(f"({n_proc}): Removing {pf_name} result...")
 
-        if deltaV2 > 0.005 or deltaV4 > 0.005:
-            print(f"({n_proc}): Power flow {pf_name} did not initialize the model flat")
-            print(f"({n_proc}): Removing {pf_name} result...")
+                pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
+                    'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
+                    'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
+                    'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
+                    'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
 
-            pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
-                'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
-                'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
-                'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
-                'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
+                for file in pf_path:
+                    if os.path.isfile(pf_path[file]):
+                        os.unlink(pf_path[file])
+                break
 
-            for file in pf_path:
-                if os.path.isfile(pf_path[file]):
-                    os.unlink(pf_path[file])
-        else:
-            print(f"({n_proc}): Power flow {pf_name} converged")
+        if pf_converged: print(f"({n_proc}): Power flow {pf_name} converged")
 
     for pf_name in pf_fail:
 

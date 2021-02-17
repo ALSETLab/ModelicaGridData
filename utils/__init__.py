@@ -25,8 +25,9 @@ HELP_DATE = "(`run_pf`) Date to run the power flow. Must be passed in mm/dd/YYYY
 HELP_LOADS = "(`run_pf`) Number of loads to change according to the time series data. Defaults to '12' (maximum 12 loads will be varied simultaneously)"
 HELP_DELETE = "(`run_pf`) Delete previous power flow results. Defaults to 'True'"
 HELP_SEED = "(`run_pf`) Seed value for load randomization. Defaults to '0'"
+HELP_MODEL = "(`run_pf`, `val_pf` and `run_sim`) Model that will be used for the routine. Defaults to 'IEEE14'. Note that it corresponds to the name of the package of the OpenIPSL model"
 
 # HELP TO FILES IN 'run_sim' FUNCTION
 HELP_TOOL = "(`val_pf`) Tool to run time-domain simulations. 'OM' for OpenModelica and 'dymola' for Dymola. Defaults to 'dymola'"
 HELP_PROC = "(`val_pf`) Number of processes (i.e., parallel serial instances) executed simultaneously"
-HELP_CORES = "(`val_pf`) Number of cores to be used inside a process"
+HELP_CORES = "(`val_pf`) Number of cores to be used inside a process (i.e., serial parallel simulation)"

@@ -1,6 +1,5 @@
 within IEEE14;
 model IEEE14_Base_Case
- import IEEE14;
 
  inner OpenIPSL.Electrical.SystemBase SysData(fn=60)
  annotation (Placement(transformation(extent={{-116,76},{-78,96}})));
@@ -401,7 +400,7 @@ model IEEE14_Base_Case
     rotation=90,
     origin={-26,60})));
   IEEE14.PF_Data.Power_Flow pf(redeclare record PowerFlow =
-        IEEE14.PF_Data.PF_best_00021)
+        IEEE14.PF_Data.PF_best_00001)
     annotation (Placement(transformation(extent={{-102,54},{-82,74}})));
   IEEE14.Generating_Units.Gen_Bus_3 gen_Bus_3_1(
     V_b=69,
