@@ -8,7 +8,7 @@ The **trajectory generation tool** allows to generate data using an OpenIPSL pha
 - [GridCal](docs/gridcal_installation.md)
 - [OMPython](docs/OMPython_installation.md)
 - [Dymola](https://www.3ds.com/products-services/catia/products/dymola/) - Proprietary software. A license is needed. Testing has been carried out with Dymola 2021.
-- [OpenIPSL](www.OpenIPSL.com) - Compatible with release 1.5.0 and version 2.0.0 beta (with Dymola). OpenModelica (tested with release 1.16.0) is supported for version 1.5.0 only.
+- [OpenIPSL](www.OpenIPSL.com) - Compatible with release 1.5.0 and version 2.0.0 beta (with Dymola). OpenModelica (tested with release 1.16.2 on both Linux and Windows) is supported for version 1.5.0 only.
 
 ## How to use
 

@@ -163,9 +163,6 @@ def om_validation(pf_list, data_path, val_params, n_proc):
             file_object_path = os.path.join(_working_directory, file_object)
             if not file_object_path.endswith(".mat"):
                 os.remove(file_object_path)
-        # Limiting the power flows for debugging
-        if n == 0:
-            break
 
     ##########################################################################
     ################### VALIDATING POWER FLOWS ###############################
@@ -183,12 +180,10 @@ def om_validation(pf_list, data_path, val_params, n_proc):
         tData = sdfData["time"]
         v_mag2 = sdfData["Bus_02"]["V"]
         v_mag4 = sdfData["Bus_04"]["V"]
-        print(v_mag2)
 
         t = np.array(tData.data)
         v_mag2np = np.array(v_mag2.data)
         v_mag4np = np.array(v_mag4.data)
-        print(f"v_mag2np: {v_mag2np.shape}")
 
         deltaV2 = np.max(v_mag2np) - np.min(v_mag2np)
         deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
