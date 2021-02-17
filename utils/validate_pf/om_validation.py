@@ -79,8 +79,10 @@ def om_validation(pf_list, data_path, val_params, n_proc):
 
     # Changing working directory (removing content or creating it)
     if os.path.exists(_working_directory):
-        # Removing content from the working directory
+        # Removing existing working directory
         shutil.rmtree(_working_directory, ignore_errors = True)
+        # Creating it again
+        os.makedirs(_working_directory)
     else:
         os.makedirs(_working_directory)
 
@@ -91,6 +93,10 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     # Regex for getting power flow name
     pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
     pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
+
+    ##########################################################################
+    ######################### SIMULATING MODEL ###############################
+    ##########################################################################
 
     for n, pf in enumerate(pf_list):
 
@@ -124,14 +130,10 @@ def om_validation(pf_list, data_path, val_params, n_proc):
         # Changing the name of the result according to the power flow
         _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_{pf_name}\""
 
-        ##########################################################################
-        ################### OPENING AND SIMULATING MODEL #########################
-        ##########################################################################
-
         # Changing working directory
         res = omc.sendExpression(f"cd(\"{_working_directory}\")")
         if os.path.abspath(res) == _working_directory:
-            print(f"({n_proc}): {'Working directory changed to':<30} {res}")
+            print(f"({n_proc}): Starting simulation for {pf_name} (in {res})")
         else:
             raise ValueError(f"({n_proc}): Working directory could not be changed to {_working_directory}")
 
@@ -161,48 +163,51 @@ def om_validation(pf_list, data_path, val_params, n_proc):
             file_object_path = os.path.join(_working_directory, file_object)
             if not file_object_path.endswith(".mat"):
                 os.remove(file_object_path)
-
-        ##################################################################
-        # Validating power flows
-        ##################################################################
-        print(f"({n_proc}): Validating power flow")
-
-        for pf_name in pf_succ:
-            pf_identifier = pf_identifier_regex.findall(pf_name)[0]
-
-            result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}_res.mat")
-            sdfData = sdf.load(result_path)
-
-            # Warning: this validation is model-dependent. Please adjust accordingly for other models
-            tData = sdfData["time"]
-            v_mag2 = sdfData["Bus_02"]["V"]
-            v_mag4 = sdfData["Bus_04"]["V"]
-
-            t = np.array(tData.data)
-            v_mag2np = np.array(v_mag2.data)
-            v_mag4np = np.array(v_mag4.data)
-
-            deltaV2 = np.max(v_mag2np) - np.min(v_mag2np)
-            deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
-
-            if deltaV2 > 0.005 or deltaV4 > 0.005:
-                print(f"({n_proc}): Power flow {pf_name} did not initialize the model flat")
-                print(f"({n_proc}): Removing {pf_name} result...")
-
-                pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
-                    'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
-                    'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
-                    'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
-                    'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
-
-                for file in pf_path:
-                    if os.path.isfile(pf_path[file]):
-                        os.unlink(pf_path[file])
-            else:
-                print(f"({n_proc}): Power flow {pf_name} converged")
-
-        if n == 1:
+        # Limiting the power flows for debugging
+        if n == 0:
             break
+
+    ##########################################################################
+    ################### VALIDATING POWER FLOWS ###############################
+    ##########################################################################
+
+    print(f"\n({n_proc}): Validating power flows")
+
+    for pf_name in pf_succ:
+        pf_identifier = pf_identifier_regex.findall(pf_name)[0]
+
+        result_path = os.path.join(_working_directory, f"IEEE14_{pf_name}_res.mat")
+        sdfData = sdf.load(result_path)
+
+        # Warning: this validation is model-dependent. Please adjust accordingly for other models
+        tData = sdfData["time"]
+        v_mag2 = sdfData["Bus_02"]["V"]
+        v_mag4 = sdfData["Bus_04"]["V"]
+        print(v_mag2)
+
+        t = np.array(tData.data)
+        v_mag2np = np.array(v_mag2.data)
+        v_mag4np = np.array(v_mag4.data)
+        print(f"v_mag2np: {v_mag2np.shape}")
+
+        deltaV2 = np.max(v_mag2np) - np.min(v_mag2np)
+        deltaV4 = np.max(v_mag4np) - np.min(v_mag4np)
+
+        if deltaV2 > 0.005 or deltaV4 > 0.005:
+            print(f"({n_proc}): Power flow {pf_name} did not initialize the model flat")
+            print(f"({n_proc}): Removing {pf_name} result...")
+
+            pf_path = {'main': os.path.join(data_path, f'{pf_name}.mo'),
+                'bus': os.path.join(data_path, 'Bus_Data', f'PF_Bus_{pf_identifier}.mo'),
+                'loads': os.path.join(data_path, 'Loads_Data', f'PF_Loads_{pf_identifier}.mo'),
+                'machines': os.path.join(data_path, 'Machines_Data', f'PF_Machines_{pf_identifier}.mo'),
+                'trafos': os.path.join(data_path, 'Trafos_Data', f'PF_Machines_{pf_identifier}.mo')}
+
+            for file in pf_path:
+                if os.path.isfile(pf_path[file]):
+                    os.unlink(pf_path[file])
+        else:
+            print(f"({n_proc}): Power flow {pf_name} converged")
 
     # Closing OM process
     omc.sendExpression("quit()")
@@ -211,11 +216,11 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     # Remove all `.mat` files from working directory: they are useless
     ##################################################################
     # Commented out for debugging
-    # print(f"({n_proc}): Removing all '.mat' files from current working directory")
-    #
-    # for file_object in os.listdir(_working_directory):
-    #     file_object_path = os.path.join(_working_directory, file_object)
-    #     if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
-    #         os.unlink(file_object_path)
-    #     else:
-    #         shutil.rmtree(file_object_path)
+    print(f"\n({n_proc}): Removing all '.mat' files from current working directory")
+
+    for file_object in os.listdir(_working_directory):
+        file_object_path = os.path.join(_working_directory, file_object)
+        if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
+            os.unlink(file_object_path)
+        else:
+            shutil.rmtree(file_object_path)

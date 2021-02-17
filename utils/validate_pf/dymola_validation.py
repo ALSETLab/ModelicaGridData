@@ -79,8 +79,10 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
 
     # Changing working directory (removing content or creating it)
     if os.path.exists(_working_directory):
-        # Removing content from the working directory
+        # Removing existing working directory
         shutil.rmtree(_working_directory, ignore_errors = True)
+        # Creating it again
+        os.makedirs(_working_directory)
     else:
         os.makedirs(_working_directory)
 
