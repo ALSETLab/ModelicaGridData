@@ -38,4 +38,4 @@ if __name__ == '__main__':
     create_pf_records(_model,
                       path_mo_file,
                       data_path,
-                     openipsl_version = _version)te
+                     openipsl_version = _version)
