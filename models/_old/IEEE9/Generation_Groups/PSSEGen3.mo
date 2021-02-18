@@ -1,13 +1,11 @@
 within IEEE9.Generation_Groups;
 model PSSEGen3
-  extends OpenIPSL.Electrical.Essentials.pfComponent;
+  extends OpenIPSL.Interfaces.Generator;
   parameter Real M_b "Machine base power (MVA)"
   annotation (Dialog(group="Power flow data"));
   parameter Real height_2 annotation (Dialog(group="AVR Disturbance"));
   parameter Real tstart_2 annotation (Dialog(group="AVR Disturbance"));
   parameter Boolean refdisturb_2 annotation (Dialog(group="AVR Disturbance"));
-  OpenIPSL.Interfaces.PwPin pwPin
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   //Real P_MW;
   //Real Q_MVA;
   OpenIPSL.Electrical.Controls.PSSE.ES.IEEET1 iEEET1_1(
@@ -72,24 +70,6 @@ equation
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
-            100}}), graphics={Ellipse(extent={{-100,-100},{100,100}}, lineColor=
-           {28,108,200}),Line(points={{-60,-20},{-20,20},{20,-20},{60,20}},
-          color={28,108,200}),Text(
-          extent={{-34,-32},{38,-52}},
-          lineColor={28,108,200},
-          fillColor={0,0,255},
-          fillPattern=FillPattern.Solid,
-          textString="%name"),Text(
-          extent={{62,106},{134,68}},
-          lineColor={238,46,47},
-          fillColor={0,0,255},
-          fillPattern=FillPattern.Solid,
-          textString=DynamicSelect("0.0", String(P_MW, significantDigits=3))),
-          Text(
-          extent={{62,-70},{134,-108}},
-          lineColor={0,255,0},
-          fillColor={0,0,255},
-          fillPattern=FillPattern.Solid,
-          textString=DynamicSelect("0.0", String(Q_MVA, significantDigits=3)))}),
+            100}})),
     Documentation);
 end PSSEGen3;

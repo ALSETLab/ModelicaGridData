@@ -151,6 +151,8 @@ inner OpenIPSL.Electrical.SystemBase SysData
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={152,-10})));
+  PF_Data.Power_Flow pf
+    annotation (Placement(transformation(extent={{-100,92},{-80,112}})));
 equation
   connect(pwLine1to4.n,B100. p) annotation (Line(
       points={{-80.5,-63.65},{-80,-63.65},{-80,-70}},
@@ -266,6 +268,6 @@ equation
     annotation (Line(points={{141,-10},{124,-10}}, color={0,0,255}));
   connect(gen_B100_1.pwPin, B100.p)
     annotation (Line(points={{-80,-83},{-80,-70}}, color={0,0,255}));
-  annotation (Diagram(coordinateSystem(extent={{-140,-120},{180,100}})), Icon(
-        coordinateSystem(extent={{-140,-120},{180,100}})));
+  annotation (Diagram(coordinateSystem(extent={{-180,-120},{180,120}})), Icon(
+        coordinateSystem(extent={{-180,-120},{180,120}})));
 end AVRI_Base_Case;
