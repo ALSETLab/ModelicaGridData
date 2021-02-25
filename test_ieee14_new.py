@@ -1,4 +1,4 @@
-from utils.pf2rec import * 
+from utils.pf2rec import *
 
 import numpy as np
 import pandas as pd
@@ -12,24 +12,45 @@ from GridCal.Engine.Devices.shunt import Shunt
 from GridCal.Engine.Simulations.PowerFlow.time_series_driver import TimeSeries
 from GridCal.Engine.Simulations.PowerFlow.power_flow_driver import PowerFlowDriver
 
+LIST_OF_MODELS = ['AVRI', 'IEEE9', 'IEEE14', 'SMIB', 'TwoAreas']
+
+import argparse
 import os
 
-# Absolute path to the `.mo` file of the model
-data_path = os.path.abspath(os.path.join(os.getcwd(), "IEEE14", "_new", "IEEE14"))
+parser = argparse.ArgumentParser()
 
-path_mo_file = os.path.abspath(os.path.join(data_path, "IEEE14_PSSE_model.mo"))
+parser.add_argument("model", help = "Model for which the power flow structure will be created")
+parser.add_argument("--version", help = "OpenIPSL version for which the model has been created. Defaults to '1.5.0'")
 
-create_pf_records("IEEE14",
-                  path_mo_file,
-                  data_path,
-                 openipsl_version = '2.0.0')
+args = parser.parse_args()
+
+if __name__ == '__main__':
+
+    _model = args.model
+    if _model not in LIST_OF_MODELS:
+        raise ValueError('Model not available')
+
+    if args.version:
+        _version = args.version
+        if _version not in ['1.5.0', '2.0.0']:
+            raise ValueError("OpenIPSL version could not be identified")
+    else:
+        _version = '1.5.0'
+
+    if _version == '1.5.0':
+        _model_lib = '_old'
+    elif _version == '2.0.0':
+        _model_lib = '_new'
+
+# Absolute path to the data directory of the model
+data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model_lib, _model))
 
 grid = None
 
 # Grid model in GridCal
 file_handler = FileOpen(os.path.abspath(os.path.join(data_path,
                                                      "PSSE_Files",
-                                                     "IEEE14_Base_Case.raw")))
+                                                     f"{_model}_Base_Case.raw")))
 
 # Creating grid object
 grid = file_handler.open()
@@ -47,7 +68,7 @@ pf = PowerFlowDriver(grid, options)
 
 pf.run()
 
-gridcal2rec(grid = grid, pf = pf, model_name = 'IEEE14',
+gridcal2rec(grid = grid, pf = pf, model_name = _model,
     data_path = data_path,
-    pf_num = 0, export_pf_results = True,
-    is_time_series = False, openipsl_version = '2.0.0')
+    pf_num = 0, export_pf_results = False,
+    is_time_series = False, openipsl_version = _version)

@@ -15,7 +15,6 @@ extends OpenIPSL.Interfaces.Generator;
     Q_0=Q_0,
     T1d0=8,
     xq=1.7,
-    V_b=1000,
     Vn=1000)
     annotation (Placement(transformation(extent={{28,-10},{48,10}})));
   OpenIPSL.Electrical.Controls.PSAT.AVR.AVRTypeI Exc1(

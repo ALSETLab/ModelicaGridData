@@ -13,7 +13,6 @@ extends OpenIPSL.Interfaces.Generator;
     x1d=0.3,
     P_0=P_0,
     Q_0=Q_0,
-    V_b=1000,
     Vn=1000) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
