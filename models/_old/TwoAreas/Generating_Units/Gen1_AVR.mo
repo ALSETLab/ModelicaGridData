@@ -17,7 +17,6 @@ model Gen1_AVR
     S12=0.802,
     S10=0.18600,
     M_b=900,
-    V_b=V_b,
     V_0=V_0,
     angle_0=angle_0,
     P_0=P_0,
@@ -37,7 +36,7 @@ equation
   connect(g1.PMECH, g1.PMECH0) annotation (Line(points={{-6,9},{-6,9},{-12,9},{-12,
           10},{-12,26},{44,26},{44,9},{40,9}},              color={0,0,127}));
   connect(g1.p, pwPin)
-    annotation (Line(points={{38,0},{38,0},{70,0}}, color={0,0,255}));
+    annotation (Line(points={{38,0},{38,0},{110,0}},color={0,0,255}));
   connect(sEXS.EFD, g1.EFD) annotation (Line(points={{-7.15,-8},{-7.15,-9},{-6,-9}},
                 color={0,0,127}));
   connect(sEXS.EFD0, g1.EFD0) annotation (Line(points={{-42,-14.5},{-46,-14.5},{

@@ -17,7 +17,6 @@ model Gen1_No_AVR
     S12=0.802,
     S10=0.18600,
     M_b=900,
-    V_b=V_b,
     V_0=V_0,
     angle_0=angle_0,
     P_0=P_0,

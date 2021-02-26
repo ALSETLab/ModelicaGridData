@@ -16,7 +16,6 @@ model Gen4_AVR
     D=0.02,
     S12=0.802,
     S10=0.18600,
-    V_b=V_b,
     V_0=V_0,
     angle_0=angle_0,
     P_0=P_0,
@@ -45,13 +44,13 @@ model Gen4_AVR
     annotation (Placement(transformation(extent={{-62,2},{-54,10}})));
 equation
   connect(gENSAL.p, pwPin)
-    annotation (Line(points={{44,0},{44,0},{70,0}}, color={0,0,255}));
+    annotation (Line(points={{44,0},{44,0},{110,0}},color={0,0,255}));
   connect(gENSAL.PMECH, gENSAL.PMECH0) annotation (Line(points={{0,9},{2,9},{2,14},
           {-8,14},{-8,32},{50,32},{50,9},{46,9}},               color={0,0,127}));
   connect(eSDC1A.EFD, gENSAL.EFD) annotation (Line(points={{0.8,-8.22222},{0.8,-9},
           {0,-9},{0,-9}},                color={0,0,127}));
-  connect(eSDC1A.EFD0, gENSAL.EFD0) annotation (Line(points={{-32,-13.2778},{-32,
-          -22},{50,-22},{50,-9},{46,-9}},                   color={0,0,127}));
+  connect(eSDC1A.EFD0, gENSAL.EFD0) annotation (Line(points={{-32,-13.2778},{
+          -32,-22},{50,-22},{50,-9},{46,-9}},               color={0,0,127}));
   connect(const.y, eSDC1A.VUEL) annotation (Line(points={{-53.6,6},{-44,6},{-44,
           -16},{-26.4,-16}},          color={0,0,127}));
   connect(eSDC1A.VOEL, eSDC1A.VUEL) annotation (Line(points={{-21.6,-16},{-44,-16},

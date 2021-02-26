@@ -1,30 +1,31 @@
 within IEEE14.PF_Data.Machines_Data;
 record PF_Machines_worst_00023
 extends IEEE14.PF_Data.Machines_Data.Machines_Template(
-PG1 = 1e06*(49.1280392),
-QG1 = 1e06*(-14.3668759),
-PG2 = 1e06*(40.0000000),
-QG2 = 1e06*(21.9939730),
-PG3 = 1e06*(40.0000000),
-QG3 = 1e06*(4.4800925),
-PG4 = 1e06*(30.0000000),
-QG4 = 1e06*(14.5699555),
-PG5 = 1e06*(35.0000000),
-QG5 = 1e06*(4.9747493));
 
 // MACHINE: '1_1'
 // Bus: BUS1'
+PG1 = 1e06*(70.4767752),
+QG1 = 1e06*(-19.0765808),
 
 // MACHINE: '2_1'
 // Bus: BUS2'
+PG2 = 1e06*(40.0000000),
+QG2 = 1e06*(25.7864363),
 
 // MACHINE: '3_1'
 // Bus: BUS3'
+PG3 = 1e06*(40.0000000),
+QG3 = 1e06*(12.0367009),
 
 // MACHINE: '6_1'
 // Bus: BUS6'
+PG4 = 1e06*(30.0000000),
+QG4 = 1e06*(17.3274180),
 
 // MACHINE: '8_1'
 // Bus: BUS8'
+PG5 = 1e06*(35.0000000),
+QG5 = 1e06*(6.1995710)
 
+);
 end PF_Machines_worst_00023;

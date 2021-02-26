@@ -17,7 +17,6 @@ model Gen3_AVR
     S12=0.802,
     S10=0.18600,
     M_b=900,
-    V_b=V_b,
     V_0=V_0,
     P_0=P_0,
     Q_0=Q_0,
@@ -36,14 +35,15 @@ model Gen3_AVR
 equation
   connect(g3.PMECH, g3.PMECH0) annotation (Line(points={{8.8,12},{-24,12},{-24,44},
           {54,44},{54,12},{45.6,12}},      color={0,0,127}));
-  connect(g3.p, pwPin) annotation (Line(points={{44,2},{46.5,2},{46.5,0},{70,0}},
+  connect(g3.p, pwPin) annotation (Line(points={{44,2},{46.5,2},{46.5,0},{110,0}},
                color={0,0,255}));
   connect(sEXS.EFD, g3.EFD) annotation (Line(points={{0.95,-7.11111},{6,-7.11111},
           {6,-8},{8.8,-8}},   color={0,0,127}));
   connect(sEXS.VOEL, const.y) annotation (Line(points={{-25.65,-16},{-52,-16},{
           -52,7},{-59.7,7}}, color={0,0,127}));
-  connect(sEXS.EFD0, g3.EFD0) annotation (Line(points={{-38,-12.8889},{-44,-12.8889},
-          {-44,-24},{50,-24},{50,-8},{45.6,-8}},    color={0,0,127}));
+  connect(sEXS.EFD0, g3.EFD0) annotation (Line(points={{-38,-12.8889},{-44,
+          -12.8889},{-44,-24},{50,-24},{50,-8},{45.6,-8}},
+                                                    color={0,0,127}));
   connect(sEXS.VUEL, const.y) annotation (Line(points={{-31.35,-16},{-52,-16},{
           -52,7},{-59.7,7}}, color={0,0,127}));
   connect(sEXS.VOTHSG, const.y) annotation (Line(points={{-38,-3.11111},{-52,-3.11111},
