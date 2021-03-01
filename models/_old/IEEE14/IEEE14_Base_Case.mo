@@ -407,7 +407,8 @@ model IEEE14_Base_Case
     P_0 = pf.powerflow.machines.PG3,
     Q_0 = pf.powerflow.machines.QG3,
     V_0 = pf.powerflow.bus.V3,
-    angle_0 = pf.powerflow.bus.A3) annotation (Placement(
+    angle_0 = pf.powerflow.bus.A3,
+    displayPF=true)                annotation (Placement(
         transformation(
         extent={{-7,-6},{7,6}},
         rotation=180,
@@ -417,28 +418,32 @@ model IEEE14_Base_Case
     P_0=pf.powerflow.machines.PG4,
     Q_0=pf.powerflow.machines.QG4,
     V_0=pf.powerflow.bus.V6,
-    angle_0=pf.powerflow.bus.A6)
+    angle_0=pf.powerflow.bus.A6,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-6,20},{6,32}})));
   IEEE14.Generating_Units.Gen_Bus_8 gen_Bus_8_1(
     V_b=69,
     P_0=pf.powerflow.machines.PG5,
     Q_0=pf.powerflow.machines.QG5,
     V_0=pf.powerflow.bus.V8,
-    angle_0=pf.powerflow.bus.A8)
+    angle_0=pf.powerflow.bus.A8,
+    displayPF=true)
     annotation (Placement(transformation(extent={{90,-80},{102,-68}})));
   IEEE14.Generating_Units.Gen_Bus_1 gen_Bus_1_1(
     V_b=69,
     V_0=pf.powerflow.bus.V1,
     angle_0=pf.powerflow.bus.A1,
     P_0=pf.powerflow.machines.PG1,
-    Q_0=pf.powerflow.machines.QG1)
+    Q_0=pf.powerflow.machines.QG1,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-94,-28},{-80,-14}})));
   IEEE14.Generating_Units.Gen_Bus_2 gen_Bus_2_1(
     V_b = 69,
     V_0 = pf.powerflow.bus.V2,
     angle_0 = pf.powerflow.bus.A2,
     P_0 = pf.powerflow.machines.PG2,
-    Q_0 = pf.powerflow.machines.QG2)
+    Q_0 = pf.powerflow.machines.QG2,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-100,-74},{-86,-60}})));
   OpenIPSL.Electrical.Banks.PSSE.Shunt shunt(G=0, B=0.1500569)
     annotation (Placement(transformation(extent={{74,86},{82,94}})));

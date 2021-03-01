@@ -1,8 +1,6 @@
 within IEEE9.Generation_Groups;
 model PSSEGen3
   extends OpenIPSL.Interfaces.Generator;
-  parameter Real M_b "Machine base power (MVA)"
-  annotation (Dialog(group="Power flow data"));
   parameter Real height_2 annotation (Dialog(group="AVR Disturbance"));
   parameter Real tstart_2 annotation (Dialog(group="AVR Disturbance"));
   parameter Boolean refdisturb_2 annotation (Dialog(group="AVR Disturbance"));
@@ -31,7 +29,7 @@ model PSSEGen3
     angle_0=angle_0,
     P_0=P_0,
     Q_0=Q_0,
-    M_b=M_b,
+    M_b=300,
     Tpd0=5.89,
     Tppd0=0.05,
     Tppq0=0.05,

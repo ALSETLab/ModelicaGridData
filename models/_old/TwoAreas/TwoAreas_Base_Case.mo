@@ -119,19 +119,22 @@ OpenIPSL.Electrical.Buses.Bus B11
     V_0=pf.powerflow.bus.V1,
     angle_0=pf.powerflow.bus.A1,
     P_0=pf.powerflow.machines.PG1,
-    Q_0=pf.powerflow.machines.QG1)
+    Q_0=pf.powerflow.machines.QG1,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-218,20},{-198,40}})));
   Generating_Units.Gen2_No_AVR gen2_No_AVR(
     V_0=pf.powerflow.bus.V2,
     angle_0=pf.powerflow.bus.A2,
     P_0=pf.powerflow.machines.PG2,
-    Q_0=pf.powerflow.machines.QG2)
+    Q_0=pf.powerflow.machines.QG2,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-218,-10},{-198,10}})));
   Generating_Units.Gen3_No_AVR gen3_No_AVR(
     V_0=pf.powerflow.bus.V3,
     angle_0=pf.powerflow.bus.A3,
     P_0=pf.powerflow.machines.PG3,
-    Q_0=pf.powerflow.machines.QG3)         annotation (Placement(transformation(
+    Q_0=pf.powerflow.machines.QG3,
+    displayPF=true)                        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={206,30})));
@@ -139,7 +142,8 @@ OpenIPSL.Electrical.Buses.Bus B11
     V_0=pf.powerflow.bus.V4,
     angle_0=pf.powerflow.bus.A4,
     P_0=pf.powerflow.machines.PG4,
-    Q_0=pf.powerflow.machines.QG4)         annotation (Placement(transformation(
+    Q_0=pf.powerflow.machines.QG4,
+    displayPF=true)                        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={206,-10})));
@@ -198,8 +202,8 @@ equation
     annotation (Line(points={{169,30},{169,30},{180,30}}, color={0,0,255}));
   connect(B04.p, Line04_10.n)
     annotation (Line(points={{180,-10},{149,-10}}, color={0,0,255}));
-  connect(Line04_10.p, Line10_11.p) annotation (Diagram(coordinateSystem(extent
-          ={{-220,-100},{220,100}})), Icon(coordinateSystem(extent={{-220,-100},
+  connect(Line04_10.p, Line10_11.p) annotation (Diagram(coordinateSystem(extent=
+           {{-220,-100},{220,100}})), Icon(coordinateSystem(extent={{-220,-100},
             {220,100}})));
 
   connect(B10.p, Line04_10.p) annotation (Line(points={{100,30},{106,30},{106,

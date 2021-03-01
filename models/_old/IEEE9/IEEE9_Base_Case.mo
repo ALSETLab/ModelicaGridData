@@ -106,7 +106,7 @@ model IEEE9_Base_Case
   Generation_Groups.PSSEGen1 pSSEGen1_1(
     V_b=18,
     V_0=pf.powerflow.bus.V2,
-    M_b=320,
+    displayPF=true,
     height_1=0,
     tstart_1=0,
     refdisturb_1=false,
@@ -117,7 +117,7 @@ model IEEE9_Base_Case
   Generation_Groups.PSSEGen3 pSSEGen3_1(
     V_b=13.8,
     V_0=pf.powerflow.bus.V3,
-    M_b=300,
+    displayPF=true,
     height_2=0,
     tstart_2=0,
     refdisturb_2=false,
@@ -131,7 +131,7 @@ model IEEE9_Base_Case
     V_b=16.5,
     P_0=pf.powerflow.machines.PG1,
     Q_0=pf.powerflow.machines.QG1,
-    M_b=275,
+    displayPF=true,
     height_2=0,
     tstart_2=0,
     refdisturb_2=false)   annotation (Placement(transformation(

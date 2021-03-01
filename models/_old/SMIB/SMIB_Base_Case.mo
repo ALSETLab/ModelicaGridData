@@ -4,19 +4,21 @@ model SMIB_Base_Case
     V_0=pf.powerflow.bus.V1,
     angle_0=pf.powerflow.bus.A1,
     P_0=pf.powerflow.machines.PG1,
-    Q_0=pf.powerflow.machines.QG1)
+    Q_0=pf.powerflow.machines.QG1,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-96,-10},{-76,10}})));
   Generation_Units.Gen02 gen02_1(
     V_0=pf.powerflow.bus.V2,
     angle_0=pf.powerflow.bus.A2,
     P_0=pf.powerflow.machines.PG2,
-    Q_0=pf.powerflow.machines.QG2)
+    Q_0=pf.powerflow.machines.QG2,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=180,
         origin={88,0})));
-  OpenIPSL.Electrical.Buses.Bus B01(V_0=pf.powerflow.bus.V2, angle_0=pf.powerflow.bus.A2)
+  OpenIPSL.Electrical.Buses.Bus B01(V_0=pf.powerflow.bus.V1, angle_0=pf.powerflow.bus.A1)
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-  OpenIPSL.Electrical.Buses.Bus B02
+  OpenIPSL.Electrical.Buses.Bus B02(V_0=pf.powerflow.bus.V2, angle_0=pf.powerflow.bus.A2)
     annotation (Placement(transformation(extent={{54,-10},{74,10}})));
   OpenIPSL.Electrical.Branches.PwLine line_03(
     R=0.0005,
@@ -28,9 +30,9 @@ model SMIB_Base_Case
     X=0.2,
     G=0,
     B=0) annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
-  OpenIPSL.Electrical.Buses.Bus B03
+  OpenIPSL.Electrical.Buses.Bus B03(V_0=pf.powerflow.bus.V3, angle_0=pf.powerflow.bus.A3)
     annotation (Placement(transformation(extent={{-30,-10},{-10,10}})));
-  OpenIPSL.Electrical.Buses.Bus B04(V_0=pf.powerflow.bus.V1, angle_0=pf.powerflow.bus.A1)
+  OpenIPSL.Electrical.Buses.Bus B04(V_0=pf.powerflow.bus.V4, angle_0=pf.powerflow.bus.A4)
     annotation (Placement(transformation(extent={{10,-30},{30,-10}})));
   OpenIPSL.Electrical.Branches.PwLine line_02(
     R=0.0010,
@@ -63,7 +65,7 @@ model SMIB_Base_Case
         origin={34,-42})));
   inner OpenIPSL.Electrical.SystemBase SysData
     annotation (Placement(transformation(extent={{-84,44},{-46,56}})));
-  PF_Data.Power_Flow power_Flow
+  PF_Data.Power_Flow pf(redeclare record PowerFlow = PF_Data.PF_00000)
     annotation (Placement(transformation(extent={{-34,40},{-14,60}})));
 equation
   connect(gen01_1.pwPin, B01.p)

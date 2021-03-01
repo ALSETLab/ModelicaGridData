@@ -1,31 +1,30 @@
 within IEEE14.PF_Data.Machines_Data;
 record PF_Machines_load_00023
 extends IEEE14.PF_Data.Machines_Data.Machines_Template(
+PG1 = (71.8316181),
+QG1 = (-19.3491579),
+PG2 = (40.0000000),
+QG2 = (26.3019060),
+PG3 = (40.0000000),
+QG3 = (12.1416912),
+PG4 = (30.0000000),
+QG4 = (17.7578560),
+PG5 = (35.0000000),
+QG5 = (6.3601858));
 
 // MACHINE: '1_1'
 // Bus: BUS1'
-PG1 = (71.8316181),
-QG1 = (-19.3491579),
 
 // MACHINE: '2_1'
 // Bus: BUS2'
-PG2 = (40.0000000),
-QG2 = (26.3019060),
 
 // MACHINE: '3_1'
 // Bus: BUS3'
-PG3 = (40.0000000),
-QG3 = (12.1416912),
 
 // MACHINE: '6_1'
 // Bus: BUS6'
-PG4 = (30.0000000),
-QG4 = (17.7578560),
 
 // MACHINE: '8_1'
 // Bus: BUS8'
-PG5 = (35.0000000),
-QG5 = (6.3601858)
 
-);
 end PF_Machines_load_00023;

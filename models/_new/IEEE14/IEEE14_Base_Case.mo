@@ -382,19 +382,22 @@ model IEEE14_Base_Case
     P_0=pf.powerflow.machines.PG1,
     Q_0=pf.powerflow.machines.QG1,
     v_0=pf.powerflow.bus.V1,
-    angle_0=pf.powerflow.bus.A1)
+    angle_0=pf.powerflow.bus.A1,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-106,-30},{-86,-10}})));
   Generating_Units.Gen_Bus_2 gen_Bus_2_1(
     P_0=pf.powerflow.machines.PG2,
     Q_0=pf.powerflow.machines.QG2,
     v_0=pf.powerflow.bus.V2,
-    angle_0=pf.powerflow.bus.A2)
+    angle_0=pf.powerflow.bus.A2,
+    displayPF=true)
     annotation (Placement(transformation(extent={{-108,-80},{-88,-60}})));
   Generating_Units.Gen_Bus_3 gen_Bus_3_1(
     P_0=pf.powerflow.machines.PG3,
     Q_0=pf.powerflow.machines.QG3,
     v_0=pf.powerflow.bus.V3,
-    angle_0=pf.powerflow.bus.A3) annotation (Placement(transformation(
+    angle_0=pf.powerflow.bus.A3,
+    displayPF=true)              annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={28,-104})));
@@ -402,7 +405,8 @@ model IEEE14_Base_Case
     P_0=pf.powerflow.machines.PG4,
     Q_0=pf.powerflow.machines.QG4,
     v_0=pf.powerflow.bus.V6,
-    angle_0=pf.powerflow.bus.A6) annotation (Placement(transformation(
+    angle_0=pf.powerflow.bus.A6,
+    displayPF=true)              annotation (Placement(transformation(
         extent={{-7,-7},{7,7}},
         rotation=180,
         origin={5,33})));
@@ -410,7 +414,8 @@ model IEEE14_Base_Case
     P_0=pf.powerflow.machines.PG5,
     Q_0=pf.powerflow.machines.QG5,
     v_0=pf.powerflow.bus.V8,
-    angle_0=pf.powerflow.bus.A8) annotation (Placement(transformation(
+    angle_0=pf.powerflow.bus.A8,
+    displayPF=true)              annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={108,-52})));
