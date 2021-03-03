@@ -27,7 +27,11 @@ HELP_DELETE = "(`run_pf`) Delete previous power flow results. Defaults to 'True'
 HELP_SEED = "(`run_pf`) Seed value for load randomization. Defaults to '0'"
 HELP_MODEL = "(`run_pf`, `val_pf` and `run_sim`) Model that will be used for the routine. Defaults to 'IEEE14'. Note that it corresponds to the name of the package of the OpenIPSL model"
 
+# HELP TO FILES IN 'val_pf' and 'run_sim' FUNCTION
+HELP_TOOL = "(`val_pf` and `run_sim`) Tool to run time-domain simulations. 'OM' for OpenModelica and 'dymola' for Dymola. Defaults to 'dymola'"
+HELP_PROC = "(`val_pf` and `run_sim`) Number of processes (i.e., parallel serial instances) executed simultaneously"
+HELP_CORES = "(`val_pf` and `run_sim`) Number of cores to be used inside a process (i.e., serial parallel simulation)"
+
 # HELP TO FILES IN 'run_sim' FUNCTION
-HELP_TOOL = "(`val_pf`) Tool to run time-domain simulations. 'OM' for OpenModelica and 'dymola' for Dymola. Defaults to 'dymola'"
-HELP_PROC = "(`val_pf`) Number of processes (i.e., parallel serial instances) executed simultaneously"
-HELP_CORES = "(`val_pf`) Number of cores to be used inside a process (i.e., serial parallel simulation)"
+HELP_POWER_FLOWS = "(`run_sim`) Number of power flows to run dynamic simulations. Defaults to all available"
+HELP_SCENARIOS = "(`run_sim`) Number of scenarios to run the dynamic simulations. Defaults to all available or 50, for large systems"

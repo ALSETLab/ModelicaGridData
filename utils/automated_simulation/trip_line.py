@@ -1,4 +1,4 @@
-def trip_line(model_name, scenario):
+def trip_line(model_name, scenario, pf_modifier):
     '''
     Description:
 
@@ -12,4 +12,4 @@ def trip_line(model_name, scenario):
     - scenario: corresponding scenario (i.e., lines that will be opened)
 
     '''
-    return str(model_name + "(" + ".X=1e12, ".join(scenario) + ".X=1e12" + ")")
+    return str(model_name + "(" + pf_modifier + ", " + ".X=1e12, ".join(scenario) + ".X=1e12" + ")")

@@ -27,10 +27,14 @@ parser.add_argument("--delete", help = HELP_DELETE, type = bool)
 parser.add_argument("--seed", help = HELP_SEED, type = int)
 parser.add_argument("--model", help = HELP_MODEL)
 
-# Arguments to and `val_pf`
+# Arguments to `val_pf` and `run_sim`
 parser.add_argument("--tool", help = HELP_TOOL)
 parser.add_argument("--proc", help = HELP_PROC, type = int)
 parser.add_argument("--cores", help = HELP_CORES, type = int)
+
+# Arguments to `run_sim`
+parser.add_argument("--n_pf", help = HELP_POWER_FLOWS, type = int)
+parser.add_argument("--n_sc", help = HELP_SCENARIOS, type = int)
 
 args = parser.parse_args()
 
@@ -346,4 +350,181 @@ if __name__ == "__main__":
                 p.join()
 
             if _function == "run_sim":
-                print("\n")
+
+                # Importing dependencies (just those required to speed up code execution)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    from utils.automated_simulation import *
+
+                print(f"\n{'':=^45}")
+                print(f"RUNNING DYNAMIC SIMULATIONS")
+                print(f"{'':=^45}\n")
+
+                if args.tool:
+                    _tool = args.tool
+                    if _tool not in ['dymola', 'om']:
+                        raise ValueError("Invalid tool. Only 'dymola' and 'om' (OpenModelica) are supported")
+                else:
+                    print("No tool specified. Using 'dymola' by default")
+                    _tool = 'dymola'
+
+                if args.version:
+                    _version = args.version
+                    if _version not in ['1.5.0', '2.0.0']:
+                        raise ValueError('Invalid version. Only OpenIPSL 1.5.0 and 2.0.0 are supported')
+                else:
+                    print("No OpenIPSL version specified. Defaulting to '1.5.0'")
+                    _version = '1.5.0'
+
+                if args.model:
+                    _model = args.model
+                    if _model not in LIST_OF_MODELS:
+                        raise ValueError("Model not available")
+                else:
+                    _model = 'IEEE14'
+                    print(f"Model not specified. Defaulting to {_model}")
+
+                _model_name = f"{_model}_Base_Case"
+                _model_package = _model
+
+                # Loading validation parameters
+                with open(r'sim_parameters.yaml') as f:
+                    sim_params = yaml.load(f, Loader = yaml.FullLoader)
+
+                # Converting relative path to absolute paths
+                if _version == '1.5.0':
+                    _data_path_old = f"models/_old/{_model}/PF_Data"
+                    _model_path_old = f"models/_old/{_model}/package.mo"
+                    _data_path = os.path.abspath(os.path.join(os.getcwd(), _data_path_old))
+                    _model_path = os.path.abspath(os.path.join(os.getcwd(), _model_path_old))
+                elif _version == '2.0.0':
+                    _data_path_new = f"models/_new/{_model}/PF_Data"
+                    _model_path_new = f"models/_new/{_model}/package.mo"
+                    _data_path = os.path.abspath(os.path.join(os.getcwd(), _data_path_new))
+                    _model_path = os.path.abspath(os.path.join(os.getcwd(), _model_path_new))
+
+                if args.proc:
+                    _n_proc = args.proc
+                else:
+                    _n_proc = 1
+                    print(f"Multiprocessing not specified. Defaulting to serial processing (n_proc = {_n_proc})")
+
+                if args.cores:
+                    _n_cores = args.cores
+                else:
+                    _n_cores = psutil.cpu_count(logical = False) - 1
+                    print("Cores to use for simulation not specified")
+                    print(f"Setting number of cores to {_n_cores}")
+
+                # Validating number of processes and cores
+                # if _n_proc > (psutil.cpu_count(logical = False) - 1) and _n_proc > 1:
+                #     print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
+                #     print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                #     _n_proc = psutil.cpu_count(logical = False) - 1
+                # if _n_cores == psutil.cpu_count(logical = False) and _n_cores > 1:
+                #     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
+                #     _n_cores = 1
+                #     print(f"Setting number of cores to {_n_cores} per process")
+
+                sim_params['version'] = _version
+                sim_params['n_cores'] = _n_cores
+                sim_params['n_proc'] = _n_proc
+                sim_params['model_path'] = _model_path
+                sim_params['model_package'] = _model_package
+                sim_params['model_name'] = _model_name
+
+                ##################################################
+                ### SELECTING POWER FLOWS
+                ##################################################
+
+                # Getting power flow list from `PF_Data` directory
+                pf_list = get_pf_files(_data_path)
+
+                # Number of power flows (user input)
+                if args.n_pf:
+                    _n_pf = args.n_pf
+                else:
+                    _n_pf = len(pf_list)
+                    print(f"No power flow number specified. Working with {len(pf_list)} power flows")
+
+                if _n_pf > len(pf_list):
+                    _n_pf = len(pf_list)
+                    print(f"Number of power flows exceeds available records. Defaults to {_n_pf}")
+
+                # Extracting power flows from the given list
+                pf_list = np.random.choice(pf_list, _n_pf, replace = False)
+                # Distributing scenarios among specified number of processes
+                pf_dist = distribute_scenarios(pf_list, _n_proc)
+
+                ##################################################
+                ### SELECTING CONTINGENCY SCENARIOS
+                ##################################################
+
+                _mo_model_folder = os.path.dirname(_model_path)
+                _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
+
+                _components = generate_component_list(_mo_model_path)
+
+                # Extracting lines
+                _lines = _components['lines']
+                # Creating line contingency strings
+                _line_contingencies = generate_contingencies(_lines)
+                if args.n_sc:
+                    _n_sc = args.n_sc
+                else:
+                    print("Number of contingencies not specified")
+                    _n_sc = 50
+
+                if _n_sc > len(_line_contingencies['scenarios']):
+                    _n_sc = len(_line_contingencies)
+
+                print(f"Defaulting to {_n_sc} contingencies")
+
+                scenarios = randomize_scenarios(_line_contingencies, _n_sc)
+                _n_scenarios = len(scenarios)
+
+                ##################################################
+                ### DISPATCHING SIMULATIONS
+                ##################################################
+
+                print(f"\n{'':-^45}")
+                print('Summary of power flow validation')
+                print(f"{'':-^45}")
+                print(f"{'Model name':<30} {_model_name} in package {_model_package}")
+                print(f"{'OpenIPSL version:':<30} {_version}")
+                print(f"{'Tool':<30} {_tool:<20}")
+                print(f"{'Process(es)':<30} {_n_proc:<20}")
+                print(f"{'Core(s) per process':<30} {_n_cores:<20}")
+                print(f"{'Power flows':<30} {_n_pf:<20}")
+                print(f"{'Simulation scenarios':<30} {_n_scenarios:<20}")
+                print(f"{'Total simulations:':<30} {_n_pf*_n_scenarios:<20}\n")
+
+                # Commanding parallel simulations using multiprocessing
+                p = mp.Pool()
+                # List of running processes
+                process = []
+                for np in range(_n_proc):
+                    if _tool == 'dymola':
+                        if _n_proc == 1:
+                            dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
+                            # apfun = p.apply_async(dymola_simulation,
+                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
+                        else:
+                            dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
+                            # apfun = p.apply_async(dymola_simulation,
+                            #     args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
+                    elif _tool == 'om':
+                        if _n_proc == 1:
+                            om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
+                            # apfun = p.apply_async(om_simulation,
+                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
+                        else:
+                            om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
+                            # apfun = p.apply_async(om_simulation,
+                            #     args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
+                p.close()
+                p.join()

@@ -15,13 +15,10 @@ def time_domain_simulation(model_info, scenarios, dymola_path = None, n_proc = 1
                             verbose = True, simulation_setup = None):
     '''
 
-    INPUTS:
-
-    OUTPUTS:
-
-    LAST MODIFICATION DATE:
-
     '''
+
+
+
 
     # Assignating an empty object to the variable dymola
     dymola = None
@@ -43,7 +40,6 @@ def time_domain_simulation(model_info, scenarios, dymola_path = None, n_proc = 1
     path_wd = os.path.abspath(model_info['path_wd'])
     library_path = os.path.abspath(model_info['library_path'])
     model_path = os.path.abspath(model_info['model_path'])
-
 
     # Creating a dictionary for the number of scenarios
     sc_labels_init = dict.fromkeys(range(1, len(scenarios)))
@@ -88,6 +84,8 @@ def time_domain_simulation(model_info, scenarios, dymola_path = None, n_proc = 1
         # Use more cores per process
         dymola.ExecuteCommand("Advanced.TranslationInCommandLog = true")
         dymola.ExecuteCommand(f"Advanced.NumberOfCores = {simulation_setup['n_cores']}")
+
+        # Add a command
 
         for n_scenario, scenario in enumerate(scenarios):
 

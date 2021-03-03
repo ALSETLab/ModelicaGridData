@@ -1,171 +1,227 @@
-import os
-import platform
 from dymola.dymola_interface import DymolaInterface
 from dymola.dymola_exception import DymolaException
+
+import os
+import platform
+import shutil
+import re
+
+import scipy.linalg as sl
+import numpy as np
+import pandas as pd
+from .trip_line import *
 from .open_line import *
-from IPython.display import clear_output
+from .label_scenario import *
 
-def simulate_system(model, path_wd, dymola_object, scenarios, verbose = True):
+def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     '''
-    Description:
-
-    This function performs a linearization around a given equilibrium point of a nonlinear Dymola model. It employs an external
-    Dymola object (that is, this does not instantiate a Dymola object but requires an existing one). The output of the
-    linearization is written in an external working directory whose path has to be specified as an argument.
-
-    This function is intented to linearize automatically a large number of scenarios that are specified in the list
-    called "scenarios".
-
-    Arguments:
-
-    - model: name of the model we want to linearize
-    - path_wd: path of the working directory where the simulation results are going to be exported
-    - dymola_object: externally instantiated Dymola object
-    - scenarios: list of scenarios on which a linearization will be performed
-    - verbose: print information while running the process. It defaults to True.
 
     '''
 
-    # Retrieving model name
-    model_name = model
-    # Retrieving dymola object
-    dymola = dymola_object
-    # Print information
-    print_info = verbose
+    # Getting version information
+    _version = sim_params['version']
 
-    # Variable for the number of successful simulations
-    a = 1
+    # Extracting simulation parameters
+    _n_cores = sim_params['n_cores']
+    _startTime = sim_params['startTime']
+    _stopTime = sim_params['stopTime']
+    _numberOfIntervals = sim_params['numberOfIntervals']
+    _method = sim_params['method']
+    _tolerance = sim_params['tolerance']
+    _fixedstepsize = sim_params['fixedstepsize']
 
-    dymola.ExecuteCommand("Advanced.TranslationInCommandLog = true")
-    dymola.ExecuteCommand("Advanced.Define.DAEsolver = true")
+    _model_path = os.path.abspath(sim_params['model_path'])
+    _model_package = sim_params['model_package']
+    _model_name = sim_params['model_name']
 
-    # Container for eigenvalues
-    eigs_model = []
+    # Getting path to the '.mo' file of the model
+    _mo_model_folder = os.path.dirname(_model_path)
+    _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
-    for scenario in scenarios:
-        try:
-            if verbose:
-                clear_output()
-                print("{t:-^120}".format(t= '-'))
-                print("Simulation {}: {}".upper().format(a, ", ".join(scenario)))
-            result = dymola.simulateModel(open_line(model_name, scenario),
-                                 startTime = 0.0,
-                                 stopTime = 120,
-                                 numberOfIntervals = 0,
-                                 outputInterval = 0.001,
-                                 method = "Dassl",
-                                 tolerance = 1e-06,
-                                 resultFile = path_wd + "{}".format(a))
-            if result:
-                A_dim = dymola.readMatrixSize(path_wd + "{}.mat".format(a), "ABCD")
-                A = dymola.readMatrix(path_wd + "{}.mat".format(a), "ABCD", A_dim[0], A_dim[1])
-                eigs_model.append(sl.eig(A)[0])
-                a += 1
-                if print_info:
-                    print("Linearization successful")
-        except:
-            if (print_info):
-                print("{t:-^120}".format(t= '-'))
-                print("Linearization failed for the following contingency: \n{}".format(", ".join(test_10[4])))
+    # Instantiating dymola object (according to operating system)
+    if platform.system() == 'Windows':
+        # Extracting and formatting paths
+        if _version == '1.5.0':
+            _openipsl_path = os.path.abspath(sim_params['openipsl_path_windows_old'])
+        elif _version == '2.0.0':
+            _openipsl_path = os.path.abspath(sim_params['openipsl_path_windows_new'])
 
-    # Exporting eigenvalues as a numpy array
-    np.save(path_wd + "_all_eigs.npy", np.array(eigs_model))
+        # Making sure each process has its own working directory
+        _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_windows']), _model_package, f"proc_{n_proc}")
 
-    return result
+        # Instantiating dymola object
+        dymolaInstance = DymolaInterface()
+    elif platform.system() == 'Linux':
 
-def dymola_simulation(model_info, scenarios, path, path_wd, process_num = 1, verbose = False):
-    '''
-    Description:
+        # Extracting and formatting paths
+        if _version == '1.5.0':
+            _openipsl_path = os.path.abspath(sim_params['openipsl_path_linux_old'])
+        elif _version == '2.0.0':
+            _openipsl_path = os.path.abspath(sim_params['openipsl_path_linux_new'])
 
-    This function instantiates a Dymola object and runs a linearization of a model specified by the user. The code was adapted
-    from the example provided together with the Dymola documentation to be suitable for a parallel computing environment.
+        # Making sure each process has an independent working directory
+        _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model_package, f"proc_{n_proc}")
+        _dymola_path = os.path.abspath(sim_params['dymola_path_linux'])
 
-    An execution of this function produces the results of the linearize_system() function. However, it can be employed as a
-    template for other Dymola functionalities.
+        # Instantiating dymola object
+        dymolaInstance = DymolaInterface(_dymola_path)
 
-    Arguments:
+    if dymolaInstance is not None:
+        print(f"({n_proc}): dymola using port: {dymolaInstance._portnumber}\n")
+    else:
+        print(f"({n_proc}): Failed to instantiate dymola instance")
 
-    - model_info: dictionary whose entries are the root path (i.e., the root of the folder containing the OpenIPSL library and
-    the models to linearize), the path of the model, of the library and the name of the model
-    - path: path of the dymola executable to instantiate an object
-    - path_wd: path of the working directory. Each Dymola instance must have a different working directory!
-    - process_num: number of the thread. It defaults to 1.
-    - verbose: defaults to `False`.
+    print(f"({n_proc}): {'Working directory:':<30} {_working_directory}")
+    print(f"({n_proc}): {'OpenIPSL path:':<30} {_openipsl_path}")
+    print(f"({n_proc}): {'Model path:':<30} {_model_path}\n")
 
-    '''
+    # Opening library
+    result = dymolaInstance.openModel(_openipsl_path)
+    if result: print(f"({n_proc}): Library opened")
 
-    # Retrieving model information
-    root_path = model_info['root_path']
-    library_path = model_info['library_path']
-    model_path = model_info['model_path']
-    model_name = model_info['model_name']
-    output_path = model_info['output_path']
+    # Opening model
+    result = dymolaInstance.openModel(_model_path)
+    if result: print(f"({n_proc}): Model opened successfully")
 
-    dymola = None
+    # Changing working directory (removing content or creating it)
+    if os.path.exists(_working_directory):
+        # Removing existing working directory
+        shutil.rmtree(_working_directory, ignore_errors = True)
+        # Creating it again if it has been removed
+        if not os.path.exists(_working_directory):
+            os.makedirs(_working_directory)
+    else:
+        os.makedirs(_working_directory)
 
-    try:
-        if verbose:
-            print(f"{process_num}: Creating and starting Dymola instance")
+    result = dymolaInstance.cd(_working_directory)
+    if result:
+        print(f"({n_proc}): Working directory changed successfully")
+    else:
+        raise ValueError(f"({n_proc}): I could not change the working directory. Aborting for safety. Try again")
 
-        # Creating dymola instance
-        dymola = DymolaInterface(dymolapath = path)
+    # Executing special commands to speed up execution time
+    dymolaInstance.ExecuteCommand("Advanced.TranslationInCommandLog = true")
+    if _method == 'dassl':
+        dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
 
-        if verbose:
-            print(f"{process_num}: Using Dymola port:" + str(dymola._portnumber))
-            print(f"{process_num}: Changing working directory to: {path_wd}")
-        try:
-            if not os.path.exists(output_path):
-                os.makedirs(output_path)
-                print("Output directory created")
-        except OSError as ex:
-            print(f"{process_num}: Failed to create an output directory")
-        try:
-            os.makedirs(path_wd)
-        except OSError as ex:
-            print(f"{process_num}: Failed to create folder for working directory")
+    dymolaInstance.ExecuteCommand(f"Advanced.NumberOfCores = {_n_cores}")
 
-        # CHANGING THE PATH TO OPENING THE LIBRARY AND THE MODEL
-        result = dymola.cd(root_path)
+    n_pf = len(pf_list)
+    n_sc = len(scenarios)
+    total = n_pf * n_sc
 
-        if not result:
-            print("1: Failed to change working directory")
+    # Regex for getting power flow name
+    pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
+    pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
 
-        # Opening OpenIPSL library
-        dymola.openModel(library_path)
-        if result and verbose:
-            print("Library opened")
+    # Containers for the labels (at initial and final simulation time, respectively)
+    sc_labels_init = dict.fromkeys(range(1, 4))
+    sc_labels_final = dict.fromkeys(range(1, 4))
 
-        # Opening Ricardo's model
-        dymola.openModel(model_path)
-        if result and verbose:
-            print("Model opened")
+    counter = 1;
 
-        # CHANGING THE PATH FOR THE WORKING DIRECTORY
-        # Note that the model is already opened
+    for pf in pf_list:
 
-        result = dymola.cd(path_wd)
-        if not result:
-            print(f"{process_num}: Failed to change working directory")
+        # Getting power flow name and identifier via regex
+        pf_name = pf_name_regex.findall(pf)[0]
+        # Creating path and modifier
+        pf_path = f"{_model_package}.PF_Data.{pf_name}"
+        pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
-        result = simulate_system(model_name,
-                                 path_wd,
-                                 dymola,
-                                 scenarios,
-                                 verbose)
+        for scenario in scenarios:
+            # Initial linearization
+            try:
+                _init_lin_out = f"{_model_package}_dslin_init_{counter}"
+                res_init_lin = dymolaInstance.linearizeModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}",
+                    startTime = 0.0,
+                    stopTime = 0.0,
+                    fixedstepsize = _fixedstepsize,
+                    resultFile = _init_lin_out)
+                if res_init_lin:
 
-        if not result:
-            print(f"{process_num}: Simulation failed")
-            log = dymola.getLastErrorLog()
-            print(log)
+                    # Reading ABCD matrices
+                    A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _init_lin_out) + '.mat', "ABCD")
+                    A = dymolaInstance.readMatrix(os.path.join(_working_directory, _init_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
 
-        print(f"{process_num}: OK")
+                    # Getting system eigenvalues at initialization
+                    eigs_scenario = sl.eig(A)[0]
+                    print(eigs_scenario)
+                    np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
 
-    except DymolaException as ex:
-        if verbose:
-            print(f"{process_num}: Error:" + str(ex))
-        else:
-            pass
-    finally:
-        if dymola is not None:
-            dymola.close()
-            dymola = None
+                    #
+                    sc_labels_init[counter] = label_scenario(A)
+                    print(sc_labels_init[counter])
+                    print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{total})")
+                else:
+                    print(f"({n_proc}): Initial linearization failed. It might be due to unstable behavior\nAssigning '0' as label")
+                    sc_labels_init[counter] = 0
+            except DymolaException as ex:
+                print(f"({n_proc}): Error -" + str(ex))
+
+            # Dynamic simulation
+            try:
+                _dyn_sim_out = f"{_model_package}_dsres_{counter}"
+                res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000, pf_modifier)}",
+                    startTime = _startTime,
+                    stopTime = _stopTime,
+                    numberOfIntervals = _numberOfIntervals,
+                    method = _method,
+                    tolerance = _tolerance,
+                    resultFile = _dyn_sim_out)
+                if res_dyn_sim:
+                    print(f"({n_proc}): {'Simulation completed':<60} ({counter}/{total})")
+                    res_imp_cond = dymolaInstance.importInitial(os.path.join(_working_directory, 'dsfinal.txt'))
+                else:
+                    res_imp_cond = False
+
+            except DymolaException as ex:
+                print(f"({n_proc}): Error -" + str(ex))
+
+            # Final linearization
+            try:
+                if res_dyn_sim and res_imp_cond:
+
+                    _final_lin_out = f"{_model_package}_dslin_final_{counter}"
+
+                    res_fin_lin = dymolaInstance.linearizeModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}",
+                        startTime = _startTime,
+                        stopTime = _stopTime,
+                        numberOfIntervals = _numberOfIntervals,
+                        method = _method,
+                        tolerance = _tolerance,
+                        resultFile = _final_lin_out)
+
+                    if res_fin_lin:
+                        print(f"({n_proc}): {'Linearization at final simulation conditions successful':<60} ({counter}/{total})")
+                        # Reading ABCD matrices
+                        A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD")
+                        A = dymolaInstance.readMatrix(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
+
+                        # Getting system eigenvalues at initialization
+                        eigs_scenario = sl.eig(A)[0]
+                        np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_sc_{counter}.npy"), eigs_scenario)
+
+                        sc_labels_final[counter] = label_scenario(A)
+                        print(sc_labels_final[counter])
+                        print(f"({n_proc}): {'Saved eigenvalues and labels at final state':<60} ({counter}/{total})")
+            except DymolaException as ex:
+                print(f"({n_proc}): Error - " + str(ex))
+
+            if counter == 10:
+                break
+            counter += 1
+        break
+
+    sc_keys = sc_labels_final.keys()
+
+    sc_label_df_init = pd.DataFrame(index = sc_keys, columns = ["Label"])
+    sc_label_df_init["Label"] = [sc_labels_init[x] for x in sc_keys]
+    sc_label_df_init.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_sc.csv"))
+
+    sc_label_df_final = pd.DataFrame(index = sc_keys, columns = ["Label"])
+    sc_label_df_final["Label"] = [sc_labels_final[x] for x in sc_keys]
+    sc_label_df_final.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_final.csv"))
+
+    if dymolaInstance is not None:
+        dymolaInstance.close()
+        dymolaInstance = None

@@ -1,30 +1,31 @@
 within IEEE14.PF_Data.Machines_Data;
 record PF_Machines_best_00024
 extends IEEE14.PF_Data.Machines_Data.Machines_Template(
-PG1 = (67.7297821),
-QG1 = (-18.4813361),
-PG2 = (40.0000000),
-QG2 = (24.4780514),
-PG3 = (40.0000000),
-QG3 = (11.8673454),
-PG4 = (30.0000000),
-QG4 = (16.4702531),
-PG5 = (35.0000000),
-QG5 = (5.9425075));
 
 // MACHINE: '1_1'
 // Bus: BUS1'
+PG1 = (67.0303993),
+QG1 = (-18.3170089),
 
 // MACHINE: '2_1'
 // Bus: BUS2'
+PG2 = (40.0000000),
+QG2 = (24.0300115),
 
 // MACHINE: '3_1'
 // Bus: BUS3'
+PG3 = (40.0000000),
+QG3 = (11.8265521),
 
 // MACHINE: '6_1'
 // Bus: BUS6'
+PG4 = (30.0000000),
+QG4 = (16.4333420),
 
 // MACHINE: '8_1'
 // Bus: BUS8'
+PG5 = (35.0000000),
+QG5 = (5.8657428)
 
+);
 end PF_Machines_best_00024;
