@@ -173,10 +173,6 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
         except DymolaException as ex:
             print("Error: " + str(ex))
 
-        # Remove after debugging
-        if n == 1:
-            break
-
     # Closing dymola instance
     dymolaInstance.close()
     dymolaInstance = None

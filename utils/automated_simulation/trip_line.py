@@ -1,4 +1,4 @@
-def trip_line(model_name, scenario, pf_modifier):
+def trip_line(model_name, scenario):
     '''
     Description:
 

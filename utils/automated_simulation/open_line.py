@@ -1,4 +1,4 @@
-def open_line(model_name, scenario, simulation_time, line_reclosing_time, pf_modifier):
+def open_line(model_name, scenario, simulation_time, line_reclosing_time):
     '''
     Description:
 
@@ -28,4 +28,4 @@ def open_line(model_name, scenario, simulation_time, line_reclosing_time, pf_mod
             t_final = t_initial + line_reclosing_time
             modifiers.append("{l}.t1 = {t1:.3f}, {l}.t2 = {t2:.3f}, {l}.opening = 2".format(l = line, t1 = t_initial, t2 = t_final))
 
-        return str(model_name + "(" + pf_modifier + ", " + ", ".join(modifiers) + ")")
+        return str(model_name + "(" + ", ".join(modifiers) + ")")

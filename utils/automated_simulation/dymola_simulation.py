@@ -79,10 +79,6 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     result = dymolaInstance.openModel(_openipsl_path)
     if result: print(f"({n_proc}): Library opened")
 
-    # Opening model
-    result = dymolaInstance.openModel(path = _model_path, changeDirectory = False)
-    if result: print(f"({n_proc}): Model opened successfully")
-
     # Changing working directory (removing content or creating it)
     if os.path.exists(_working_directory):
         # Removing existing working directory
@@ -101,9 +97,6 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
     # Executing special commands to speed up execution time
     dymolaInstance.ExecuteCommand("Advanced.TranslationInCommandLog = true")
-    if _method == 'dassl':
-        dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
-
     dymolaInstance.ExecuteCommand(f"Advanced.NumberOfCores = {_n_cores}")
 
     n_pf = len(pf_list)
@@ -115,8 +108,8 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
 
     # Containers for the labels (at initial and final simulation time, respectively)
-    sc_labels_init = dict.fromkeys(range(1, 4))
-    sc_labels_final = dict.fromkeys(range(1, 4))
+    sc_labels_init = dict.fromkeys(range(1, 6))
+    sc_labels_final = dict.fromkeys(range(1, 6))
 
     counter = 1;
 
@@ -128,45 +121,50 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
         pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
-        print(pf_name)
+        print(f"({n_proc}): Simulating power flow {pf_name:<20} ({counter}/{total})")
+
+        # Opening raw text file of the '.mo' file
+        model_mo = open(_mo_model_path, "r")
+        model_mo_data = model_mo.read()
+
+        # Finding the power flow record declaration via regex
+        _pf_regex = re.compile(r'pf\(redeclare record PowerFlow =\n* \s*\w*.PF_Data.PF(?:_\w+)*_\d{5}\)')
+        _match = re.findall(_pf_regex, model_mo_data)
+
+        # Replacing the declaration with the corresponding power flow
+        model_mo_data = model_mo_data.replace(_match[0], pf_modifier)
+        model_mo = open(_mo_model_path, "w+")
+        model_mo.write(model_mo_data)
+        model_mo.close()
+
+        # Opening model
+        res_open = dymolaInstance.openModel(path = _model_path, changeDirectory = False)
+        if res_open: print(f"({n_proc}): Model opened successfully")
 
         for scenario in scenarios:
             # Initial linearization
             try:
-                _init_lin_out = f"{_model_package}_dslin_init_{counter}"
-                # print(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}")
-                # break
-                # res_trans = dymolaInstance.translateModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}")
-                # if res_trans: print("Model translated")
-                res_init_lin = dymolaInstance.linearizeModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}",
-                    startTime = 0.0,
-                    stopTime = 0.0,
-                    fixedstepsize = _fixedstepsize,
-                    resultFile = _init_lin_out)
-                if res_init_lin:
-
-                    # Reading ABCD matrices
-                    A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _init_lin_out) + '.mat', "ABCD")
-                    A = dymolaInstance.readMatrix(os.path.join(_working_directory, _init_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
-
-                    # Getting and saving system eigenvalues at initialization
-                    eigs_scenario = sl.eig(A)[0]
-                    np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
-
-                    sc_labels_init[counter] = label_scenario(A)
-                    print(sc_labels_init[counter])
-                    print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{total})")
-                else:
-                    print(f"({n_proc}): Initial linearization failed. It might be due to unstable behavior\nAssigning '0' as label")
-                    sc_labels_init[counter] = 0
+                ss = dymolaInstance.ExecuteCommand(f"Modelica_LinearSystems2.Utilities.Import.linearize2(\"{_model_package}.{trip_line(_model_name, scenario)}\")")
+                # # Extracting 'A' matrix from array
+                A = np.array(ss['A'])
+                eigs_scenario = sl.eig(A)[0]
+                # Saving eigenvalues
+                np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
+                print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{total})")
+                # Evaluating system small-signal stability using eigenvalues
+                sc_labels_init[counter] = label_scenario(A)
             except DymolaException as ex:
                 print(f"({n_proc}): Error -" + str(ex))
+                print(f"({n_proc}): Initial linearization failed. It might be due to unstable behavior\nAssigning '0' as label")
+                sc_labels_init[counter] = 0
 
             # Dynamic simulation
             try:
-                dymolaInstance.ExecuteCommand("closeModel()")
+                # Disabling DAE solver: it leads to numerical problems
+                if _method == 'dassl':
+                    dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
                 _dyn_sim_out = f"{_model_package}_dsres_{counter}"
-                res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000, pf_modifier)}",
+                res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000)}",
                     startTime = _startTime,
                     stopTime = _stopTime,
                     numberOfIntervals = _numberOfIntervals,
@@ -175,22 +173,19 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                     resultFile = _dyn_sim_out)
                 if res_dyn_sim:
                     print(f"({n_proc}): {'Simulation completed':<60} ({counter}/{total})")
-                    res_imp_cond = dymolaInstance.importInitial(os.path.join(_working_directory, 'dsfinal.txt'))
-                else:
-                    res_imp_cond = False
-
             except DymolaException as ex:
                 print(f"({n_proc}): Error -" + str(ex))
 
             # Final linearization
             try:
-                dymolaInstance.ExecuteCommand("closeModel()")
-                if res_dyn_sim and res_imp_cond:
-                    dymolaInstance.ExecuteCommand("closeModel()")
-                    # res_trans = dymolaInstance.translateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000, pf_modifier)}")
-                    _final_lin_out = f"{_model_package}_dslin_final_{counter}"
+                if _method == 'dassl':
+                    dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = false")
+                if res_dyn_sim:
+                    # Importing final conditions as initial conditions for linearization
+                    res_imp_cond = dymolaInstance.importInitial(os.path.join(_working_directory, 'dsfinal.txt'))
 
-                    res_fin_lin = dymolaInstance.linearizeModel(f"{_model_package}.{_model_name}",
+                    _final_lin_out = f"{_model_package}_dslin_final_{counter}"
+                    res_fin_lin = dymolaInstance.linearizeModel(f"{_model_package}.{trip_line(_model_name, scenario)}",
                         startTime = _startTime,
                         stopTime = _stopTime,
                         numberOfIntervals = _numberOfIntervals,
@@ -203,24 +198,32 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                         # Reading ABCD matrices
                         A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD")
                         A = dymolaInstance.readMatrix(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
+                        A = np.array(A)
 
-                        # print(A.shape)
-
-                        # Getting system eigenvalues at initialization
+                        # Getting system eigenvalues at final state
                         eigs_scenario = sl.eig(A)[0]
+                        # Saving eigenvalues
                         np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_sc_{counter}.npy"), eigs_scenario)
 
+                        # Computing label at final state
                         sc_labels_final[counter] = label_scenario(A)
-                        print(sc_labels_final[counter])
+
                         print(f"({n_proc}): {'Saved eigenvalues and labels at final state':<60} ({counter}/{total})")
+                else:
+                    print(f"({n_proc}): {'I cannot do linearization at final state since time-domain simulation failed':<60} ({counter}/{total})")
             except DymolaException as ex:
                 print(f"({n_proc}): Error - " + str(ex))
-            break
-        if counter == 2:
-                break
-        counter += 1
-        # break
 
+        # Closing Dymola active model
+        dymolaInstance.ExecuteCommand("closeModel()")
+        counter += 1
+
+    # Closing dymola instance
+    if dymolaInstance is not None:
+        dymolaInstance.close()
+        dymolaInstance = None
+
+    # Saving labels of each scenario
     sc_keys = sc_labels_final.keys()
 
     sc_label_df_init = pd.DataFrame(index = sc_keys, columns = ["Label"])

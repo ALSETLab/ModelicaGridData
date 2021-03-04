@@ -49,5 +49,5 @@ stopTime: 5.0
 numberOfIntervals: 1000
 method: 'dassl'
 tolerance: 0.0001 # do not pass in scientific format! (1e-7) will generate an error
-fixedstepsize: 0.0 # for fixed step solver
+fixedstepsize: 0.001 # for fixed step solver
 # resultFile: 'default'

@@ -7,7 +7,7 @@ def label_scenario(A, verbose = False):
 
 
     '''
-    
+
     EPS = np.finfo(float).eps
 
     # Computing eigenvalues of the given `A` matrix
@@ -21,7 +21,8 @@ def label_scenario(A, verbose = False):
     if verbose: print(f"dmp_ratio: {dmp_ratio.shape}")
 
     # Indices of the eigenvalues closer to the origin (irrelevant for power system small-signal stability analysis)
-    ind = [c for c, val in enumerate(np.real(eigs)) if val == np.min(abs(np.real(eigs)))]
+    # ind = [c for c, val in enumerate(np.real(eigs)) if val == np.min(abs(np.real(eigs)))]
+    ind = [c for c, val in enumerate(np.real(eigs)) if abs(val) <= 1e-6]
     if verbose: print(ind)
 
     # Removing these eigenvalues from the damping ratio array
