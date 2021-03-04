@@ -79,10 +79,6 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     result = dymolaInstance.openModel(_openipsl_path)
     if result: print(f"({n_proc}): Library opened")
 
-    # Opening model
-    result = dymolaInstance.openModel(_model_path)
-    if result: print(f"({n_proc}): Model opened successfully")
-
     # Changing working directory (removing content or creating it)
     if os.path.exists(_working_directory):
         # Removing existing working directory
@@ -133,13 +129,31 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
 
         # Constructing `pf_path` and `pf_modifier`
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
-        pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
+        pf_modifier = f"pf(redeclare record PowerFlow =\n" + " "*8 + f"{pf_path})"
 
         print(f"({n_proc}): Simulating power flow {pf_name:<20} ({n + 1}/{total})")
 
+        # Opening raw text file of the '.mo' file
+        model_mo = open(_mo_model_path, "r")
+        model_mo_data = model_mo.read()
+
+        # Finding the power flow record declaration via regex
+        _pf_regex = re.compile(r'pf\(redeclare record PowerFlow =\n* \s*\w*.PF_Data.PF(?:_\w+)*_\d{5}\)')
+        _match = re.findall(_pf_regex, model_mo_data)
+
+        # Replacing the declaration with the corresponding power flow
+        model_mo_data = model_mo_data.replace(_match[0], pf_modifier)
+        model_mo = open(_mo_model_path, "w+")
+        model_mo.write(model_mo_data)
+        model_mo.close()
+
+        # Opening model
+        result = dymolaInstance.openModel(path = _model_path, changeDirectory = False)
+        if result: print(f"({n_proc}): Model opened successfully")
+
         try:
-            # Simulating model with different
-            result = dymolaInstance.simulateModel(f"{_model_package}.{_model_name}({pf_modifier})",
+            # Simulating model with different power flow
+            result = dymolaInstance.simulateModel(f"{_model_package}.{_model_name}",
                 stopTime = _stopTime,
                 resultFile = f"{_model_package}_{pf_name}",
                 numberOfIntervals = _numberOfIntervals,
@@ -153,12 +167,25 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
                 print(f"({n_proc}): Simulation fails for {pf_name}")
                 pf_fail.append(pf_name)
 
+            # Closing active model for simulation
+            dymolaInstance.ExecuteCommand("closeModel()")
+
         except DymolaException as ex:
             print("Error: " + str(ex))
+
+        # Remove after debugging
+        if n == 1:
+            break
 
     # Closing dymola instance
     dymolaInstance.close()
     dymolaInstance = None
+
+    # Remove all files but the '.mat' files
+    for file_object in os.listdir(_working_directory):
+        file_object_path = os.path.join(_working_directory, file_object)
+        if not file_object_path.endswith(".mat"):
+            os.remove(file_object_path)
 
     ##################################################################
     # Validating power flows
@@ -218,11 +245,11 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     ##################################################################
     # Remove all `.mat` files from working directory: they are useless
     ##################################################################
-    print(f"({n_proc}): Removing all '.mat' files from current working directory")
-
-    for file_object in os.listdir(_working_directory):
-        file_object_path = os.path.join(_working_directory, file_object)
-        if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
-            os.unlink(file_object_path)
-        else:
-            shutil.rmtree(file_object_path)
+    # print(f"({n_proc}): Removing all '.mat' files from current working directory")
+    #
+    # for file_object in os.listdir(_working_directory):
+    #     file_object_path = os.path.join(_working_directory, file_object)
+    #     if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
+    #         os.unlink(file_object_path)
+    #     else:
+    #         shutil.rmtree(file_object_path)

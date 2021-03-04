@@ -326,15 +326,15 @@ if __name__ == "__main__":
                 for np in range(_n_proc):
                     if _tool == 'dymola':
                         if _n_proc == 1:
-                            # dymola_validation(pf_dist, _data_path, val_params, np + 1)
-                            apfun = p.apply_async(dymola_validation,
-                                args = (pf_dist, _data_path, val_params, np + 1, ))
-                            process.append(apfun)
+                            dymola_validation(pf_dist, _data_path, val_params, np + 1)
+                            # apfun = p.apply_async(dymola_validation,
+                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
                         else:
-                            # dymola_validation(pf_dist, _data_path, val_params, np + 1)
-                            apfun = p.apply_async(dymola_validation,
-                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
-                            process.append(apfun)
+                            dymola_validation(pf_dist, _data_path, val_params, np + 1)
+                            # apfun = p.apply_async(dymola_validation,
+                            #     args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
                             # om_validation(pf_dist, _data_path, val_params, np + 1)

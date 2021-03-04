@@ -164,11 +164,11 @@ def om_validation(pf_list, data_path, val_params, n_proc):
             print(f"({n_proc}): Simulation successful for power flow {pf_name}")
             pf_succ.append(pf_name)
 
-        # Remove all files but the '.mat' files
-        for file_object in os.listdir(_working_directory):
-            file_object_path = os.path.join(_working_directory, file_object)
-            if not file_object_path.endswith(".mat"):
-                os.remove(file_object_path)
+    # Remove all files but the '.mat' files
+    for file_object in os.listdir(_working_directory):
+        file_object_path = os.path.join(_working_directory, file_object)
+        if not file_object_path.endswith(".mat"):
+            os.remove(file_object_path)
 
     ##########################################################################
     ################### VALIDATING POWER FLOWS ###############################

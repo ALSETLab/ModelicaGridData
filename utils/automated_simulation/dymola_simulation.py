@@ -80,7 +80,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     if result: print(f"({n_proc}): Library opened")
 
     # Opening model
-    result = dymolaInstance.openModel(_model_path)
+    result = dymolaInstance.openModel(path = _model_path, changeDirectory = False)
     if result: print(f"({n_proc}): Model opened successfully")
 
     # Changing working directory (removing content or creating it)

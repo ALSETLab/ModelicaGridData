@@ -4,12 +4,12 @@ model IEEE14_Base_Case
  inner OpenIPSL.Electrical.SystemBase SysData(fn=60)
  annotation (Placement(transformation(extent={{-116,76},{-78,96}})));
 
- OpenIPSL.Electrical.Buses.Bus    Bus_02(
+ OpenIPSL.Electrical.Buses.Bus Bus_02(
    V_0=pf.powerflow.bus.V2,
    angle_0=pf.powerflow.bus.A2,
     V_b=69)
          annotation (Placement(transformation(extent={{-70,-82},{-56,-68}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_01(
+ OpenIPSL.Electrical.Buses.Bus Bus_01(
    V_0=pf.powerflow.bus.V1,
    angle_0=pf.powerflow.bus.A1,
     V_b=69)
@@ -22,7 +22,7 @@ model IEEE14_Base_Case
     extent={{-10,-10},{10,10}},
     rotation=90,
     origin={-56,-46})));
- OpenIPSL.Electrical.Buses.Bus    Bus_05(
+ OpenIPSL.Electrical.Buses.Bus Bus_05(
    V_0=pf.powerflow.bus.V5,
    angle_0=pf.powerflow.bus.A5,
     V_b=69)
@@ -48,7 +48,7 @@ model IEEE14_Base_Case
    G=0,
    B=0.0219)
    annotation (Placement(transformation(extent={{-46,-86},{-26,-66}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_03(
+ OpenIPSL.Electrical.Buses.Bus Bus_03(
    V_0=pf.powerflow.bus.V3,
    angle_0=pf.powerflow.bus.A3,
     V_b=69)
@@ -63,7 +63,7 @@ model IEEE14_Base_Case
    t1=50,
    d_t=50)
    annotation (Placement(transformation(extent={{-36,-112},{-26,-102}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_04(
+ OpenIPSL.Electrical.Buses.Bus Bus_04(
    V_0=pf.powerflow.bus.V4,
    angle_0=pf.powerflow.bus.A4,
     V_b=69)
@@ -121,7 +121,7 @@ model IEEE14_Base_Case
     extent={{-10,-10},{10,10}},
     rotation=90,
     origin={8,-46})));
- OpenIPSL.Electrical.Buses.Bus    Bus_06(
+ OpenIPSL.Electrical.Buses.Bus Bus_06(
    V_0=pf.powerflow.bus.V6,
    angle_0=pf.powerflow.bus.A6,
     V_b=138)
@@ -154,12 +154,12 @@ model IEEE14_Base_Case
     extent={{-5,-5},{5,5}},
     rotation=0,
     origin={-35,17})));
- OpenIPSL.Electrical.Buses.Bus    Bus_07(
+ OpenIPSL.Electrical.Buses.Bus Bus_07(
    V_0=pf.powerflow.bus.V7,
    angle_0=pf.powerflow.bus.A7,
     V_b=138)
          annotation (Placement(transformation(extent={{54,-18},{66,-6}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_09(
+ OpenIPSL.Electrical.Buses.Bus Bus_09(
    V_0=pf.powerflow.bus.V9,
    angle_0=pf.powerflow.bus.A9,
     V_b=138)
@@ -212,7 +212,7 @@ model IEEE14_Base_Case
     extent={{-6,-4},{6,4}},
     rotation=270,
     origin={76,-32})));
- OpenIPSL.Electrical.Buses.Bus    Bus_08(
+ OpenIPSL.Electrical.Buses.Bus Bus_08(
    V_0=pf.powerflow.bus.V8,
    angle_0=pf.powerflow.bus.A8,
     V_b=69)
@@ -229,12 +229,12 @@ model IEEE14_Base_Case
     extent={{-5,-5},{5,5}},
     rotation=0,
     origin={99,-11})));
- OpenIPSL.Electrical.Buses.Bus    Bus_14(
+ OpenIPSL.Electrical.Buses.Bus Bus_14(
    V_0=pf.powerflow.bus.V14,
    angle_0=pf.powerflow.bus.A14,
    V_b=138000)
          annotation (Placement(transformation(extent={{80,66},{92,78}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_10(
+ OpenIPSL.Electrical.Buses.Bus Bus_10(
    V_0=pf.powerflow.bus.V10,
    angle_0=pf.powerflow.bus.A10,
     V_b=138)
@@ -279,7 +279,7 @@ model IEEE14_Base_Case
     extent={{-5,-5},{5,5}},
     rotation=90,
     origin={109,73})));
- OpenIPSL.Electrical.Buses.Bus    Bus_11(
+ OpenIPSL.Electrical.Buses.Bus Bus_11(
    V_0=pf.powerflow.bus.V11,
    angle_0=pf.powerflow.bus.A11,
     V_b=138)
@@ -294,7 +294,7 @@ model IEEE14_Base_Case
    X=0.19207,
    G=0,
    B=0) annotation (Placement(transformation(extent={{20,34},{40,54}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_12(
+ OpenIPSL.Electrical.Buses.Bus Bus_12(
    V_0=pf.powerflow.bus.V12,
    angle_0=pf.powerflow.bus.A12,
     V_b=138)
@@ -304,7 +304,7 @@ model IEEE14_Base_Case
    X=0.25581,
    G=0,
    B=0) annotation (Placement(transformation(extent={{-54,26},{-34,46}})));
- OpenIPSL.Electrical.Buses.Bus    Bus_13(
+ OpenIPSL.Electrical.Buses.Bus Bus_13(
    V_0=pf.powerflow.bus.V13,
    angle_0=pf.powerflow.bus.A13,
     V_b=138)
@@ -384,7 +384,7 @@ model IEEE14_Base_Case
     rotation=90,
     origin={-26,60})));
   IEEE14.PF_Data.Power_Flow pf(redeclare record PowerFlow =
-        PF_Data.PF_best_00007)
+        IEEE14.PF_Data.PF_worst_00009)
     annotation (Placement(transformation(extent={{-102,54},{-82,74}})));
   IEEE14.Generating_Units.Gen_Bus_3 gen_Bus_3_1(
     V_b=69,
@@ -437,17 +437,16 @@ equation
   connect(pwLine12.p, Bus_12.p)
     annotation (Line(points={{-46,59},{-46,41},{-69,41}}, color={0,0,255}));
   connect(pwLine11.p, Bus_12.p)
-    annotation (Line(points={{-53,36},{-69,36},{-69,41}}, color={0,0,255}));
+    annotation (Line(points={{-53,36},{-60,36},{-60,41},{-69,41}},
+                                                          color={0,0,255}));
   connect(LOAD_12.p, Bus_12.p) annotation (Line(points={{-91,28},{-90,28},{-90,
           41},{-69,41}}, color={0,0,255}));
   connect(pwLine15.n, Bus_13.p)
     annotation (Line(points={{-26,69},{-26,87},{-17,87}}, color={0,0,255}));
   connect(pwLine12.n, Bus_13.p)
     annotation (Line(points={{-46,77},{-46,87},{-17,87}}, color={0,0,255}));
-  connect(LOAD_13.p, Bus_13.p) annotation (Line(points={{4,89},{4,90},{-17,90},
+  connect(LOAD_13.p, Bus_13.p) annotation (Line(points={{4,89},{4,88},{-17,88},
           {-17,87}}, color={0,0,255}));
-  connect(pwLine13.n, Bus_13.p)
-    annotation (Line(points={{23,80},{-17,80},{-17,87}}, color={0,0,255}));
   connect(LOAD_06.p, Bus_06.p) annotation (Line(points={{-35,22},{-34,22},{-34,
           32},{-20,32}}, color={0,0,255}));
   connect(pwLine11.n, Bus_06.p)
@@ -552,6 +551,8 @@ equation
           96,74},{94,74},{94,72},{86,72}}, color={0,0,255}));
   connect(LOAD_14.p, Bus_14.p) annotation (Line(points={{104,73},{100,73},{100,
           72},{86,72}}, color={0,0,255}));
+  connect(Bus_13.p, pwLine13.n) annotation (Line(points={{-17,87},{-6,87},{-6,
+          80},{23,80}}, color={0,0,255}));
  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
      {120,100}})),
         Diagram(coordinateSystem(preserveAspectRatio=false,
@@ -569,16 +570,8 @@ equation
    lineColor={28,108,200},
    textString="Bus_08"),
     Text(
-   extent={{70,44},{104,44}},
-   lineColor={28,108,200},
-   textString="Bus_14"),
-    Text(
    extent={{-36,72},{-2,72}},
    lineColor={28,108,200},
-   textString="Bus_13"),
-    Text(
-   extent={{70,60},{104,60}},
-   lineColor={28,108,200},
-   textString="Bus_14")}),
+   textString="Bus_13")}),
    experiment(StopTime=5));
 end IEEE14_Base_Case;
