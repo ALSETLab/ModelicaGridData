@@ -128,10 +128,16 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
         pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
+        print(pf_name)
+
         for scenario in scenarios:
             # Initial linearization
             try:
                 _init_lin_out = f"{_model_package}_dslin_init_{counter}"
+                # print(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}")
+                # break
+                # res_trans = dymolaInstance.translateModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}")
+                # if res_trans: print("Model translated")
                 res_init_lin = dymolaInstance.linearizeModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}",
                     startTime = 0.0,
                     stopTime = 0.0,
@@ -143,12 +149,10 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                     A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _init_lin_out) + '.mat', "ABCD")
                     A = dymolaInstance.readMatrix(os.path.join(_working_directory, _init_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
 
-                    # Getting system eigenvalues at initialization
+                    # Getting and saving system eigenvalues at initialization
                     eigs_scenario = sl.eig(A)[0]
-                    print(eigs_scenario)
                     np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
 
-                    #
                     sc_labels_init[counter] = label_scenario(A)
                     print(sc_labels_init[counter])
                     print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{total})")
@@ -160,6 +164,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
             # Dynamic simulation
             try:
+                dymolaInstance.ExecuteCommand("closeModel()")
                 _dyn_sim_out = f"{_model_package}_dsres_{counter}"
                 res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000, pf_modifier)}",
                     startTime = _startTime,
@@ -179,11 +184,13 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
             # Final linearization
             try:
+                dymolaInstance.ExecuteCommand("closeModel()")
                 if res_dyn_sim and res_imp_cond:
-
+                    dymolaInstance.ExecuteCommand("closeModel()")
+                    # res_trans = dymolaInstance.translateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000, pf_modifier)}")
                     _final_lin_out = f"{_model_package}_dslin_final_{counter}"
 
-                    res_fin_lin = dymolaInstance.linearizeModel(f"{_model_package}.{trip_line(_model_name, scenario, pf_modifier)}",
+                    res_fin_lin = dymolaInstance.linearizeModel(f"{_model_package}.{_model_name}",
                         startTime = _startTime,
                         stopTime = _stopTime,
                         numberOfIntervals = _numberOfIntervals,
@@ -197,6 +204,8 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                         A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD")
                         A = dymolaInstance.readMatrix(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
 
+                        # print(A.shape)
+
                         # Getting system eigenvalues at initialization
                         eigs_scenario = sl.eig(A)[0]
                         np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_sc_{counter}.npy"), eigs_scenario)
@@ -206,11 +215,11 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                         print(f"({n_proc}): {'Saved eigenvalues and labels at final state':<60} ({counter}/{total})")
             except DymolaException as ex:
                 print(f"({n_proc}): Error - " + str(ex))
-
-            if counter == 10:
+            break
+        if counter == 2:
                 break
-            counter += 1
-        break
+        counter += 1
+        # break
 
     sc_keys = sc_labels_final.keys()
 
