@@ -17,8 +17,11 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     '''
 
     '''
+    # Extracting parameters from '.yaml' file
     _version = val_params['version']
     _model_path = os.path.abspath(val_params['model_path'])
+    _model_package = val_params['model_package']
+    _model_name = val_params['model_name']
 
     if _version == '2.0.0':
         print("OpenIPSL version 2.0.0 not compatible with this toolbox and OM")
@@ -33,15 +36,12 @@ def om_validation(pf_list, data_path, val_params, n_proc):
 
     # Creating working directory
     if platform.system() == 'Windows':
-        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_windows']), f"proc_{n_proc}")
+        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_windows']), _model_package, f"proc_{n_proc}")
         _openipsl_path = os.path.abspath(val_params['openipsl_path_windows_old'])
     elif platform.system() == 'Linux':
-        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_linux']), f"proc_{n_proc}")
+        _working_directory = os.path.join(os.path.abspath(val_params['om_working_directory_linux']), _model_package, f"proc_{n_proc}")
         _openipsl_path = os.path.abspath(val_params['openipsl_path_linux_old'])
 
-    # Extracting parameters from '.yaml' file
-    _model_package = val_params['model_package']
-    _model_name = val_params['model_name']
 
     print(f"({n_proc}): {'Working directory:':<30} {_working_directory}")
     print(f"({n_proc}): {'OpenIPSL path:':<30} {_openipsl_path}")
@@ -144,7 +144,7 @@ def om_validation(pf_list, data_path, val_params, n_proc):
             raise ValueError(f"({n_proc}): Working directory could not be changed to {_working_directory}")
 
         # Performance enhancing statements
-        omc.sendExpression(f"setCommandLineOptions(\"-n={_n_cores}\")") # using only one core
+        omc.sendExpression(f"setCommandLineOptions(\"-n={_n_cores}\")") # number of cores
         if _method == 'dassl':
             omc.sendExpression("setCommandLineOptions(\"--daeMode\")")
 
@@ -218,7 +218,7 @@ def om_validation(pf_list, data_path, val_params, n_proc):
     # Remove all `.mat` files from working directory: they are useless
     ##################################################################
     # Commented out for debugging
-    print(f"\n({n_proc}): Removing all '.mat' files from current working directory")
+    print(f"\n({n_proc}): Removing all `.mat` files from current working directory")
 
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)

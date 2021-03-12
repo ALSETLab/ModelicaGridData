@@ -46,7 +46,7 @@ openipsl_path_linux_new: '/home/sergio/Desktop/Parallels Shared Folders/Home/Doc
 # ===========================
 startTime: 0.0
 stopTime: 120
-numberOfIntervals: 1000
+numberOfIntervals: 2500
 method: 'dassl'
 tolerance: 0.0001 # do not pass in scientific format! (1e-7) will generate an error
 fixedstepsize: 0.001 # for fixed step solver

@@ -14,6 +14,7 @@ from .distribute_scenarios import *
 from .generate_component_list import *
 from .generate_contingencies import *
 from .randomize_scenarios import *
+from .om_simulation import *
 
 import numpy as np
 import yaml

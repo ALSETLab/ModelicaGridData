@@ -108,10 +108,11 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
 
     # Containers for the labels (at initial and final simulation time, respectively)
-    sc_labels_init = dict.fromkeys(range(1, 6))
-    sc_labels_final = dict.fromkeys(range(1, 6))
+    sc_labels_init = dict.fromkeys(range(1, total + 1))
+    sc_labels_final = dict.fromkeys(range(1, total + 1))
 
-    counter = 1;
+    counter = 1
+    counter_pf = 1
 
     for pf in pf_list:
 
@@ -121,7 +122,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
         pf_path = f"{_model_package}.PF_Data.{pf_name}"
         pf_modifier = f"pf(redeclare record PowerFlow = {pf_path})"
 
-        print(f"({n_proc}): Simulating power flow {pf_name:<20} ({counter}/{total})")
+        print(f"({n_proc}): Simulating power flow {pf_name:<20} ({counter_pf}/{n_pf})")
 
         # Opening raw text file of the '.mo' file
         model_mo = open(_mo_model_path, "r")
@@ -213,10 +214,11 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                     print(f"({n_proc}): {'I cannot do linearization at final state since time-domain simulation failed':<60} ({counter}/{total})")
             except DymolaException as ex:
                 print(f"({n_proc}): Error - " + str(ex))
+            counter += 1
 
         # Closing Dymola active model
         dymolaInstance.ExecuteCommand("closeModel()")
-        counter += 1
+        counter_pf += 1
 
     # Closing dymola instance
     if dymolaInstance is not None:
