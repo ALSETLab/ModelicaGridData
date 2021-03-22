@@ -513,7 +513,7 @@ if __name__ == "__main__":
                         else:
                             # dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             apfun = p.apply_async(dymola_simulation,
-                                args = (pf_dist[np], _data_path, sim_params, np + 1, ))
+                                args = (pf_dist[np], scenarios, _data_path, sim_params, np + 1, ))
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
@@ -524,7 +524,7 @@ if __name__ == "__main__":
                         else:
                             # om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             apfun = p.apply_async(om_simulation,
-                                args = (pf_dist[np], _data_path, sim_params, np + 1, ))
+                                args = (pf_dist[np], scenarios, _data_path, sim_params, np + 1, ))
                             process.append(apfun)
                 p.close()
                 p.join()
