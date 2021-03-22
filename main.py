@@ -331,16 +331,16 @@ if __name__ == "__main__":
                             #     args = (pf_dist, _data_path, val_params, np + 1, ))
                             # process.append(apfun)
                         else:
-                            dymola_validation(pf_dist, _data_path, val_params, np + 1)
-                            # apfun = p.apply_async(dymola_validation,
-                            #     args = (pf_dist[np], _data_path, val_params, np + 1, ))
-                            # process.append(apfun)
+                            # dymola_validation(pf_dist, _data_path, val_params, np + 1)
+                            apfun = p.apply_async(dymola_validation,
+                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                            process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
-                            # om_validation(pf_dist, _data_path, val_params, np + 1)
-                            apfun = p.apply_async(om_validation,
-                                args = (pf_dist, _data_path, val_params, np + 1, ))
-                            process.append(apfun)
+                            om_validation(pf_dist, _data_path, val_params, np + 1)
+                            # apfun = p.apply_async(om_validation,
+                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            # process.append(apfun)
                         else:
                             # om_validation(pf_dist, _data_path, val_params, np + 1)
                             apfun = p.apply_async(om_validation,
@@ -516,7 +516,7 @@ if __name__ == "__main__":
                                 args = (pf_dist[np], _data_path, val_params, np + 1, ))
                             process.append(apfun)
                     elif _tool == 'om':
-                        if _n_proc == 1:
+                        if _n_proc == 1:git
                             om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             # apfun = p.apply_async(om_simulation,
                             #     args = (pf_dist, _data_path, val_params, np + 1, ))
