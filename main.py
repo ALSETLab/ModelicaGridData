@@ -508,23 +508,23 @@ if __name__ == "__main__":
                         if _n_proc == 1:
                             dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             # apfun = p.apply_async(dymola_simulation,
-                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            #     args = (pf_dist, _data_path, sim_params, np + 1, ))
                             # process.append(apfun)
                         else:
                             # dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             apfun = p.apply_async(dymola_simulation,
-                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                                args = (pf_dist[np], _data_path, sim_params, np + 1, ))
                             process.append(apfun)
                     elif _tool == 'om':
-                        if _n_proc == 1:git
+                        if _n_proc == 1:
                             om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             # apfun = p.apply_async(om_simulation,
-                            #     args = (pf_dist, _data_path, val_params, np + 1, ))
+                            #     args = (pf_dist, _data_path, sim_params, np + 1, ))
                             # process.append(apfun)
                         else:
                             # om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             apfun = p.apply_async(om_simulation,
-                                args = (pf_dist[np], _data_path, val_params, np + 1, ))
+                                args = (pf_dist[np], _data_path, sim_params, np + 1, ))
                             process.append(apfun)
                 p.close()
                 p.join()
