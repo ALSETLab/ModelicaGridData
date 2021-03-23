@@ -384,7 +384,7 @@ model IEEE14_Base_Case
     rotation=90,
     origin={-26,60})));
   IEEE14.PF_Data.Power_Flow pf(redeclare record PowerFlow =
-        IEEE14.PF_Data.PF_worst_00018)
+        IEEE14.PF_Data.PF_load_00016)
     annotation (Placement(transformation(extent={{-102,54},{-82,74}})));
   IEEE14.Generating_Units.Gen_Bus_3 gen_Bus_3_1(
     V_b=69,

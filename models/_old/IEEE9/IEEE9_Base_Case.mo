@@ -232,7 +232,7 @@ model IEEE9_Base_Case
     Q_0=pf.powerflow.loads.QL2)
     annotation (Placement(transformation(extent={{98,-20},{110,-10}})));
   IEEE9.PF_Data.Power_Flow pf(redeclare record PowerFlow =
-        IEEE9.PF_Data.PF_00000)
+        IEEE9.PF_Data.PF_worst_00005)
     annotation (Placement(transformation(extent={{-160,112},{-140,132}})));
 equation
   connect(pSSEGen1_1.pwPin, B2.p)

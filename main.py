@@ -305,6 +305,7 @@ if __name__ == "__main__":
 
                 # Getting power flow list from `PF_Data` directory
                 pf_list = get_pf_files(_data_path)
+                print(pf_list)
 
                 # Distributing scenarios among specified number of processes
                 pf_dist = distribute_scenarios(pf_list, _n_proc)
@@ -326,7 +327,7 @@ if __name__ == "__main__":
                 for np in range(_n_proc):
                     if _tool == 'dymola':
                         if _n_proc == 1:
-                            dymola_validation(pf_dist, _data_path, val_params, np + 1)
+                            dymola_validation(pf_list, _data_path, val_params, np + 1)
                             # apfun = p.apply_async(dymola_validation,
                             #     args = (pf_dist, _data_path, val_params, np + 1, ))
                             # process.append(apfun)
@@ -337,7 +338,7 @@ if __name__ == "__main__":
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
-                            om_validation(pf_dist, _data_path, val_params, np + 1)
+                            om_validation(pf_list, _data_path, val_params, np + 1)
                             # apfun = p.apply_async(om_validation,
                             #     args = (pf_dist, _data_path, val_params, np + 1, ))
                             # process.append(apfun)
@@ -506,7 +507,7 @@ if __name__ == "__main__":
                 for np in range(_n_proc):
                     if _tool == 'dymola':
                         if _n_proc == 1:
-                            dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
+                            dymola_simulation(pf_list, scenarios, _data_path, sim_params, np + 1)
                             # apfun = p.apply_async(dymola_simulation,
                             #     args = (pf_dist, _data_path, sim_params, np + 1, ))
                             # process.append(apfun)
@@ -517,7 +518,7 @@ if __name__ == "__main__":
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
-                            om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
+                            om_simulation(pf_list, scenarios, _data_path, sim_params, np + 1)
                             # apfun = p.apply_async(om_simulation,
                             #     args = (pf_dist, _data_path, sim_params, np + 1, ))
                             # process.append(apfun)
