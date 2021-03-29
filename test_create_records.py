@@ -32,9 +32,9 @@ if __name__ == '__main__':
 
     # Absolute path to the `.mo` file of the model
     data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model_lib, _model))
-
     path_mo_file = os.path.abspath(os.path.join(data_path, f"{_model}_Base_Case.mo"))
 
+    # Creating records for the model
     create_pf_records(_model,
                       path_mo_file,
                       data_path,

@@ -42,33 +42,33 @@ if __name__ == '__main__':
     elif _version == '2.0.0':
         _model_lib = '_new'
 
-# Absolute path to the data directory of the model
-data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model_lib, _model))
+    # Absolute path to the data directory of the model
+    data_path = os.path.abspath(os.path.join(os.getcwd(), "models", _model_lib, _model))
 
-grid = None
+    grid = None
 
-# Grid model in GridCal
-file_handler = FileOpen(os.path.abspath(os.path.join(data_path,
-                                                     "PSSE_Files",
-                                                     f"{_model}_Base_Case.raw")))
+    # Grid model in GridCal
+    file_handler = FileOpen(os.path.abspath(os.path.join(data_path,
+                                                         "PSSE_Files",
+                                                         f"{_model}_Base_Case.raw")))
 
-# Creating grid object
-grid = file_handler.open()
+    # Creating grid object
+    grid = file_handler.open()
 
-# Power flow options
-options = PowerFlowOptions(SolverType.NR,
-                           verbose = True,
-                           initialize_with_existing_solution = False,
-                           multi_core = False,
-                           tolerance = 1e-12,
-                          max_iter = 99,
-                          control_q = ReactivePowerControlMode.Direct)
+    # Power flow options
+    options = PowerFlowOptions(SolverType.NR,
+                               verbose = True,
+                               initialize_with_existing_solution = False,
+                               multi_core = False,
+                               tolerance = 1e-12,
+                              max_iter = 99,
+                              control_q = ReactivePowerControlMode.Direct)
 
-pf = PowerFlowDriver(grid, options)
+    # Power flow driver
+    pf = PowerFlowDriver(grid, options)
+    pf.run()                # running power flow
 
-pf.run()
-
-gridcal2rec(grid = grid, pf = pf, model_name = _model,
-    data_path = data_path,
-    pf_num = 0, export_pf_results = False,
-    is_time_series = False, openipsl_version = _version)
+    gridcal2rec(grid = grid, pf = pf, model_name = _model,
+        data_path = data_path,
+        pf_num = 0, export_pf_results = False,
+        is_time_series = False, openipsl_version = _version)
