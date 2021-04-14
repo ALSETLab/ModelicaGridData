@@ -286,15 +286,12 @@ if __name__ == "__main__":
                     print("Cores to use for simulation not specified")
                     print(f"Setting number of cores to {_n_cores}")
 
-                # Validating number of processes and cores
-                # if _n_proc > (psutil.cpu_count(logical = False) - 1) and _n_proc > 1:
-                #     print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
-                #     print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
-                #     _n_proc = psutil.cpu_count(logical = False) - 1
-                # if _n_cores == psutil.cpu_count(logical = False) and _n_cores > 1:
-                #     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
-                #     _n_cores = 1
-                #     print(f"Setting number of cores to {_n_cores} per process")
+                if _n_proc*_n_cores > (psutil.cpu_count(logical = False) - 1):
+                    print(f"Too many processes/cores. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes/cores")
+                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                    print(f"Setting number of cores to {1}")
+                    _n_proc = psutil.cpu_count(logical = False) - 1
+                    _n_cores = 1
 
                 val_params['version'] = _version
                 val_params['n_cores'] = _n_cores
@@ -305,7 +302,6 @@ if __name__ == "__main__":
 
                 # Getting power flow list from `PF_Data` directory
                 pf_list = get_pf_files(_data_path)
-                print(pf_list)
 
                 # Distributing scenarios among specified number of processes
                 pf_dist = distribute_scenarios(pf_list, _n_proc)
@@ -418,14 +414,12 @@ if __name__ == "__main__":
                     print(f"Setting number of cores to {_n_cores}")
 
                 # Validating number of processes and cores
-                # if _n_proc > (psutil.cpu_count(logical = False) - 1) and _n_proc > 1:
-                #     print(f"Too many processes. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes")
-                #     print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
-                #     _n_proc = psutil.cpu_count(logical = False) - 1
-                # if _n_cores == psutil.cpu_count(logical = False) and _n_cores > 1:
-                #     print(f"Too many cores ({_n_cores}) for each simulation. Execution time might not be improved")
-                #     _n_cores = 1
-                #     print(f"Setting number of cores to {_n_cores} per process")
+                if _n_proc*_n_cores > (psutil.cpu_count(logical = False) - 1):
+                    print(f"Too many processes/cores. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes/cores")
+                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                    print(f"Setting number of cores to {1}")
+                    _n_proc = psutil.cpu_count(logical = False) - 1
+                    _n_cores = 1
 
                 sim_params['version'] = _version
                 sim_params['n_cores'] = _n_cores

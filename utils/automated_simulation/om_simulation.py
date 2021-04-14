@@ -235,9 +235,9 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Evaluating system small-signal stability using eigenvalues
             sc_labels_final[counter] = label_scenario(A)
             counter += 1
-            break
+            break # remove after debugging
         if counter == 2:
-            break
+            break # remove after debugging
         counter_pf +=1
 
     # Closing OM process

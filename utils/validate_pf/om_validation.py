@@ -207,7 +207,7 @@ def om_validation(pf_list, data_path, val_params, n_proc):
                 for file in pf_path:
                     if os.path.isfile(pf_path[file]):
                         os.unlink(pf_path[file])
-                break
+                break # breaking the loop if the threshold is met
 
         if pf_converged: print(f"({n_proc}): Power flow {pf_name} converged")
 
