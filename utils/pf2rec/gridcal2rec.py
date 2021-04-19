@@ -1,6 +1,10 @@
 import os
 import pandas as pd
 import numpy as np
+import re
+
+from GridCal import __version__
+__VERSION = __version__.__GridCal_VERSION__
 
 EPS = np.finfo(float).eps
 
@@ -166,18 +170,35 @@ def _write_single_pf(grid, pf, model_name, data_dirs, pf_num, export_pf_results,
     trafos_result.write(f"record PF_Trafos_{extension_record}\n")
     trafos_result.write(f"extends {model_name}.PF_Data.Trafos_Data.Trafos_Template(\n\n")
 
-    for n_trafo, trafo in enumerate(pf.results.tap_module):
-        trafos_result.write("// TRAFO: '{}'\n".format(br_trafos_name[n_trafo]))
-        trafos_result.write("// From: '{}' - To: '{}'\n".format(br_trafos_from[n_trafo], br_trafos_to[n_trafo]))
-        trafos_result.write("t1_trafo_{n_traf} = {t:.7f},\n".format(n_traf = n_trafo + 1, t = pf.results.tap_module[n_trafo]))
-        if n_trafo == len(br_trafos_index) - 1:
-            trafos_result.write("t2_trafo_{n_traf} = 1.0000000\n\n".format(n_traf = n_trafo + 1))
-        else:
-            trafos_result.write("t2_trafo_{n_traf} = 1.0000000,\n\n".format(n_traf = n_trafo + 1))
+    if re.search(r"3.\d.\d", __VERSION):
+        # Writing tap results for old GridCal versions
+        # since `tap_module` has been renamed as `transformer_tap_module`
+        for n_trafo, trafo in enumerate(pf.results.tap_module):
+            trafos_result.write("// TRAFO: '{}'\n".format(br_trafos_name[n_trafo]))
+            trafos_result.write("// From: '{}' - To: '{}'\n".format(br_trafos_from[n_trafo], br_trafos_to[n_trafo]))
+            trafos_result.write("t1_trafo_{n_traf} = {t:.7f},\n".format(n_traf = n_trafo + 1, t = pf.results.tap_module[n_trafo]))
+            if n_trafo == len(br_trafos_index) - 1:
+                trafos_result.write("t2_trafo_{n_traf} = 1.0000000\n\n".format(n_traf = n_trafo + 1))
+            else:
+                trafos_result.write("t2_trafo_{n_traf} = 1.0000000,\n\n".format(n_traf = n_trafo + 1))
 
-    trafos_result.write(");\n")
-    trafos_result.write(f"end PF_Trafos_{extension_record};")
-    trafos_result.close()
+        trafos_result.write(");\n")
+        trafos_result.write(f"end PF_Trafos_{extension_record};")
+        trafos_result.close()
+    elif re.search(r"4.\d.\d", __VERSION):
+        # Writing tap results for the latest 4.0.0+ GridCal version
+        for n_trafo, trafo in enumerate(pf.results.transformer_tap_module):
+            trafos_result.write("// TRAFO: '{}'\n".format(br_trafos_name[n_trafo]))
+            trafos_result.write("// From: '{}' - To: '{}'\n".format(br_trafos_from[n_trafo], br_trafos_to[n_trafo]))
+            trafos_result.write("t1_trafo_{n_traf} = {t:.7f},\n".format(n_traf = n_trafo + 1, t = pf.results.transformer_tap_module[n_trafo]))
+            if n_trafo == len(br_trafos_index) - 1:
+                trafos_result.write("t2_trafo_{n_traf} = 1.0000000\n\n".format(n_traf = n_trafo + 1))
+            else:
+                trafos_result.write("t2_trafo_{n_traf} = 1.0000000,\n\n".format(n_traf = n_trafo + 1))
+
+        trafos_result.write(");\n")
+        trafos_result.write(f"end PF_Trafos_{extension_record};")
+        trafos_result.close()
 
     ############################################
     ### WRITING GENERATOR POWER FLOW DATA ######
@@ -194,10 +215,14 @@ def _write_single_pf(grid, pf, model_name, data_dirs, pf_num, export_pf_results,
     pf_S_bus_results = pd.DataFrame(columns = [], index = pf.results.bus_names)
 
     # Adding active power to the buses
-    pf_S_bus_results["P [MW]"] = np.real(pf.results.Sbus * grid.Sbase)
-
-    # Adding reactive power to the buses
-    pf_S_bus_results["Q [MVAR]"] = np.imag(pf.results.Sbus * grid.Sbase)
+    if re.search(r"3.\d.\d", __VERSION):
+        pf_S_bus_results["P [MW]"] = np.real(pf.results.Sbus * grid.Sbase)
+        # Adding reactive power to the buses
+        pf_S_bus_results["Q [MVAR]"] = np.imag(pf.results.Sbus * grid.Sbase)
+    elif re.search(r"4.\d.\d", __VERSION):
+        # For version 4 of GridCal, power is already given in MW and MVar
+        pf_S_bus_results["P [MW]"] = np.real(pf.results.Sbus)
+        pf_S_bus_results["Q [MVAR]"] = np.imag(pf.results.Sbus)
 
     # Adding the bus type
     pf_S_bus_results["Bus_Type"] = pf.results.bus_types
