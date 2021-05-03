@@ -62,7 +62,7 @@ if __name__ == '__main__':
                                multi_core = False,
                                tolerance = 1e-12,
                               max_iter = 99,
-                              control_q = ReactivePowerControlMode.Direct)
+                              control_q = ReactivePowerControlMode.NoControl)
 
     # Power flow driver
     pf = PowerFlowDriver(grid, options)
