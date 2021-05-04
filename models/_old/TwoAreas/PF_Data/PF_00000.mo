@@ -2,20 +2,20 @@ within TwoAreas.PF_Data;
 record PF_00000
 extends TwoAreas.PF_Data.Power_Flow_Template;
 
-replaceable record Bus = TwoAreas.PF_Data.Bus_Data.PF_Bus_00000
-constrainedby TwoAreas.PF_Data.Bus_Data.Bus_Template            "Bus power flow results";
+replaceable record Bus = TwoAreas.PF_Data.Bus_Data.PF_Bus_00000 "Bus power flow results"
+constrainedby TwoAreas.PF_Data.Bus_Data.Bus_Template;
 Bus bus;
 
-replaceable record Loads = TwoAreas.PF_Data.Loads_Data.PF_Loads_00000
-constrainedby TwoAreas.PF_Data.Loads_Data.Loads_Template              "Loads power flow results";
+replaceable record Loads = TwoAreas.PF_Data.Loads_Data.PF_Loads_00000 "Loads power flow results"
+constrainedby TwoAreas.PF_Data.Loads_Data.Loads_Template;
 Loads loads;
 
-replaceable record Machines = TwoAreas.PF_Data.Machines_Data.PF_Machines_00000
-constrainedby TwoAreas.PF_Data.Machines_Data.Machines_Template                 "Machine power flow results";
+replaceable record Machines = TwoAreas.PF_Data.Machines_Data.PF_Machines_00000 "Machine power flow results"
+constrainedby TwoAreas.PF_Data.Machines_Data.Machines_Template;
 Machines machines;
 
-replaceable record Trafos = TwoAreas.PF_Data.Trafos_Data.PF_Trafos_00000
-constrainedby TwoAreas.PF_Data.Trafos_Data.Trafos_Template               "Trafos power flow results";
+replaceable record Trafos = TwoAreas.PF_Data.Trafos_Data.PF_Trafos_00000 "Trafos power flow results"
+constrainedby TwoAreas.PF_Data.Trafos_Data.Trafos_Template;
 Trafos trafos;
 
 end PF_00000;
