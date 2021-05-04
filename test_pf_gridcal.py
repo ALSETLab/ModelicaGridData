@@ -7,10 +7,6 @@ import datetime
 import random
 
 from GridCal.Engine import *
-from GridCal.Engine.IO.file_handler import FileOpen
-from GridCal.Engine.Devices.shunt import Shunt
-from GridCal.Engine.Simulations.PowerFlow.time_series_driver import TimeSeries
-from GridCal.Engine.Simulations.PowerFlow.power_flow_driver import PowerFlowDriver
 
 LIST_OF_MODELS = ['AVRI', 'IEEE9', 'IEEE14', 'SMIB', 'TwoAreas']
 
