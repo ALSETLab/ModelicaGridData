@@ -14,22 +14,24 @@ current_year = datetime.datetime.now().year
 def download_nyiso_data(start_year = current_year, destination_folder = os.path.join(os.getcwd(), "data"), verbose = False):
 
     '''
-    DOWNLOAD_NYISO_DATA
+    download_nyiso_data
 
-    This function downloads all the '.csv' files of load forecast and actual load (hourly time-stamp) from the NYISO website from a given start year up to present time. It can be used to update existing files (i.e., does not overwrite pre-existing data). It also organizes the files in Pandas dataframes stored as pickle files (`.pkl`) by region of the New York State grid.
+    This function downloads all the *.csv files of load forecast and actual load (hourly time-stamp) from the NYISO website from a given start year up to present time.
+    It can be used to update existing files (i.e., does not overwrite pre-existing data).
+
+    It also organizes the files in Pandas dataframes stored as pickle files (*.pkl) by region of the New York State grid.
 
     INPUTS:
-    - start_year: year from which the data starts being downloaded. It defaults to current year.
-    - destination_folder: path of the target folder to download the files (relative to the script path). It defaults to "00_Raw_Data". If the folder does not exist,
+    - `start_year`: year from which the data starts being downloaded. It defaults to current year.
+    - `destination_folder`: path of the target folder to download the files (relative to the script path). It defaults to "data". If the folder does not exist,
     the script creates it.
-    - verbose: if 'True', prints verbose statements to show progress of the download and the data organization processes.
+    - `verbose`: if `True`, prints verbose statements to show progress of the download and the data organization processes.
 
     OUTPUTS:
     None.
 
     LAST MODIFICATION DATE:
-
-
+    09/23/2021 by SADR
     '''
 
     ######################################
@@ -348,8 +350,17 @@ def organizing_actual_load_data_per_zone(raw_data_path, write_data_path):
                 if df_aux is not None:
                     df_aux = None
 
-
 def organizing_forecast_data_per_zone(raw_data_path, write_data_path):
+    '''
+    organizing_forecast_data_per_zone
+
+    INPUTS:
+
+    OUTPUTS:
+
+    LAST MODIFICATION DATE:
+    09/23/2021 by SADR
+    '''
 
     # Getting subfolders
     year_subfolders = os.listdir(raw_data_path)

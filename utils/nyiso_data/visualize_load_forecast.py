@@ -10,7 +10,7 @@ def visualize_load_forecast(date, zone, data_path = os.path.join(os.getcwd(), "d
     '''
     VISUALIZE_LOAD_FORECAST
 
-    This function plots the actual load, most recent load forecast (labeled as 'best'), oldest load forecast (called 'worst'), and forecast error of the given date using the processed pickle files created by `download_nyiso_data`. As an optional return value, it gives the time stamps, the actual load and the forecast values as lists.
+    This function plots the actual load, most recent load forecast (labeled as `best`), oldest load forecast (called 'worst'), and forecast error of the given date using the processed pickle files created by `download_nyiso_data`. As an optional return value, it gives the time stamps, the actual load and the forecast values as lists.
 
     INPUTS:
 

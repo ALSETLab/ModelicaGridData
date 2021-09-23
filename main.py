@@ -473,7 +473,7 @@ if __name__ == "__main__":
                 if _n_sc > len(_line_contingencies['scenarios']):
                     _n_sc = len(_line_contingencies)
 
-                print(f"Defaulting to {_n_sc} contingencies")
+                print(f"Working with {_n_sc} contingency scenarios")
 
                 scenarios = randomize_scenarios(_line_contingencies, _n_sc)
                 _n_scenarios = len(scenarios)
