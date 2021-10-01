@@ -549,12 +549,9 @@ if __name__ == "__main__":
                     _model = args.model
                     if _model not in LIST_OF_MODELS:
                         raise ValueError("Model not available")
-                    else:
-                        _model = 'IEEE14'
-                        warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist")
-
-                _model_name = f"{_model}_Base_Case"
-                _model_package = _model
+                else:
+                    _model = 'IEEE14'
+                    warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist")
 
                 # Loading simulation parameters
                 with open(r'sim_parameters.yaml') as f:
