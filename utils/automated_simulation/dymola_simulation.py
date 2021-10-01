@@ -61,7 +61,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     # then the simulation does not run in multiprocessing mode
 
     # Creating temporary directory
-    _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}", _model_name)
+    _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}", _model_package)
     if not os.path.exists(_temp_dir):
         os.makedirs(_temp_dir)
     # Copying model
