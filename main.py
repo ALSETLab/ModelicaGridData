@@ -496,9 +496,6 @@ if __name__ == "__main__":
                 print(f"{'Simulation scenarios':<30} {_n_scenarios:<20}")
                 print(f"{'Total simulations:':<30} {_n_pf*_n_scenarios:<20}\n")
 
-                # Measuring elapsed time
-                t0 = time.time()
-
                 # Commanding parallel simulations using multiprocessing
                 p = mp.Pool()
                 # List of running processes
@@ -528,10 +525,6 @@ if __name__ == "__main__":
                             process.append(apfun)
                 p.close()
                 p.join()
-
-                # Printing elapsed time
-                tf = time.time()
-                print(f"\n\nElapsed Time: {tf-t0} s ({(tf-t0)/60} min)\n\n")
 
             if _function == 'extract':
 
