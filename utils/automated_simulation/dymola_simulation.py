@@ -64,7 +64,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     print(f"Source: {_mo_model_folder}")
     print(f"Destination: {_temp_dir}")
 
-    # copytree(_model_path, os.path.join(_temp_dir))
+    copytree(_model_path, os.path.join(_temp_dir))
     return
 
 
