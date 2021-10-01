@@ -37,7 +37,5 @@ def extract_data(model, path, working_directory):
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
-            print(_list_files)
-
-
+            print(len(_list_files))
             break
