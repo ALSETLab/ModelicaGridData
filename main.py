@@ -534,7 +534,7 @@ if __name__ == "__main__":
 
                 # Deleting temporary directory
                 _temp_dir_models = os.path.join(os.getcwd(), '_temp')
-                if not os.path.exists(_temp_dir_models):
+                if os.path.exists(_temp_dir_models):
                     shutil.rmtree(_temp_dir_models)
 
             if _function == 'extract':
