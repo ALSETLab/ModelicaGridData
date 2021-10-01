@@ -50,6 +50,9 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     _model_package = sim_params['model_package']
     _model_name = sim_params['model_name']
 
+    # Getting path to the '.mo' file of the model
+    _mo_model_folder = os.path.dirname(_model_path)
+
     # Creating temporary copy of the model
 
     # Creating temporary directory
@@ -58,14 +61,13 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
         os.makedirs(_temp_dir)
     # Copying model
 
-    print(f"Source: {_model_path}")
+    print(f"Source: {_mo_model_folder}")
     print(f"Destination: {_temp_dir}")
 
     # copytree(_model_path, os.path.join(_temp_dir))
     return
 
-    # Getting path to the '.mo' file of the model
-    _mo_model_folder = os.path.dirname(_model_path)
+
     _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
     # Instantiating dymola object (according to operating system)
