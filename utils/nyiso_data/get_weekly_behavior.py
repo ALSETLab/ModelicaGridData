@@ -17,14 +17,12 @@ def get_weekly_behavior(date, zone, data_path = os.path.join(os.getcwd(), "data"
     This method plots a weekly behavior of a given zone of the New York grid showing actual load, load forecast (best and worst) and forecast error. The resulting figures are exported as '`.png`' files as well.
 
     INPUTS:
-
     - date: some day of a week that wants to be compared with another year
     - zone: string with the ID of a zone of the NY state power grid. See the repository documentation for more information.
     - data_path: relative path to the NYISO data folder
     - show_plot: boolean to indicate whether a plot will be shown or not when the function is called
 
     OUTPUTS:
-
     If 'show_plot == True', the function plots the actual load, most recent and oldest load forecast for the specified zone per week. Additionally, it returns the following:
 
     - time_stamp_week: list with the time-stamps (hour:minute) for the specified week
@@ -33,9 +31,7 @@ def get_weekly_behavior(date, zone, data_path = os.path.join(os.getcwd(), "data"
     - worst_forecast_week: list with the values of the oldest forecast for the specified week
 
     LAST MODIFICATION DATE:
-
     04/06/2020 by SADR
-
     '''
 
     # Getting start and end day of the week from the given date

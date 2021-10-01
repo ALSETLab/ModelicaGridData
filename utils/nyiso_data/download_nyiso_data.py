@@ -14,7 +14,7 @@ current_year = datetime.datetime.now().year
 def download_nyiso_data(start_year = current_year, destination_folder = os.path.join(os.getcwd(), "data"), verbose = False):
 
     '''
-    download_nyiso_data
+    DOWNLOAD_NYISO_DATA
 
     This function downloads all the *.csv files of load forecast and actual load (hourly time-stamp) from the NYISO website from a given start year up to present time.
     It can be used to update existing files (i.e., does not overwrite pre-existing data).
@@ -28,7 +28,7 @@ def download_nyiso_data(start_year = current_year, destination_folder = os.path.
     - `verbose`: if `True`, prints verbose statements to show progress of the download and the data organization processes.
 
     OUTPUTS:
-    None.
+    None
 
     LAST MODIFICATION DATE:
     09/23/2021 by SADR

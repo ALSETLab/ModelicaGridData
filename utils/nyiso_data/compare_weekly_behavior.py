@@ -24,14 +24,12 @@ def compare_weekly_behavior(date, comparison_years, zone, data_path = os.path.jo
     This function compares the weekly behavior of actual load, and best/worst load forecast of equivalent weeks in different years through a plot
 
     INPUTS:
-
     - date: some day of a week that wants to be compared with another year
     - comparison_years: list containing the specific years to be compared. To pass only one year, pass it as a one-element list (e.g., [2020]).
     - zone: string with the ID of a zone of the NY state power grid. See the repository documentation for more information.
     - data_path: relative path to the NYISO data folder
 
     OUTPUTS:
-
     The function shows automatically a plot showing the actual load, the absolute error for the best and the worst forecast for the specified week in the
     current year and each of the years in the list 'comparison_years'.
 
@@ -52,9 +50,7 @@ def compare_weekly_behavior(date, comparison_years, zone, data_path = os.path.jo
                 'Worst_Forecast'
 
     LAST MODIFICATION DATE:
-
     04/06/2020 by SADR
-
     '''
 
     ####################################################

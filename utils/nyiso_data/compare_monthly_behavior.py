@@ -17,14 +17,12 @@ def compare_monthly_behavior(date, comparison_years, zone, data_path = os.path.j
     This function is used to perform a comparison between the monthly behavior in different years for actual load and forecast error. It outputs a dictionary containing the information of the years which were compared.
 
     INPUTS:
-
     - date: month/year as a basis to be compared (e.g., March 2020 is passed as '03/2020').
     - comparison_years: list containing the specific years to be compared. To pass only one year, pass it as a one-element list (e.g., [2020]).
     - zone: string with the ID of a zone of the NY state power grid. See the repository documentation for more information.
     - data_path: relative path to the NYISO data folder
 
     OUTPUTS:
-
     - data_comparison: dictionary whose keys are the years to be compared (including year passed on 'date'). It contains both the monthly information and the
     weekly information for the given month. See the documentation of `get_monthly_behavior` for more information.
 
@@ -41,6 +39,8 @@ def compare_monthly_behavior(date, comparison_years, zone, data_path = os.path.j
                 'Best_Forecast'
                 'Worst_Forecast'
 
+    LAST MODIFICATION DATE:
+    10/01/2021 BY SADR
     '''
 
     # Converting inputted date information to suitable 'datatime' format

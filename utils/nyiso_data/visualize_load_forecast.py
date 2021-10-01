@@ -13,14 +13,12 @@ def visualize_load_forecast(date, zone, data_path = os.path.join(os.getcwd(), "d
     This function plots the actual load, most recent load forecast (labeled as `best`), oldest load forecast (called 'worst'), and forecast error of the given date using the processed pickle files created by `download_nyiso_data`. As an optional return value, it gives the time stamps, the actual load and the forecast values as lists.
 
     INPUTS:
-
     - date: date in month/day/year format (e.g., 03/02/2020 for March 2nd 2020).
     - zone: zone ID for one of NYISO load regions. See repository information for a list of the zone codes.
     - data_path: absolute/relative path to the NYISO data folder. It defaults to the current working directory.
     - show_plot: boolean to indicate whether a plot will be shown or not when the function is called
 
     OUTPUTS:
-
     If 'show_plot == True', the function plots the actual load, most recent and oldest load forecast for the specified zone. Additionally, it returns the following information as lists:
 
     - hour_minute_day: list with the time stamps of each time-series in 'hour:minute' format
@@ -29,7 +27,6 @@ def visualize_load_forecast(date, zone, data_path = os.path.join(os.getcwd(), "d
     - worst_forecast_load: list with the values of the oldest load forecast in the specified area
 
     LAST MODIFICATION DATE:
-
     04/08/2020 by SADR: changed the labels for the absolute forecast error plots
     '''
 

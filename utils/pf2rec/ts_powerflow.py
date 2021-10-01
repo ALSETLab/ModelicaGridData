@@ -13,7 +13,7 @@ NYISO_ZONES = ['CAPITL', 'CENTRL', 'DUNWOD', 'GENESE', 'HUD VL', 'LONGIL', 'MHK 
 
 def ts_powerflow(args_ts, _date, _load_profiles, _time_stamps):
     '''
-    ts_powerflow
+    TS_POWERFLOW
 
     DESCRIPTION:
     this function performs a time series power flow of a model using a provided load profiles and time stamps.

@@ -1,7 +1,9 @@
 import os
 
 def open_line_om(scenario, simulation_time, line_reclosing_time, working_directory):
+'''
 
+'''
     # Removing file if it exists
     f_path = os.path.join(working_directory, "open_line.txt")
     if os.path.exists(f_path):

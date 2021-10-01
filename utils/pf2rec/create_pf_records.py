@@ -4,7 +4,7 @@ import os
 def create_pf_records(model_name, model_mo_path, data_path = None, openipsl_version = '1.5.0'):
 
     '''
-    create_pf_records
+    CREATE_PF_RECORDS
 
     DESCRIPTION:
     this function creates a records structure reading the `.mo` file of a model

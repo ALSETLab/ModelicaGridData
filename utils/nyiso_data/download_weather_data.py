@@ -17,9 +17,7 @@ def download_weather_data(start_year = 1999, destination_folder = os.path.join(o
     OUTPUTS:
 
     LAST MODIFICATION DATE:
-
     04/10/2020 by SADR
-
     '''
 
     ######################################

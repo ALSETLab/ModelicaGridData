@@ -3,12 +3,20 @@ import os
 
 def remove_prefix(text, prefix):
     '''
-    Description:
-    function to remove a given prefix from a list
+    REMOVE_PREFIX
 
-    Arguments:
+    DESCRIPTION:
+    Function to remove a given prefix from a list
+
+    INPUTS:
     - text: given text container (preferably a string)
     - prefix: prefix that is to be removed from 'text'
+
+    OUTPUTS:
+    Returns text without prefix
+
+    LAST MODIFICATION DATE:
+    10/01/2021 BY SADR
     '''
 
     if text.startswith(prefix):
@@ -17,6 +25,7 @@ def remove_prefix(text, prefix):
 
 def generate_component_list(model_mo_path):
     '''
+    GENERATE_COMPONENT_LIST
 
     DESCRIPTION:
     this function generates a dictionary of lists with the component names of the devices employed to construct the power system models using the OpenIPSL library.
@@ -30,6 +39,9 @@ def generate_component_list(model_mo_path):
     OUTPUTS:
     - components: dictionary containing lists of the line, transformer, generator, load, bus and faults model name in each of the models.
     Note that the keys of the dictionaries are `lines`, `trafos`, `generators`, `loads`, `buses` and `faults`.
+
+    LAST MODIFICATION DATE:
+    10/01/2021 BY SADR
     '''
 
     lines = []

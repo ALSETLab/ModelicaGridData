@@ -10,6 +10,32 @@ EPS = np.finfo(float).eps
 
 # Function to write single power flow
 def _write_single_pf(grid, pf, model_name, data_dirs, pf_num, export_pf_results, is_time_series, ts_name, openipsl_version):
+    '''
+    _WRITE_SINGLE_PF
+
+    DESCRIPTION:
+    this function generates the files to write a single power flow record
+    using a power flow result from GridCal
+
+    INPUTS:
+    - `grid`: GridCal power flow model of the power system
+    - `pf`: GridCal power flow object (containing power flow results)
+    In case this is a time-series power flow result, the flag `is_time_series` must be set to `True`
+    - `model_name`: name of the Modelica model (for creating records the first time)
+    - `data_dirs`: dictionary containing the paths to the data directories
+    where the bus, load, machine, and transformer records will be written
+    - `pf_num`: number of the power flow (for automation in an outer loop)
+    - `export_pf_results`: export power flow results as `.csv` files: one for buses, another for machines
+    - `is_time_series`: flag that indicates whether the script is being called inside a time-series power flow loop. It only changes the name of the output file
+    -  `ts_name`: name of the time-series
+    - `openipsl_version` (str): version of the OpenIPSL library on which the target model has been built. It defaults to `1.5.0`.
+
+    OUTPUTS:
+    None
+
+    LAST MODIFICATION DATE:
+    10/01/2021 BY SADR
+    '''
 
     # Extracting data directories
     bus_data_dir = data_dirs['buses']
@@ -438,7 +464,7 @@ def _write_single_pf(grid, pf, model_name, data_dirs, pf_num, export_pf_results,
 
 def gridcal2rec(grid, pf, model_name, data_path = None, pf_num = 1, export_pf_results = False, is_time_series = False, ts_name = None, openipsl_version = '1.5.0'):
     '''
-    gridcal2rec
+    GRIDCAL2REC
 
     DESCRIPTION:
     This function takes a GridCal multicircuit model and a power flow result and writes them into a power flow record compatible with Dymola.

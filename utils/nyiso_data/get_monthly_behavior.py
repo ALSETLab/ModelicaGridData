@@ -29,14 +29,12 @@ def get_monthly_behavior(date, zone, data_path = os.path.join(os.getcwd(), "data
     of a month is a Tuesday, then that week is counted as the first week of that month). It returns a dictionary having the information of the month in a concatenated array and the weekly information.
 
     INPUTS:
-
     - date: string in format `month:year` (e.g., March 2020 is passed as `03/2020`)
     - zone: string with the ID of a zone of the NY state power grid. See the repository documentation for more information.
     - data_path: relative path to the NYISO data folder
     - show_plot: boolean to show plot of monthly behavior of load and load forecast
 
     OUTPUTS:
-
     - output_dict: nested dictionary containing both the weekly and the monthly information of the requested region. It consists
     of two dictionary layers.
 
@@ -53,9 +51,7 @@ def get_monthly_behavior(date, zone, data_path = os.path.join(os.getcwd(), "data
             'Worst_Forecast'
 
     LAST MODIFICATION DATE:
-
     04/06/2020 by SADR
-
     '''
 
     # Converting the given date to 'datetime' format
