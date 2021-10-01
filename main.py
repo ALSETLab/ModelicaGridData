@@ -530,7 +530,7 @@ if __name__ == "__main__":
                 # Importing dependencies (just those required to speed up code execution)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    from utils.validate_pf import *
+                    from utils.extract_data import *
 
                 print(f"\n{'':=^45}")
                 print(f"EXTRACTING DATA FROM DYNAMIC SIMULATION RESULTS")
@@ -574,7 +574,7 @@ if __name__ == "__main__":
 
                 # Creating path for experiment ID
                 _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
-                print(f"Experiment path: \n{_path}\n")
+                print(f"\nExperiment result path: \n{_path}\n")
 
                 # Extracting data
                 extract_data(_model_name, _path)
