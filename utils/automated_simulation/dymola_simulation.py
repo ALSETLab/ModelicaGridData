@@ -15,6 +15,10 @@ from .label_scenario import *
 
 def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     '''
+    DYMOLA_SIMULATION
+
+    LAST MODIFICATION DATE:
+    10/01/2021 BY SADR
 
     '''
 
@@ -31,8 +35,14 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     _fixedstepsize = sim_params['fixedstepsize']
 
     _model_path = os.path.abspath(sim_params['model_path'])
+
+    # Creating a temporary copy of the model
+
+
     _model_package = sim_params['model_package']
     _model_name = sim_params['model_name']
+
+    print(_model_path, _mo_model_folder)
 
     # Getting path to the '.mo' file of the model
     _mo_model_folder = os.path.dirname(_model_path)
