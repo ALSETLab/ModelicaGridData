@@ -69,8 +69,9 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
     # Updating path to the model
     _mo_model_folder = _temp_dir
-
-    # Path to the `*.mo` file of the model
+    # Updating path to the `package.mo` file of the model
+    _model_path = os.path.join(_mo_model_folder, "package.mo")
+    # Updating to the `*.mo` file of the model
     _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
     # Instantiating dymola object (according to operating system)
