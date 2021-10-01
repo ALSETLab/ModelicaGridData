@@ -29,3 +29,15 @@ def extract_data(model, path, working_directory):
     with os.scandir(working_directory) as entry_list:
         for entry in entry_list:
             print(entry.name)
+
+            _res_directory = os.path.join(working_directory, entry.name)
+
+            # Getting list of files in result directory
+            with os.scandir(_res_directory) as entry_res:
+                # List of files
+                _list_files = [x.name for x in entry_res]
+
+            print(_list_files)
+
+
+            break
