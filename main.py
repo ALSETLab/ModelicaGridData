@@ -577,7 +577,7 @@ if __name__ == "__main__":
                 print(f"\nExperiment result path: \n{_path}\n")
 
                 # Extracting data
-                extract_data(_model_name, _path)
+                extract_data(_model, _path)
 
             if _function == 'label':
                 # Driver for labeling code
