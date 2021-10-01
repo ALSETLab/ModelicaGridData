@@ -13,13 +13,25 @@ from .trip_line import *
 from .open_line import *
 from .label_scenario import *
 
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy2(s, d)
+
 def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     '''
     DYMOLA_SIMULATION
 
+    INPUTS:
+
+    OUTPUTS:
+
     LAST MODIFICATION DATE:
     10/01/2021 BY SADR
-
     '''
 
     # Getting version information
@@ -35,10 +47,6 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     _fixedstepsize = sim_params['fixedstepsize']
 
     _model_path = os.path.abspath(sim_params['model_path'])
-
-    # Creating a temporary copy of the model
-
-
     _model_package = sim_params['model_package']
     _model_name = sim_params['model_name']
 
@@ -46,6 +54,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     _mo_model_folder = os.path.dirname(_model_path)
     _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
+    print(os.getcwd())
     print(_model_path, _mo_model_folder)
 
     # Instantiating dymola object (according to operating system)
