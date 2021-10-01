@@ -26,20 +26,16 @@ parser.add_argument("--date", help = HELP_DATE)
 parser.add_argument("--loads", help = HELP_LOADS, type = int)
 parser.add_argument("--delete", help = HELP_DELETE, type = bool)
 parser.add_argument("--seed", help = HELP_SEED, type = int)
-parser.add_argument("--model", help = HELP_MODEL)
+parser.add_argument("--model", help = HELP_MODEL) # also needed for `val_pf`, `run_sim`, and `extract`
 
 # Arguments to `val_pf` and `run_sim`
-parser.add_argument("--tool", help = HELP_TOOL)
+parser.add_argument("--tool", help = HELP_TOOL) # also needed for extract
 parser.add_argument("--proc", help = HELP_PROC, type = int)
 parser.add_argument("--cores", help = HELP_CORES, type = int)
 
 # Arguments to `run_sim`
 parser.add_argument("--n_pf", help = HELP_POWER_FLOWS, type = int)
 parser.add_argument("--n_sc", help = HELP_SCENARIOS, type = int)
-
-# Arguments to `extract`
-parser.add_argument("--model", help = HELP_MODEL)
-parser.add_argument("--tool", help = HELP_TOOL)
 
 args = parser.parse_args()
 
@@ -557,11 +553,6 @@ if __name__ == "__main__":
                         _model = 'IEEE14'
                         warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist")
 
-                if args.exp_name:
-                    _exp_name = args.exp_name
-                else:
-                    _exp_name = ""
-
                 _model_name = f"{_model}_Base_Case"
                 _model_package = _model
 
@@ -580,6 +571,7 @@ if __name__ == "__main__":
                 # Creating unique ID for the experiment data
                 expid = datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
 
+                # Creating path for experiment ID
                 _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
                 print(f"Experiment path: \n{_path}\n")
 

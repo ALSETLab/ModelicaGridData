@@ -28,6 +28,12 @@ python main.py val_pf --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --co
 python main.py run_sim --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --cores 1 --n_pf 2 --n_sc 10
 ```
 
+- `extract`: organizes the simulation data from the Dymola output `*.mat` files into `*.csv` files. The `*.csv` files are placed inside `./data` in a directory with a unique experiment ID. An example call is given below
+
+```python
+python main.py extract --tool dymola --model IEEE14
+```
+
 ### List of Arguments per Function
 
 - `nyiso`:
@@ -60,3 +66,7 @@ python main.py run_sim --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --c
   - `--cores`: Number of cores to be used inside a process (i.e., serial parallel simulation). **Default:** `n_cores - 1` where `n_cores` is the number of available physical cores.
   - `--n_pf`: Number of power flows to run dynamic simulations. **Default:** all available power flow results.
   - `--n_sc`: Number of contingency scenarios to run the dynamic simulations. **Default:** to all available or 50, for large systems (i.e., systems with more than 50 scenarios available).
+
+- `extract`:
+  - `--model`: model for which the simulation data will be extracted and processed. **Default:** `IEEE14` (it may return an error if the directory for the given model does not exist).
+  - `--tool`: tool used for dynamic time-domain simulations. **Default:** `dymola` (it may return an error if the working directory for the given model does not exist).
