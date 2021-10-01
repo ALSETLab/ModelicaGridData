@@ -5,6 +5,7 @@ import datetime
 import sys
 import multiprocessing as mp
 import psutil
+from uuid import uuid4
 
 # Importing global constants and variables useful for the execution of the code
 from utils import *
@@ -36,6 +37,10 @@ parser.add_argument("--cores", help = HELP_CORES, type = int)
 parser.add_argument("--n_pf", help = HELP_POWER_FLOWS, type = int)
 parser.add_argument("--n_sc", help = HELP_SCENARIOS, type = int)
 
+# Arguments to `extract`
+parser.add_argument("--model", help = HELP_MODEL)
+parser.add_argument("--tool", help = HELP_TOOL)
+
 args = parser.parse_args()
 
 _function = args.function
@@ -45,7 +50,7 @@ if __name__ == "__main__":
     # Validating function and arguments
     if args.function:
         _function = args.function
-        if _function not in ['nyiso', 'run_pf', 'val_pf', 'run_sim']:
+        if _function not in ['nyiso', 'run_pf', 'val_pf', 'run_sim', 'extract']:
             raise ValueError('Function not available')
         else:
 
@@ -384,7 +389,7 @@ if __name__ == "__main__":
                 _model_name = f"{_model}_Base_Case"
                 _model_package = _model
 
-                # Loading validation parameters
+                # Loading simulation parameters
                 with open(r'sim_parameters.yaml') as f:
                     sim_params = yaml.load(f, Loader = yaml.FullLoader)
 
@@ -523,3 +528,64 @@ if __name__ == "__main__":
                             process.append(apfun)
                 p.close()
                 p.join()
+
+            if _function == 'extract':
+
+                # Importing dependencies (just those required to speed up code execution)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    from utils.validate_pf import *
+
+                print(f"\n{'':=^45}")
+                print(f"EXTRACTING DATA FROM DYNAMIC SIMULATION RESULTS")
+                print(f"{'':=^45}\n")
+
+                # Validating user inputs
+                if args.tool:
+                    _tool = args.tool
+                    if _tool not in ['dymola', 'om']:
+                        raise ValueError("Invalid tool. Only 'dymola' and 'om' (OpenModelica) are supported")
+                    else:
+                        # Raising warning. Directory may not exist. Continuing with caution
+                        warnings.warn("No tool specified. Using 'dymola' by default. Output directory may not exist")
+
+                if args.model:
+                    _model = args.model
+                    if _model not in LIST_OF_MODELS:
+                        raise ValueError("Model not available")
+                    else:
+                        _model = 'IEEE14'
+                        warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist")
+
+                if args.exp_name:
+                    _exp_name = args.exp_name
+                else:
+                    _exp_name = ""
+
+                _model_name = f"{_model}_Base_Case"
+                _model_package = _model
+
+                # Loading simulation parameters
+                with open(r'sim_parameters.yaml') as f:
+                    sim_params = yaml.load(f, Loader = yaml.FullLoader)
+
+                # Instantiating dymola object (according to operating system)
+                if platform.system() == 'Windows':
+                    # Making sure each process has its own working directory
+                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_windows']), _model_package)
+                elif platform.system() == 'Linux':
+                    # Making sure each process has an independent working directory
+                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model_package)
+
+                # Creating unique ID for the experiment data
+                expid = datetime.now().strftime('%Y%m-%d%H-%M%S-') _ str(uuid4())
+
+                _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
+                print(f"Experiment path: \n{_path}\n")
+
+                # Extracting data
+                extract_data(_model_name, _path)
+
+            if _function == 'label':
+                # Driver for labeling code
+                pass
