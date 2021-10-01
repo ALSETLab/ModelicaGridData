@@ -560,10 +560,14 @@ if __name__ == "__main__":
                 # Instantiating dymola object (according to operating system)
                 if platform.system() == 'Windows':
                     # Making sure each process has its own working directory
-                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_windows']), _model_package)
+                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_windows']), _model)
+                    if not os.path.exists(_working_directory):
+                        raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
                 elif platform.system() == 'Linux':
                     # Making sure each process has an independent working directory
-                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model_package)
+                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model)
+                    if not os.path.exists(_working_directory):
+                        raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
 
                 # Creating unique ID for the experiment data
                 expid = datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
