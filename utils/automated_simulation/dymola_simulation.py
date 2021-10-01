@@ -56,7 +56,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     # Creating temporary copy of the model
 
     # Creating temporary directory
-    _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}")
+    _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}", model_name)
     if not os.path.exists(_temp_dir):
         os.makedirs(_temp_dir)
     # Copying model
