@@ -27,4 +27,5 @@ def extract_data(model, path, working_directory):
 
     # Getting the list of files in the working directory
     with os.scandir(working_directory) as entry_list:
-        print(entry_list)
+        for entry in entry_list:
+            print(entry.name)
