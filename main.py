@@ -480,6 +480,12 @@ if __name__ == "__main__":
                 scenarios = randomize_scenarios(_line_contingencies, _n_sc)
                 _n_scenarios = len(scenarios)
 
+                # Creating a temporary directory to allow multiple power flow
+                # simulations in parallel
+                _temp_dir_models = os.path.join(os.getcwd(), '_temp')
+                if not os.path.exists(_temp_dir_models):
+                    os.path.mkdir(_temp_dir_models)
+
                 ##################################################
                 ### DISPATCHING SIMULATIONS
                 ##################################################
@@ -525,6 +531,11 @@ if __name__ == "__main__":
                             process.append(apfun)
                 p.close()
                 p.join()
+
+                # Deleting temporary directory
+                # _temp_dir_models = os.path.join(os.getcwd(), '_temp')
+                # if not os.path.exists(_temp_dir_models):
+                    # shutil.rmtree(_temp_dir_models)
 
             if _function == 'extract':
 
