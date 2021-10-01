@@ -484,7 +484,7 @@ if __name__ == "__main__":
                 # simulations in parallel
                 _temp_dir_models = os.path.join(os.getcwd(), '_temp')
                 if not os.path.exists(_temp_dir_models):
-                    os.path.mkdir(_temp_dir_models)
+                    os.mkdir(_temp_dir_models) # could be removed but test it
 
                 ##################################################
                 ### DISPATCHING SIMULATIONS
