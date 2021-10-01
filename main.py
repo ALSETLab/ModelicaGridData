@@ -543,7 +543,7 @@ if __name__ == "__main__":
                         raise ValueError("Invalid tool. Only 'dymola' and 'om' (OpenModelica) are supported")
                     else:
                         # Raising warning. Directory may not exist. Continuing with caution
-                        warnings.warn("No tool specified. Using 'dymola' by default. Output directory may not exist")
+                        warnings.warn("No tool specified. Using 'dymola' by default. Output directory may not exist");
 
                 if args.model:
                     _model = args.model
@@ -551,7 +551,7 @@ if __name__ == "__main__":
                         raise ValueError("Model not available")
                 else:
                     _model = 'IEEE14'
-                    warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist")
+                    warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist");
 
                 # Loading simulation parameters
                 with open(r'sim_parameters.yaml') as f:
@@ -570,7 +570,7 @@ if __name__ == "__main__":
                         raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
 
                 # Creating unique ID for the experiment data
-                expid = datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
+                expid = datetime.datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
 
                 # Creating path for experiment ID
                 _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
