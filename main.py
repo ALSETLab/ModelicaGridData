@@ -578,7 +578,7 @@ if __name__ == "__main__":
                     _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model_package)
 
                 # Creating unique ID for the experiment data
-                expid = datetime.now().strftime('%Y%m-%d%H-%M%S-') _ str(uuid4())
+                expid = datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
 
                 _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
                 print(f"Experiment path: \n{_path}\n")
