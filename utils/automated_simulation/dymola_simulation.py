@@ -57,7 +57,11 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     if not os.path.exists(_temp_dir):
         os.makedirs(_temp_dir)
     # Copying model
-    copytree(_model_path, os.path.join(_temp_dir))
+
+    print(f"Source: {_model_path}")
+    print(f"Destination: {_temp_dir}")
+
+    # copytree(_model_path, os.path.join(_temp_dir))
     return
 
     # Getting path to the '.mo' file of the model
