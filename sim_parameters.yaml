@@ -14,21 +14,20 @@
 dymola_path_linux: '/opt/dymola-2021-x86_64/bin64/dymola.sh'
 
 # Virtual machine (Linux)
-working_directory_linux : '/home/sergio/Dymola/_working_directory/_experiments'
-om_working_directory_linux : '/home/sergio/OpenModelica/_working_directory/_experiments'
-openipsl_path_linux_old: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
-openipsl_path_linux_new: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_2_beta/OpenIPSL/package.mo'
+# working_directory_linux : '/home/sergio/Dymola/_working_directory/_experiments'
+# om_working_directory_linux : '/home/sergio/OpenModelica/_working_directory/_experiments'
+# openipsl_path_linux_old: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
+# openipsl_path_linux_new: '/home/sergio/Desktop/Parallels Shared Folders/Home/Documents/Dymola/Library/OpenIPSL_2_beta/OpenIPSL/package.mo'
 
 # Test machine (Linux)
-# working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory/_experiments'
-# om_working_directory_linux : '/data/home/dorads/Documents/OpenModelica/_working_directory/_experiments'
-# openipsl_path_linux_old: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
-# openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_2_beta/OpenIPSL/package.mo'
+working_directory_linux : '/data/home/dorads/Documents/Dymola/_working_directory/_experiments'
+om_working_directory_linux : '/data/home/dorads/Documents/OpenModelica/_working_directory/_experiments'
+openipsl_path_linux_old: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_1.5/OpenIPSL/package.mo'
+openipsl_path_linux_new: '/data/home/dorads/Documents/Dymola/Library/OpenIPSL_2_beta/OpenIPSL/package.mo'
 
 # --------------------------------------------------------------------------
 # Windows
 # --------------------------------------------------------------------------
-
 working_directory_windows : 'C:\_temp\Dymola'
 om_working_directory_windows : 'C:\_temp\OpenModelica'
 

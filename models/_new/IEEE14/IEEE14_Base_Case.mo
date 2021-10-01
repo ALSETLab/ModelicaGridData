@@ -375,8 +375,7 @@ model IEEE14_Base_Case
     annotation (Placement(transformation(extent={{70,86},{82,98}})));
   OpenIPSL.Electrical.Banks.PSSE.Shunt shunt1(B=0.19, G=0)
     annotation (Placement(transformation(extent={{106,0},{118,12}})));
-  IEEE14.PF_Data.Power_Flow pf(redeclare record PowerFlow =
-        IEEE14.PF_Data.PF_best_00006)
+  IEEE14.PF_Data.Power_Flow pf(redeclare record PowerFlow = IEEE14.PF_Data.PF_worst_00002)
     annotation (Placement(transformation(extent={{-104,50},{-84,70}})));
   Generating_Units.Gen_Bus_1 gen_Bus_1_1(
     P_0=pf.powerflow.machines.PG1,
@@ -623,3 +622,6 @@ equation
           textString="Bus_14")}),
     experiment(StopTime=5));
 end IEEE14_Base_Case;
+
+
+
