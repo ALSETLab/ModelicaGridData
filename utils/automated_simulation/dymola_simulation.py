@@ -53,21 +53,24 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     # Getting path to the '.mo' file of the model
     _mo_model_folder = os.path.dirname(_model_path)
 
-    # Creating temporary copy of the model
+    # ==============================================
+    # CREATING A TEMPORARY COPY OF THE MODEL
+    # ==============================================
+    # Rationale: each process needs its own model since when changing the power
+    # flow, the file containing the model is modified. If the model is shared,
+    # then the simulation does not run in multiprocessing mode
 
     # Creating temporary directory
     _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}", _model_name)
     if not os.path.exists(_temp_dir):
         os.makedirs(_temp_dir)
     # Copying model
-
-    print(f"Source: {_mo_model_folder}")
-    print(f"Destination: {_temp_dir}")
-
     copytree(_mo_model_folder, os.path.join(_temp_dir))
-    return
 
+    # Updating path to the model
+    _mo_model_folder = _temp_dir
 
+    # Path to the `*.mo` file of the model
     _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
     # Instantiating dymola object (according to operating system)
