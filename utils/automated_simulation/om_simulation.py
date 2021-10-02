@@ -236,9 +236,6 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # # Evaluating system small-signal stability using eigenvalues
             # sc_labels_final[counter] = label_scenario(A)
             counter += 1
-            break # remove after debugging
-        if counter == 2:
-            break # remove after debugging
         counter_pf +=1
 
     # Closing OM process
@@ -248,7 +245,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)
-        if file_object_path.endswith(".mat") or file_object_path.endswith(".npy"):
+        if file_object_path.endswith(".mat") or file_object_path.endswith(".npy") or file_object_path.endswith(".mo"):
             continue
         else:
             if os.path.isfile(file_object_path) or os.path.islink(file_object_path):
