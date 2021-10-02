@@ -185,7 +185,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
             _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
 
-            ss = omc.sendExpression(f"Modelica_LinearSystems2.Utilities.Import.linearize2(\"{_model_package}.{trip_line(_model_name, scenario)}\")")
+            ss = omc.sendExpression(f"Modelica_LinearSystems2.Utilities.Import.linearize2(\"{_model_package}}\")")
             print(ss)
             return
 
