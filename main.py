@@ -451,7 +451,7 @@ if __name__ == "__main__":
                 # Extracting power flows from the given list
                 pf_list = np.random.choice(pf_list, _n_pf, replace = False)
                 # Distributing scenarios among specified number of processes
-                pf_dist = distribute_scenarios(pf_list, _n_proc)
+                # pf_dist = distribute_scenarios(pf_list, _n_proc)
 
                 ##################################################
                 ### SELECTING CONTINGENCY SCENARIOS
@@ -479,6 +479,7 @@ if __name__ == "__main__":
 
                 scenarios = randomize_scenarios(_line_contingencies, _n_sc)
                 _n_scenarios = len(scenarios)
+                sc_dist = distribute_scenarios(scenarios, _n_proc)
 
                 # Creating a temporary directory to allow multiple power flow
                 # simulations in parallel
@@ -516,7 +517,7 @@ if __name__ == "__main__":
                         else:
                             # dymola_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             apfun = p.apply_async(dymola_simulation,
-                                args = (pf_dist[np], scenarios, _data_path, sim_params, np + 1, ))
+                                args = (pf_list, sc_dist[np], _data_path, sim_params, np + 1, ))
                             process.append(apfun)
                     elif _tool == 'om':
                         if _n_proc == 1:
@@ -527,7 +528,7 @@ if __name__ == "__main__":
                         else:
                             # om_simulation(pf_dist, scenarios, _data_path, sim_params, np + 1)
                             apfun = p.apply_async(om_simulation,
-                                args = (pf_dist[np], scenarios, _data_path, sim_params, np + 1, ))
+                                args = (pf_list, sc_dist[np], _data_path, sim_params, np + 1, ))
                             process.append(apfun)
                 p.close()
                 p.join()
