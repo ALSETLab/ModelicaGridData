@@ -139,6 +139,9 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     n_sc = len(scenarios)
     total = n_pf * n_sc
 
+    print(scenarios)
+    return
+
     # Regex for getting power flow name
     pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
     pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
