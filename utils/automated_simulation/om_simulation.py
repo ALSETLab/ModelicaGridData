@@ -66,6 +66,27 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     _mo_model_folder = os.path.dirname(_model_path)
     _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
 
+    # ==============================================
+    # CREATING A TEMPORARY COPY OF THE MODEL
+    # ==============================================
+    # Rationale: each process needs its own model since when changing the power
+    # flow, the file containing the model is modified. If the model is shared,
+    # then the simulation does not run in multiprocessing mode
+
+    # Creating temporary directory
+    _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}", _model_package)
+    if not os.path.exists(_temp_dir):
+        os.makedirs(_temp_dir)
+    # Copying model
+    copytree(_mo_model_folder, os.path.join(_temp_dir))
+
+    # Updating path to the model
+    _mo_model_folder = _temp_dir
+    # Updating path to the `package.mo` file of the model
+    _model_path = os.path.join(_mo_model_folder, "package.mo")
+    # Updating to the `*.mo` file of the model
+    _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
+
     # Performance enhancing statements
     omc.sendExpression(f"setCommandLineOptions(\"-n={_n_cores}\")") # number of cores
 
