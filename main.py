@@ -494,7 +494,7 @@ if __name__ == "__main__":
                 ##################################################
 
                 print(f"\n{'':-^45}")
-                print('Summary of power flow validation')
+                print('Summary of time-domain simulation')
                 print(f"{'':-^45}")
                 print(f"{'Model name':<30} {_model_name} in package {_model_package}")
                 print(f"{'OpenIPSL version:':<30} {_version}")

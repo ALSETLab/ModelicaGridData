@@ -58,10 +58,6 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
         _working_directory = os.path.join(os.path.abspath(sim_params['om_working_directory_linux']), _model_package, f"proc_{n_proc}")
         _openipsl_path = os.path.abspath(sim_params['openipsl_path_linux_old'])
 
-    print(f"({n_proc}): {'Working directory:':<30} {_working_directory}")
-    print(f"({n_proc}): {'OpenIPSL path:':<30} {_openipsl_path}")
-    print(f"({n_proc}): {'Model path:':<30} {_model_path}\n")
-
     # Extracting simulation parameters
     _n_cores = sim_params['n_cores']
     _startTime = sim_params['startTime']
@@ -95,6 +91,10 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     _model_path = os.path.join(_mo_model_folder, "package.mo")
     # Updating to the `*.mo` file of the model
     _mo_model_path = os.path.join(_mo_model_folder, _model_name + ".mo")
+
+    print(f"({n_proc}): {'Working directory:':<30} {_working_directory}")
+    print(f"({n_proc}): {'OpenIPSL path:':<30} {_openipsl_path}")
+    print(f"({n_proc}): {'Model path:':<30} {_model_path}\n")
 
     # Performance enhancing statements
     omc.sendExpression(f"setCommandLineOptions(\"-n={_n_cores}\")") # number of cores
