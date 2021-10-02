@@ -171,6 +171,8 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
         # Opening model
         omc.sendExpression(f"parseFile(\"{_model_path}\", \"UTF-8\")")
         res = omc.sendExpression(f"loadFile(\"{_model_path}\", \"UTF-8\")")
+        print(res)
+        return
         omc.sendExpression(f"instantiateModel({_model_package}.{_model_name})")
 
         for scenario in scenarios:
