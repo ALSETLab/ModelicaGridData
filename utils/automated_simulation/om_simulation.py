@@ -178,39 +178,41 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Initial linearization
             ##################################################################
 
-            # trip_line_om(scenario, _working_directory)
-            #
-            # # Changing the name of the result according to the scenario number
-            # _simSettings = f"startTime={_startTime},stopTime=0" \
-            #     + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
-            # _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
-            #
-            # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
-            # print(res)
+            trip_line_om(scenario, _working_directory)
 
-            # # Path of the model containing the linearization result
-            # lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
-            # # Loading and instantiating the model
-            # omc.sendExpression(f"loadFile(\"{lin_res_path}\", \"UTF-8\")")
-            # omc.sendExpression("instantiateModel(linearized_model)")
-            #
-            # _n_str = omc.sendExpression(f"getParameterValue(linearized_model, \"n\")")
-            # n = int(_n_str) # dimensions of the system matrix
-            #
-            # # Extracting 'A' matrix
-            # _A_str_raw = omc.sendExpression(f"getParameterValue(linearized_model, \"A\")") # output is a string
-            # _A_str = _A_str_raw.replace(';', ',')
-            # _A = literal_eval(_A_str)
-            # A = np.array(_A) # converting the string to a numpy array
-            # A = np.reshape(A, [n, n]) # reshaping into an 'n x n' matrix
-            #
-            # # Computing eigenvalues from `A` matrix
-            # eigs_scenario = sl.eig(A)[0]
-            # # Saving eigenvalues
-            # np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
-            #
-            # # Evaluating system small-signal stability using eigenvalues
-            # sc_labels_init[counter] = label_scenario(A)
+            # Changing the name of the result according to the scenario number
+            _simSettings = f"startTime={_startTime},stopTime=0" \
+                + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
+            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
+
+            # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
+            res = omc.sendExpression(f"linearize({_model_package}.{_model_name},simflags=\"-overrideFile=trip_line.txt\")")
+            print(res)
+            return
+
+            # Path of the model containing the linearization result
+            lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
+            # Loading and instantiating the model
+            omc.sendExpression(f"loadFile(\"{lin_res_path}\", \"UTF-8\")")
+            omc.sendExpression("instantiateModel(linearized_model)")
+
+            _n_str = omc.sendExpression(f"getParameterValue(linearized_model, \"n\")")
+            n = int(_n_str) # dimensions of the system matrix
+
+            # Extracting 'A' matrix
+            _A_str_raw = omc.sendExpression(f"getParameterValue(linearized_model, \"A\")") # output is a string
+            _A_str = _A_str_raw.replace(';', ',')
+            _A = literal_eval(_A_str)
+            A = np.array(_A) # converting the string to a numpy array
+            A = np.reshape(A, [n, n]) # reshaping into an 'n x n' matrix
+
+            # Computing eigenvalues from `A` matrix
+            eigs_scenario = sl.eig(A)[0]
+            # Saving eigenvalues
+            np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
+
+            # Evaluating system small-signal stability using eigenvalues
+            sc_labels_init[counter] = label_scenario(A)
 
             ##################################################################
             # Dynamic simulation
