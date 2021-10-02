@@ -149,14 +149,14 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             ##################################################################
 
             trip_line_om(scenario, _working_directory)
-            #
-            # # Changing the name of the result according to the scenario number
-            # _simSettings = f"startTime={_startTime},stopTime=0" \
-            #     + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
-            # _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
-            #
-            # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
-            #
+
+            # Changing the name of the result according to the scenario number
+            _simSettings = f"startTime={_startTime},stopTime=0" \
+                + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
+            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
+
+            res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
+
             # # Path of the model containing the linearization result
             # lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
             # # Loading and instantiating the model
@@ -180,6 +180,8 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             #
             # # Evaluating system small-signal stability using eigenvalues
             # sc_labels_init[counter] = label_scenario(A)
+
+            return
 
             ##################################################################
             # Dynamic simulation
