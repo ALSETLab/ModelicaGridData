@@ -185,10 +185,11 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
             _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
 
-            # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
-            res = omc.sendExpression(f"linearize({_model_package}.{_model_name},simflags=\"-overrideFile=trip_line.txt\")")
-            print(res)
+            ss = omc.sendExpression(f"Modelica_LinearSystems2.Utilities.Import.linearize2(\"{_model_package}.{trip_line(_model_name, scenario)}\")")
+            print(ss)
             return
+
+            # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
 
             # Path of the model containing the linearization result
             lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
