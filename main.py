@@ -479,7 +479,9 @@ if __name__ == "__main__":
 
                 scenarios = randomize_scenarios(_line_contingencies, _n_sc)
                 _n_scenarios = len(scenarios)
+
                 sc_dist = distribute_scenarios(scenarios, _n_proc)
+                print(sc_dist)
 
                 # Creating a temporary directory to allow multiple power flow
                 # simulations in parallel
