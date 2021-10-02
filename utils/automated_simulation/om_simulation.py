@@ -185,8 +185,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
             _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
 
-            res = omc.sendExpression(f"linearize({_model_name})")
-            print(res,_model_package,_model_name)
+            res = omc.sendExpression(f"linearize({_model_package}.{_model_name})")
             return
 
             # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
