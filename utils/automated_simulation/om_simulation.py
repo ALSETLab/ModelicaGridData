@@ -19,6 +19,15 @@ from .trip_line_om import *
 from .open_line_om import *
 from .label_scenario import *
 
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy2(s, d)
+
 def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     '''
 
