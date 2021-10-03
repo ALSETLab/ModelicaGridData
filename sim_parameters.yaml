@@ -32,8 +32,8 @@ openipsl_path_linux_new: '/home/dorads/Documents/Dymola/Library/OpenIPSL_2_beta/
 # --------------------------------------------------------------------------
 # Windows
 # --------------------------------------------------------------------------
-working_directory_windows : 'C:\_temp\Dymola'
-om_working_directory_windows : 'C:\_temp\OpenModelica'
+working_directory_windows : 'C:\Users\Documents\Dymola\experiments'
+om_working_directory_windows : 'C:\Users\Documents\OpenModelica\experiments'
 
 # Virtual machine (Windows)
 # openipsl_path_windows_old: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
