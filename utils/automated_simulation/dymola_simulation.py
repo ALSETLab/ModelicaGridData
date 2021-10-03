@@ -201,6 +201,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                 if _method == 'dassl':
                     pass
                     # dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
+                print(f"({n_proc})")
                 _dyn_sim_out = f"{_model_package}_dsres_{counter}"
                 res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000)}",
                     startTime = _startTime,
@@ -249,6 +250,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                         print(f"({n_proc}): {'Saved eigenvalues and labels at final state':<60} ({counter}/{total})")
                 else:
                     print(f"({n_proc}): {'I cannot do linearization at final state since time-domain simulation failed':<60} ({counter}/{total})")
+                    sc_labels_final[counter] = 0
             except DymolaException as ex:
                 print(f"({n_proc}): Error - " + str(ex))
             counter += 1
