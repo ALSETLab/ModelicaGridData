@@ -26,7 +26,7 @@ The functionalities to validate power flow results and dispatch massive time-dom
 
 ## Examples
 
-In Windows, open a Command Prompt as Administrator (**important**). To run NYISO data from 2015 up to now, we can use the command:
+To run NYISO data from 2015 up to now, we can use the command:
 
 ```
 python main.py nyiso --year 2015
@@ -40,3 +40,7 @@ python main.py run_pf --loads 3
 Further examples are provided as Jupyter Notebooks containing some functionalities that are not necessarily used in the code but included within the submodules:
 
 - [NYISO Data Scripts](docs/examples_nyiso_data.ipynb)
+
+## Troubleshooting
+
+- In Windows, open a Command Prompt as Administrator (**important**). Make sure the working directory is writable (i.e., folders and files and be created and deleted during runtime).
