@@ -185,11 +185,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
             _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
 
-            res = omc.sendExpression(f"linearize({_model_package}.{_model_name})")
-            print(res)
-            return
-
-            # res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
+            res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
 
             # Path of the model containing the linearization result
             lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
@@ -211,6 +207,8 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             eigs_scenario = sl.eig(A)[0]
             # Saving eigenvalues
             np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
+            print(eigs_scenario)
+            return
 
             # Evaluating system small-signal stability using eigenvalues
             sc_labels_init[counter] = label_scenario(A)
