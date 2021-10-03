@@ -197,9 +197,10 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
             # Dynamic simulation
             try:
-                # Disabling DAE solver: it leads to numerical problems
+                # Enabling DAE solver
                 if _method == 'dassl':
-                    dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
+                    pass
+                    # dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
                 _dyn_sim_out = f"{_model_package}_dsres_{counter}"
                 res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000)}",
                     startTime = _startTime,
