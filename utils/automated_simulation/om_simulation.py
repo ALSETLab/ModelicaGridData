@@ -270,7 +270,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     # Closing OM process
     omc.sendExpression("quit()")
 
-    print(f"\n({n_proc}): Removing simulation files from current working directory")
+    print(f"({n_proc}): Removing simulation files from current working directory")
 
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)
