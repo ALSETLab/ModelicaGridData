@@ -14,19 +14,19 @@ The **trajectory generation tool** allows to generate data using an OpenIPSL pha
 
 This tool implements several functionalities such as data scrapping, massive time series power flow computations, power flow validation, massive phasor-domain dynamic simulation, and small-signal labeling. It represents a full end-to-end tool that can be used to generate big data for power systems. Such big data can be used in applications such as system identification and training for Machine Learning modules. By default, the tool uses the IEEE 14 bus model as a study case, but it can be replaced by any OpenIPSL model. The repository is shipped with the following models:
 
-- SMIB (`SMIB`):
-- Kundur TwoAreas (`TwoAreas`):
-- AVRI
-- IEEE9
-- IEEE14
+- SMIB (`SMIB`)
+- Kundur Two Area (`TwoAreas`)
+- AVRI (`AVRI`)
+- IEEE9 (`IEEE9`)
+- IEEE14 (`IEEE14`)
 
 Unfortunately, we have no function that links the power flow records to the models. It has to be done manually (at least, for the time being).
 
-The functionalities to validate power flow results and dispatch massive time domain simulations are widely customizable. For this reason, the arguments are specified using the `.yaml` corresponding files: `val_params.yaml` for power flow validation and `sim_params.yaml` for massive time domain simulation.
+The functionalities to validate power flow results and dispatch massive time-domain simulations are widely customizable. For this reason, the arguments are specified using the `.yaml` corresponding files: `val_params.yaml` for power flow validation and `sim_params.yaml` for massive time domain simulation.
 
 ## Examples
 
-To run NYISO data from 2015 up to now, we can use the command:
+In Windows, open a Command Prompt as Administrator (**important**). To run NYISO data from 2015 up to now, we can use the command:
 
 ```
 python main.py nyiso --year 2015
