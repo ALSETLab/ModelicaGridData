@@ -486,7 +486,10 @@ if __name__ == "__main__":
                 # Creating a temporary directory to allow multiple power flow
                 # simulations in parallel
                 _temp_dir_models = os.path.join(os.getcwd(), '_temp')
-                if not os.path.exists(_temp_dir_models):
+                if os.path.exists(_temp_dir_models):
+                    # Removing temporary directory if it exists
+                    shutil.rmtree(_temp_dir_models)
+                else:
                     os.mkdir(_temp_dir_models) # could be removed but test it
 
                 ##################################################
@@ -536,7 +539,6 @@ if __name__ == "__main__":
                 p.join()
 
                 # Deleting temporary directory
-                _temp_dir_models = os.path.join(os.getcwd(), '_temp')
                 if os.path.exists(_temp_dir_models):
                     shutil.rmtree(_temp_dir_models)
 
