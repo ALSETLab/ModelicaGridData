@@ -32,16 +32,21 @@ openipsl_path_linux_new: '/home/dorads/Documents/Dymola/Library/OpenIPSL_2_beta/
 # --------------------------------------------------------------------------
 # Windows
 # --------------------------------------------------------------------------
-working_directory_windows : 'C:\Users\dorads\Documents\Dymola\experiments\'
-om_working_directory_windows : 'C:\Users\dorads\Documents\OpenModelica\experiments\'
+working_directory_windows : 'C:\temp\Dymola\experiments'
+om_working_directory_windows : 'C:\temp\OpenModelica\experiments'
+
+# working_directory_windows : 'C:\Users\dorads\Documents\Dymola\experiments\'
+# om_working_directory_windows : 'C:\Users\dorads\Documents\OpenModelica\experiments\'
 
 # Virtual machine (Windows)
 # openipsl_path_windows_old: 'Z:\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
 # openipsl_path_windows_new: 'Z:\Documents\Dymola\Library\OpenIPSL_2_beta\OpenIPSL\package.mo' # version 2.0
 
 # Test machine (Windows)
-openipsl_path_windows_old: 'C:\Users\dorads\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
-openipsl_path_windows_new: 'C:\Users\dorads\Documents\Dymola\Library\OpenIPSL\package.mo' # version 2.0
+# openipsl_path_windows_old: 'C:\Users\dorads\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
+# openipsl_path_windows_new: 'C:\Users\dorads\Documents\Dymola\Library\OpenIPSL\package.mo' # version 2.0
+openipsl_path_windows_old: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
+openipsl_path_windows_new: 'C:\Users\Sergio\Documents\Dymola\Library\OpenIPSL\package.mo' # version 2.0
 
 # ===========================
 # == SIMULATION PARAMETERS ==
