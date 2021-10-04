@@ -28,9 +28,8 @@ def extract_data(tool, model, path, working_directory):
     _model_name = f"{model}_Base_Case"
 
     # Asking the user what data to extract from the simulations
-    value1 = input("Please enter a component type: \n   1. Bus\n  2. Line\n   3. Generator\n")
+    value1 = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}")
     choice = int(value1)
-
 
     if choice == 1:
         print('Extracting bus signals')
