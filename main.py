@@ -586,6 +586,11 @@ if __name__ == "__main__":
                     elif _tool == 'om':
                         _working_directory = os.path.join(os.path.abspath(sim_params['om_working_directory_linux']), _model)
 
+                # Printing working directory and tool
+                print(f"{'Model name':<30} {_model}")
+                print(f"{'Tool':<30} {_tool}")
+                print(f"{'Working directory':<30} {_working_directory}")
+
                 # Validating whether the current working directory exists or not
                 if not os.path.exists(_working_directory):
                     raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
