@@ -557,10 +557,10 @@ if __name__ == "__main__":
                     _tool = args.tool
                     if _tool not in ['dymola', 'om']:
                         raise ValueError("Invalid tool. Only 'dymola' and 'om' (OpenModelica) are supported")
-                    else:
-                        # Raising warning. Directory may not exist. Continuing with caution
-                        _tool = 'dymola'
-                        warnings.warn("No tool specified. Using 'dymola' by default. Output directory may not exist");
+                else:
+                    # Raising warning. Directory may not exist. Continuing with caution
+                    _tool = 'dymola'
+                    warnings.warn("No tool specified. Using 'dymola' by default. Output directory may not exist");
 
                 if args.model:
                     _model = args.model
