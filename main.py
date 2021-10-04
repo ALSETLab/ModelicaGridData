@@ -559,6 +559,7 @@ if __name__ == "__main__":
                         raise ValueError("Invalid tool. Only 'dymola' and 'om' (OpenModelica) are supported")
                     else:
                         # Raising warning. Directory may not exist. Continuing with caution
+                        _tool = 'dymola'
                         warnings.warn("No tool specified. Using 'dymola' by default. Output directory may not exist");
 
                 if args.model:
@@ -573,19 +574,23 @@ if __name__ == "__main__":
                 with open(r'sim_parameters.yaml') as f:
                     sim_params = yaml.load(f, Loader = yaml.FullLoader)
 
-                # Instantiating dymola object (according to operating system)
+                # Getting working directory (according to tool and OS)
                 if platform.system() == 'Windows':
-                    # Making sure each process has its own working directory
-                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_windows']), _model)
-                    if not os.path.exists(_working_directory):
-                        raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
+                    if _tool == 'dymola':
+                        _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_windows']), _model)
+                    elif _tool == 'om':
+                        _working_directory = os.path.join(os.path.abspath(sim_params['om_working_directory_windows']), _model)
                 elif platform.system() == 'Linux':
-                    # Making sure each process has an independent working directory
-                    _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model)
-                    if not os.path.exists(_working_directory):
-                        raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
+                    if _tool == 'dymola':
+                        _working_directory = os.path.join(os.path.abspath(sim_params['working_directory_linux']), _model)
+                    elif _tool == 'om':
+                        _working_directory = os.path.join(os.path.abspath(sim_params['om_working_directory_linux']), _model)
 
-                # Creating unique ID for the experiment data
+                # Validating whether the current working directory exists or not
+                if not os.path.exists(_working_directory):
+                    raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
+
+                # Creating unique ID for the experiment data result directory
                 expid = datetime.datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
 
                 # Creating path for experiment ID
@@ -593,7 +598,7 @@ if __name__ == "__main__":
                 print(f"\nExperiment result path: \n{_path}\n")
 
                 # Extracting data
-                extract_data(_model, _path, _working_directory)
+                extract_data(_tool, _model, _path, _working_directory)
 
             if _function == 'label':
                 # Driver for labeling code
