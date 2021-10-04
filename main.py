@@ -586,14 +586,6 @@ if __name__ == "__main__":
                     elif _tool == 'om':
                         _working_directory = os.path.join(os.path.abspath(sim_params['om_working_directory_linux']), _model)
 
-                # Printing working directory and tool
-                print(f"\n{'':-^45}")
-                print('Summary for time-domain simulation data extraction')
-                print(f"{'':-^45}")
-                print(f"{'Model name':<15} {_model}")
-                print(f"{'Tool':<15} {_tool}")
-                print(f"{'Working directory':<15} {_working_directory}\n")
-
                 # Validating whether the current working directory exists or not
                 if not os.path.exists(_working_directory):
                     raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
@@ -603,7 +595,16 @@ if __name__ == "__main__":
 
                 # Creating path for experiment ID
                 _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
-                print(f"\nExperiment result path: \n{_path}\n")
+
+
+                # Printing working directory and tool
+                print(f"\n{'':-^45}")
+                print('Summary for time-domain simulation data extraction')
+                print(f"{'':-^45}")
+                print(f"{'Model name':<15} {_model}")
+                print(f"{'Tool':<15} {_tool}")
+                print(f"{'Working directory':<15} {_working_directory}")
+                print(f"{'Experiment result path:':<15} {_path}")
 
                 # Extracting data
                 extract_data(_tool, _model, _path, _working_directory)
