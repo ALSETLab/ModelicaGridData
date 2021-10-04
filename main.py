@@ -602,7 +602,7 @@ if __name__ == "__main__":
                 print('Summary for time-domain simulation data extraction')
                 print(f"{'':-^45}")
                 print(f"{'Model name':<30} {_model}")
-                print(f"{'Tool':<30} {_tool}\n")
+                print(f"{'Tool':<30} {_tool}")
                 print(f"{'Working directory':<30}\n {_working_directory}")
                 print(f"{'Experiment result path:':<30}\n {_path}")
 
