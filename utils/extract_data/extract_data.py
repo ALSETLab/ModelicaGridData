@@ -24,7 +24,26 @@ def extract_data(tool, model, path, working_directory):
     '''
 
     # Model name in simulations
+    _model = _model
     _model_name = f"{model}_Base_Case"
+
+    # Asking the user what data to extract from the simulations
+    value1 = input("Please enter a component type: \n   1. Bus\n  2. Line\n   3. Generator\n")
+    choice = int(value1)
+
+
+    if choice == 1:
+        print('Extracting bus signals')
+    elif choice == 2:
+        print(f'Extracting line signals')
+    elif choice == 3:
+        print(f'Extracting generator signals')
+    else:
+        print("Wrong Choice, terminating the program.")
+        return
+
+    return
+
 
     # Getting the list of files in the working directory
     with os.scandir(working_directory) as entry_list:
