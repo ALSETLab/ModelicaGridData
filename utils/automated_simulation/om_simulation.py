@@ -195,7 +195,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
 
             # Path of the model containing the linearization result
-            lin_res_path = os.path.join(_working_directory, f"{_model_package}_linearized_model_init_{counter}.mo")
+            lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
             # Loading and instantiating the model
             omc.sendExpression(f"loadFile(\"{lin_res_path}\", \"UTF-8\")")
             omc.sendExpression("instantiateModel(linearized_model)")
@@ -244,12 +244,12 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
             _simSettings = f"startTime={_startTime},stopTime={_stopTime}" \
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
-            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_linearized_model_final_{counter}\""
+            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_dslin_final_{counter}\""
 
             res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=open_line.txt\")")
 
             # Path of the model containing the linearization result
-            lin_res_path = os.path.join(_working_directory, f"{_model_package}_linearized_model_final_{counter}.mo")
+            lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
             # Loading and instantiating the model
             omc.sendExpression(f"loadFile(\"{lin_res_path}\", \"UTF-8\")")
             omc.sendExpression("instantiateModel(linearized_model)")
