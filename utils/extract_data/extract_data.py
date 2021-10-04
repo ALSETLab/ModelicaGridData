@@ -28,7 +28,7 @@ def extract_data(tool, model, path, working_directory):
     _model_name = f"{model}_Base_Case"
 
     # Asking the user what data to extract from the simulations
-    value1 = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}")
+    value1 = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}\n\nComponent type: ")
     choice = int(value1)
 
     if choice == 1:
