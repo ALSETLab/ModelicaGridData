@@ -3,11 +3,12 @@ import os
 import sdf
 import pandas as pd
 
-def extract_data(model, path, working_directory):
+def extract_data(tool, model, path, working_directory):
     '''
     EXTRACT_DATA
 
     INPUTS:
+    - `tool`: tool that was used for data generation (i.e., either `dymola` or `om`)
     - `model`: model for which the simulation data will be extracted
     and processed. Default: `IEEE14`.
     - `path`: path where the output `*.csv` files will be saved
