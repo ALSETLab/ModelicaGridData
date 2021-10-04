@@ -587,9 +587,12 @@ if __name__ == "__main__":
                         _working_directory = os.path.join(os.path.abspath(sim_params['om_working_directory_linux']), _model)
 
                 # Printing working directory and tool
-                print(f"{'Model name':<30} {_model}")
-                print(f"{'Tool':<30} {_tool}")
-                print(f"{'Working directory':<30} {_working_directory}")
+                print(f"\n{'':-^45}")
+                print('Summary for time-domain simulation data extraction')
+                print(f"{'':-^45}")
+                print(f"{'Model name':<15} {_model}")
+                print(f"{'Tool':<15} {_tool}")
+                print(f"{'Working directory':<15} {_working_directory}\n")
 
                 # Validating whether the current working directory exists or not
                 if not os.path.exists(_working_directory):
