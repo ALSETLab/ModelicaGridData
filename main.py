@@ -604,7 +604,7 @@ if __name__ == "__main__":
                 print(f"{'Model name':<30} {_model}")
                 print(f"{'Tool':<30} {_tool}")
                 print(f"{'Working directory':<30}\n {_working_directory}")
-                print(f"{'Experiment result path:':<30}\n {_path}")
+                print(f"{'Experiment result path':<30}\n {_path}")
 
                 # Extracting data
                 extract_data(_tool, _model, _path, _working_directory)

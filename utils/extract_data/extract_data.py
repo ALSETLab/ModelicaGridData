@@ -32,17 +32,20 @@ def extract_data(tool, model, path, working_directory):
     choice = int(value1)
 
     if choice == 1:
-        print('Extracting bus signals')
+        print('\nExtracting bus signals')
     elif choice == 2:
-        print(f'Extracting line signals')
+        print(f'\nExtracting line signals')
     elif choice == 3:
-        print(f'Extracting generator signals')
+        print(f'\nExtracting generator signals')
     else:
         print("Wrong Choice, terminating the program.")
         return
 
-    return
-
+    # Prefix for the `*.mat` simulation files
+    if _tool == 'dymola':
+        _sim_prefix = 'dsres'
+    elif _tool == 'om':
+        _sim_prefix = 'dyn'
 
     # Getting the list of files in the working directory
     with os.scandir(working_directory) as entry_list:
@@ -56,5 +59,7 @@ def extract_data(tool, model, path, working_directory):
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
-            print(len(_list_files))
+            if _tool == 'dymola':
+
+
             break

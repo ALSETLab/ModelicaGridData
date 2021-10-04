@@ -182,11 +182,11 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Initial linearization
             try:
                 ss = dymolaInstance.ExecuteCommand(f"Modelica_LinearSystems2.Utilities.Import.linearize2(\"{_model_package}.{trip_line(_model_name, scenario)}\")")
-                # # Extracting 'A' matrix from array
+                # Extracting 'A' matrix from array
                 A = np.array(ss['A'])
                 eigs_scenario = sl.eig(A)[0]
                 # Saving eigenvalues
-                np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
+                np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_{counter}.npy"), eigs_scenario)
                 print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{total})")
                 # Evaluating system small-signal stability using eigenvalues
                 sc_labels_init[counter] = label_scenario(A)
@@ -241,7 +241,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                         # Getting system eigenvalues at final state
                         eigs_scenario = sl.eig(A)[0]
                         # Saving eigenvalues
-                        np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_sc_{counter}.npy"), eigs_scenario)
+                        np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_{counter}.npy"), eigs_scenario)
 
                         # Computing label at final state
                         sc_labels_final[counter] = label_scenario(A)
@@ -268,7 +268,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
     sc_label_df_init = pd.DataFrame(index = sc_keys, columns = ["Label"])
     sc_label_df_init["Label"] = [sc_labels_init[x] for x in sc_keys]
-    sc_label_df_init.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_sc.csv"))
+    sc_label_df_init.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_init.csv"))
 
     sc_label_df_final = pd.DataFrame(index = sc_keys, columns = ["Label"])
     sc_label_df_final["Label"] = [sc_labels_final[x] for x in sc_keys]

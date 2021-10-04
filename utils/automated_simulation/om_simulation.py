@@ -30,6 +30,13 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
     '''
+    OM_SIMULATION
+
+    INPUTS:
+
+    OUTPUTS:
+
+    LAST MODIFICATION DATE:
 
     '''
     _version = sim_params['version']
@@ -183,12 +190,12 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Changing the name of the result according to the scenario number
             _simSettings = f"startTime={_startTime},stopTime=0" \
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
-            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_lin0_{counter}\""
+            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_dslin_init_{counter}\""
 
             res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=trip_line.txt\")")
 
             # Path of the model containing the linearization result
-            lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
+            lin_res_path = os.path.join(_working_directory, f"{_model_package}_linearized_model_init_{counter}.mo")
             # Loading and instantiating the model
             omc.sendExpression(f"loadFile(\"{lin_res_path}\", \"UTF-8\")")
             omc.sendExpression("instantiateModel(linearized_model)")
@@ -206,7 +213,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Computing eigenvalues from `A` matrix
             eigs_scenario = sl.eig(A)[0]
             # Saving eigenvalues
-            np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_sc_{counter}.npy"), eigs_scenario)
+            np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_{counter}.npy"), eigs_scenario)
 
             # Evaluating system small-signal stability using eigenvalues
             sc_labels_init[counter] = label_scenario(A)
@@ -218,7 +225,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Changing the name of the result according to the scenario number
             _simSettings = f"startTime={_startTime},stopTime={_stopTime}" \
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
-            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_dyn_{counter}\""
+            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_dsres_{counter}\""
 
             # Creating ``.txt` file with scenario information
             open_line_om(scenario, _stopTime, 1000, _working_directory)
@@ -237,12 +244,12 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
             _simSettings = f"startTime={_startTime},stopTime={_stopTime}" \
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
-            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_linf_{counter}\""
+            _simOptions = _simSettings + f",fileNamePrefix=\"{_model_package}_linearized_model_final_{counter}\""
 
             res = omc.sendExpression(f"linearize({_model_package}.{_model_name},{_simOptions},simflags=\"-overrideFile=open_line.txt\")")
 
             # Path of the model containing the linearization result
-            lin_res_path = os.path.join(_working_directory, f"linearized_model.mo")
+            lin_res_path = os.path.join(_working_directory, f"{_model_package}_linearized_model_final_{counter}.mo")
             # Loading and instantiating the model
             omc.sendExpression(f"loadFile(\"{lin_res_path}\", \"UTF-8\")")
             omc.sendExpression("instantiateModel(linearized_model)")
@@ -260,7 +267,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Computing eigenvalues from `A` matrix
             eigs_scenario = sl.eig(A)[0]
             # Saving eigenvalues
-            np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_sc_{counter}.npy"), eigs_scenario)
+            np.save(os.path.join(_working_directory, f"{_model_package}_eigs_final_{counter}.npy"), eigs_scenario)
 
             # Evaluating system small-signal stability using eigenvalues
             sc_labels_final[counter] = label_scenario(A)
@@ -287,7 +294,7 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
 
     sc_label_df_init = pd.DataFrame(index = sc_keys, columns = ["Label"])
     sc_label_df_init["Label"] = [sc_labels_init[x] for x in sc_keys]
-    sc_label_df_init.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_sc.csv"))
+    sc_label_df_init.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_init.csv"))
 
     sc_label_df_final = pd.DataFrame(index = sc_keys, columns = ["Label"])
     sc_label_df_final["Label"] = [sc_labels_final[x] for x in sc_keys]
