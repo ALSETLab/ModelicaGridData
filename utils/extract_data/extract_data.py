@@ -24,7 +24,7 @@ def extract_data(tool, model, path, working_directory):
     '''
 
     # Model name in simulations
-    _model = _model
+    _model = model
     _model_name = f"{model}_Base_Case"
 
     # Asking the user what data to extract from the simulations
