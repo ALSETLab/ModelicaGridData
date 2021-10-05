@@ -37,7 +37,7 @@ def extract_data(tool, model, path, working_directory):
         # Extracting bus signals
         print("\nExtracting bus signals\n")
         value1 = input(f"Indicate if you want to extract the bus voltage signals as:\n{'1. Real and imaginary parts':>10}\n{'2. Polar (magnitude and angle)':>10}\n\nFormat: ")
-
+        print(value1)
         # Validating user input
         if value1 == 1:
             print("Extracting bus voltage as real and imaginary parts")
@@ -76,7 +76,7 @@ def extract_data(tool, model, path, working_directory):
     # Getting the list of files in the working directory
     with os.scandir(working_directory) as entry_list:
         for entry in entry_list:
-            print(entry.name)
+            # print(entry.name)
 
             _res_directory = os.path.join(working_directory, entry.name)
 
@@ -85,4 +85,4 @@ def extract_data(tool, model, path, working_directory):
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
-            print(_list_files)
+            # print(_list_files)
