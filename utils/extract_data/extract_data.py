@@ -34,10 +34,22 @@ def extract_data(tool, model, path, working_directory):
     choice = int(value1)
 
     if choice == 1:
-        print('\nExtracting bus signals')
+        # Extracting bus signals
+        print("\nExtracting bus signals\n")
+        value1 = input(f"Indicate if you want to extract the bus voltage signals as:\n {'1. Real and imaginary parts':>5}\n{'2. Polar (magnitude and angle)':>5}\n\nFormat: ")
     elif choice == 2:
+        # Extracting line signals
         print(f'\nExtracting line signals')
+        value1 = input(f"Indicate if you want to extract:\n {'1. Power signals (P, Q)':>5}\n{'2. Current signals':>5}\n\nSignal: ")
+        if value1 == 1:
+            print("Extracting power signals across lines")
+        elif value == 2:
+            print("Extracting current signals across lines")
+        else:
+            print("Invalid choice. Terminating routine")
+            return
     elif choice == 3:
+        # Extracting generator signals
         print(f'\nExtracting generator signals')
     else:
         print("Wrong Choice, terminating the program.")
