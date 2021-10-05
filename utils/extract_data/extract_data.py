@@ -30,14 +30,14 @@ def extract_data(tool, model, path, working_directory):
     _tool = tool
 
     # Asking the user what data to extract from the simulations
-    value1 = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}\n\nComponent type: ")
-    choice = int(value1)
+    choice = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}\n\nComponent type: ")
+    choice = int(choice)
 
     if choice == 1:
         # Extracting bus signals
         print("\nExtracting bus signals\n")
         value1 = input(f"Indicate if you want to extract the bus voltage signals as:\n{'1. Real and imaginary parts':>10}\n{'2. Polar (magnitude and angle)':>10}\n\nFormat: ")
-        print(value1)
+        value1 = int(value1) # parsing to integer
         # Validating user input
         if value1 == 1:
             print("Extracting bus voltage as real and imaginary parts")
@@ -51,7 +51,7 @@ def extract_data(tool, model, path, working_directory):
         # Extracting line signals
         print(f'\nExtracting line signals')
         value1 = input(f"Indicate if you want to extract:\n{'1. Power signals (P, Q)':>10}\n{'2. Current signals':>10}\n\nSignal: ")
-
+        value1 = int(value1) # parsing to integer
         # Validating user input
         if value1 == 1:
             print("Extracting power signals across lines")
