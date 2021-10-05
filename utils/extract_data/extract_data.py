@@ -59,7 +59,4 @@ def extract_data(tool, model, path, working_directory):
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
-            if _tool == 'dymola':
-
-
-            break
+            print(_list_files)
