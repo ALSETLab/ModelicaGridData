@@ -49,12 +49,14 @@ def extract_data(tool, model, path, working_directory):
 
     elif choice == 2:
         # Extracting line signals
-        print(f'\nExtracting line signals')
+        print(f'\nExtracting line signals\n')
         value1 = input(f"Indicate if you want to extract:\n{'1. Power signals (P, Q)':>10}\n{'2. Current signals':>10}\n\nSignal: ")
         value1 = int(value1) # parsing to integer
         # Validating user input
         if value1 == 1:
             print("Extracting power signals across lines")
+            extract = 'power'
+            format = 'P, Q'
         elif value1 == 2:
             print("Extracting current signals across lines")
         else:
@@ -84,5 +86,11 @@ def extract_data(tool, model, path, working_directory):
             with os.scandir(_res_directory) as entry_res:
                 # List of files
                 _list_files = [x.name for x in entry_res]
+
+            for file in _list_files:
+                # File is a dynamic simulation result
+                if file.endswith('.mat') and 'dsres' in file:
+
+
 
             # print(_list_files)
