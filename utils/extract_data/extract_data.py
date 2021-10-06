@@ -37,8 +37,8 @@ def extract_data(tool, model, path, working_directory):
         # Extracting bus signals
         print("\nExtracting bus signals\n")
         value1 = input(f"Indicate if you want to extract the bus voltage signals as:\n{'1. Real and imaginary parts':>10}\n{'2. Polar (magnitude and angle)':>10}\n\nFormat: ")
-        value1 = int(value1) # parsing to integer
         # Validating user input
+        value1 = int(value1) # parsing to integer
         if value1 == 1:
             print("Extracting bus voltage as real and imaginary parts")
         elif value1 == 2:
