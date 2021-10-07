@@ -92,12 +92,6 @@ def extract_data(tool, model, version, path, working_directory):
         print("Wrong Choice, terminating the program.")
         return
 
-    # Prefix for the `*.mat` simulation files
-    if _tool == 'dymola':
-        _sim_prefix = 'dsres'
-    elif _tool == 'om':
-        _sim_prefix = 'dyn'
-
     # Getting the list of files in the working directory
     with os.scandir(working_directory) as entry_list:
         for entry in entry_list:
@@ -113,8 +107,11 @@ def extract_data(tool, model, version, path, working_directory):
             for file in _list_files:
                 # File is a dynamic simulation result
                 if file.endswith('.mat') and 'dsres' in file:
-                    pass
+                    _file_path = os.path.join(working_directory, file)
 
+                    # Opening `*.mat` file
+                    resData = sdf.load(_file_path)
 
-
-            # print(_list_files)
+                    print(resData)
+                    break
+            break
