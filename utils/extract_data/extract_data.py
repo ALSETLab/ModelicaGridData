@@ -46,12 +46,11 @@ def extract_data(tool, model, version, path, working_directory):
 
     # Getting list of components from the model
     model_components = generate_component_list(_model_mo_dir)
-    print(model_components)
 
-    return
-    #_model_dir =
-
-
+    # Extracting lines, generators and buses
+    _lines = model_components['lines']
+    _generators = model_components['generators']
+    _buses = model_components['buses']
 
     # Asking the user what data to extract from the simulations
     choice = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}\n\nComponent type: ")
