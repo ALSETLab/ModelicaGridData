@@ -27,12 +27,23 @@ def extract_data(tool, model, version, path, working_directory):
     # Model name in simulations
     _model = model
     _model_name = f"{model}_Base_Case"
+
     # Employed tool in simulations
     _tool = tool
     _version = version
 
     # Get component list for the model
-    print(os.getcwd())
+    if _version == "1.5.0":
+        _lib_dir = '_old'
+    elif _version == "2.0.0":
+        _lib_dir = '_new'
+
+    # Path to the `*.mo` file of the model
+    _model_mo_dir = os.path.join(os.getcwd(), 'models', _lib_dir,
+        _model, f"{_model}_Base_Case.mo")
+
+    print(_model_mo_dir)
+
     return
     #_model_dir =
 
