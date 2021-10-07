@@ -120,7 +120,7 @@ def extract_data(tool, model, version, path, working_directory):
 
             print(_list_files)
             break
-    return
+            return
 
             # Iterating through the resulting files
             for file in _list_files:
