@@ -148,6 +148,9 @@ def extract_data(tool, model, version, path, working_directory):
                                 elif _version == '2.0.0':
                                     v_mag = resData[bus]["v"]
 
+                                # Converting to numpy array
+                                v_mag = np.array(v_mag.data)
+
                                 v_angle = None
                                 break
                     elif extract == 'lines':
