@@ -3,6 +3,8 @@ import os
 import sdf
 import pandas as pd
 
+from .generate_component_list import *
+
 def extract_data(tool, model, version, path, working_directory):
     '''
     EXTRACT_DATA
@@ -42,7 +44,9 @@ def extract_data(tool, model, version, path, working_directory):
     _model_mo_dir = os.path.join(os.getcwd(), 'models', _lib_dir,
         _model, f"{_model}_Base_Case.mo")
 
-    print(_model_mo_dir)
+    # Getting list of components from the model
+    model_components = generate_component_list(_model_mo_dir)
+    print(model_components)
 
     return
     #_model_dir =
