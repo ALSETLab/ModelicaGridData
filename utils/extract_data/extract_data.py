@@ -34,7 +34,7 @@ def extract_data(tool, model, version, path, working_directory):
     # Get component list for the model
     print(os.getcwd())
     return
-    #_model_dir = 
+    #_model_dir =
 
 
 
@@ -99,6 +99,7 @@ def extract_data(tool, model, version, path, working_directory):
             for file in _list_files:
                 # File is a dynamic simulation result
                 if file.endswith('.mat') and 'dsres' in file:
+                    pass
 
 
 
