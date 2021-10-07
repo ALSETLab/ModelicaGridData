@@ -2,6 +2,7 @@ import os
 
 import sdf
 import pandas as pd
+import re
 
 from .generate_component_list import *
 
@@ -118,16 +119,15 @@ def extract_data(tool, model, version, path, working_directory):
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
-            print(_list_files)
-            break
-            return
-
             # Iterating through the resulting files
             for file in _list_files:
                 # File is a dynamic simulation result
                 if file.endswith('.mat') and 'dsres' in file:
 
                     print(file) # for debugging
+                    _sim_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
+                    _sim_scenario = _sim_scenario_regex.findall(file)
+                    print(_sim_scenario, type(_sim_scenario))
 
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
