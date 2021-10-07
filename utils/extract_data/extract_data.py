@@ -142,7 +142,7 @@ def extract_data(tool, model, version, path, working_directory):
                             # Look for p and then vi vr
                             pass
                         elif res_format == 'polar':
-                            for bus in buses:
+                            for bus in _buses:
                                 if _version == '1.5.0':
                                     v_mag = resData[bus]["V"]
                                 elif _version == '2.0.0':
