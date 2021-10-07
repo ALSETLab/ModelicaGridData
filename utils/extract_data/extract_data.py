@@ -107,7 +107,8 @@ def extract_data(tool, model, version, path, working_directory):
             for file in _list_files:
                 # File is a dynamic simulation result
                 if file.endswith('.mat') and 'dsres' in file:
-                    _file_path = os.path.join(working_directory, file)
+                    # Getting the file path (current directory is `_res_directory`)
+                    _file_path = os.path.join(_res_directory, file)
 
                     # Opening `*.mat` file
                     resData = sdf.load(_file_path)
