@@ -125,10 +125,10 @@ def extract_data(tool, model, version, path, working_directory):
                 if file.endswith('.mat') and 'dsres' in file:
 
                     print(file) # for debugging
-                    _sim_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
-                    _sim_scenario = _sim_scenario_regex.findall(file)[0]
-                    print(_sim_scenario, type(_sim_scenario))
-                    continue
+
+                    # Getting scenario number
+                    _n_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
+                    _n_scenario = int(_n_scenario_regex.findall(file)[0])
 
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
@@ -138,11 +138,25 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Extracting file depending on user selection
                     if extract == 'buses':
-                        pass
+                        if res_format == 'rectangular':
+                            # Look for p and then vi vr
+                            pass
+                        elif res_format == 'polar':
+                            for bus in buses:
+                                if _version == '1.5.0':
+                                    v_mag = resData[bus]["V"]
+                                elif _version == '2.0.0':
+                                    v_mag = resData[bus]["v"]
+
+                                v_angle = None
+                                break
                     elif extract == 'lines':
                         pass
                     elif extract == 'generators':
                         pass
+
+                    print(v_mag)
+                    print(v_angle)
 
                     break
             break
