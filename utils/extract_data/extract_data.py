@@ -118,6 +118,10 @@ def extract_data(tool, model, version, path, working_directory):
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
+            print(_list_files)
+            break
+    return
+
             # Iterating through the resulting files
             for file in _list_files:
                 # File is a dynamic simulation result
