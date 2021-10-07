@@ -58,61 +58,86 @@ def extract_data(tool, model, version, path, working_directory):
 
     if choice == 1:
         # Extracting bus signals
+        extract = 'buses'
+
+        # Getting format from the user
         print("\nExtracting bus signals\n")
         value1 = input(f"Indicate if you want to extract the bus voltage signals as:\n{'1. Real and imaginary parts':>10}\n{'2. Polar (magnitude and angle)':>10}\n\nFormat: ")
-        # Validating user input
         value1 = int(value1) # parsing to integer
+
+        # Validating user input
         if value1 == 1:
             print("Extracting bus voltage as real and imaginary parts")
+            res_format = 'rectangular' # real and imaginary parts
         elif value1 == 2:
             print("Extracting bus voltage signal as magnitude and phase")
+            res_format = 'polar' # magnitude and phase
         else:
             print("Invalid choice. Terminating routine")
             return
 
     elif choice == 2:
-        # Extracting line signals
+        extract = 'lines'
+
+        # Getting format from the user
         print(f'\nExtracting line signals\n')
         value1 = input(f"Indicate if you want to extract:\n{'1. Power signals (P, Q)':>10}\n{'2. Current signals':>10}\n\nSignal: ")
         value1 = int(value1) # parsing to integer
+
         # Validating user input
         if value1 == 1:
             print("Extracting power signals across lines")
-            extract = 'power'
-            format = 'P, Q'
+            extract_signal = 'power'
+            res_format = 'rectangular' # P and Q
         elif value1 == 2:
             print("Extracting current signals across lines")
+            extract_signal = 'current'
+            res_format = 'rectangular' # real and imaginary parts
         else:
             print("Invalid choice. Terminating routine")
             return
     elif choice == 3:
+        extract = 'generators'
+
         # Extracting generator signals
         print(f'\nExtracting generator signals')
+        # TBD
     else:
         print("Wrong Choice, terminating the program.")
         return
 
     # Getting the list of files in the working directory
-    with os.scandir(working_directory) as entry_list:
-        for entry in entry_list:
-            # print(entry.name)
+    with os.scandir(working_directory) as proc_folder_list:
+        # Going through every folder created by a process during time-domain simulation
+        for folder in proc_folder_list:
+            # Current working directory
+            _res_directory = os.path.join(working_directory, folder.name)
 
-            _res_directory = os.path.join(working_directory, entry.name)
-
-            # Getting list of files in result directory
+            # Getting list of files in result folder
             with os.scandir(_res_directory) as entry_res:
                 # List of files
                 _list_files = [x.name for x in entry_res]
 
+            # Iterating through the resulting files
             for file in _list_files:
                 # File is a dynamic simulation result
                 if file.endswith('.mat') and 'dsres' in file:
+
+                    print(file) # for debugging
+
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
 
                     # Opening `*.mat` file
                     resData = sdf.load(_file_path)
 
-                    print(resData)
+                    # Extracting file depending on user selection
+                    if extract == 'buses':
+                        pass
+                    elif extract == 'lines':
+                        pass
+                    elif extract == 'generators':
+                        pass
+
                     break
             break
