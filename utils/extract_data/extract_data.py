@@ -126,8 +126,9 @@ def extract_data(tool, model, version, path, working_directory):
 
                     print(file) # for debugging
                     _sim_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
-                    _sim_scenario = _sim_scenario_regex.findall(file)
+                    _sim_scenario = _sim_scenario_regex.findall(file)[0]
                     print(_sim_scenario, type(_sim_scenario))
+                    continue
 
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
