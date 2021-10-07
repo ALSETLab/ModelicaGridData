@@ -144,10 +144,14 @@ def extract_data(tool, model, version, path, working_directory):
                             pass
                         elif res_format == 'polar':
                             for bus in _buses:
+                                # Getting voltage magnitude
                                 if _version == '1.5.0':
                                     v_mag = resData[bus]["V"]
                                 elif _version == '2.0.0':
                                     v_mag = resData[bus]["v"]
+
+                                # Getting voltage angle
+                                v_angle = resData[bus]["angle"]
 
                                 # Converting to numpy array
                                 v_mag = np.array(v_mag.data)
