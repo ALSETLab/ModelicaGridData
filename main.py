@@ -570,6 +570,15 @@ if __name__ == "__main__":
                     _model = 'IEEE14'
                     warnings.warn(f"Model not specified. Defaulting to {_model}. Output directory may not exist");
 
+                if args.version:
+                    _version = args.version
+                    if _version not in ['1.5.0', '2.0.0']:
+                        raise ValueError('Invalid version. Only OpenIPSL 1.5.0 and 2.0.0 are supported')
+                else:
+                    print("No OpenIPSL version specified. Defaulting to '1.5.0'")
+                    _version = '1.5.0'
+                    warnings.warn("Please specify the version of OpenIPSL employed for data generation. The extraction script may fail defaulting to OpenIPSL 1.5.0.")
+
                 # Loading simulation parameters
                 with open(r'sim_parameters.yaml') as f:
                     sim_params = yaml.load(f, Loader = yaml.FullLoader)
@@ -607,7 +616,7 @@ if __name__ == "__main__":
                 print(f"{'Experiment result path':<30}\n {_path}")
 
                 # Extracting data
-                extract_data(_tool, _model, _path, _working_directory)
+                extract_data(_tool, _model, _version, _path, _working_directory)
 
             if _function == 'label':
                 # Driver for labeling code

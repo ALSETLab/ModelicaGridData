@@ -3,7 +3,7 @@ import os
 import sdf
 import pandas as pd
 
-def extract_data(tool, model, path, working_directory):
+def extract_data(tool, model, version, path, working_directory):
     '''
     EXTRACT_DATA
 
@@ -12,6 +12,7 @@ def extract_data(tool, model, path, working_directory):
     - `model`: model for which the simulation data will be extracted
     and processed. Default: `IEEE14`.
     - `path`: path where the output `*.csv` files will be saved
+    - `openipsl_version`: version of the OpenIPSL library used to run the dynamic simulations
     -  `working_directory`: directory where the simulation outputs (i.e.,
     `*.mat` files`) are located for the given model
 
@@ -28,6 +29,14 @@ def extract_data(tool, model, path, working_directory):
     _model_name = f"{model}_Base_Case"
     # Employed tool in simulations
     _tool = tool
+    _version = version
+
+    # Get component list for the model
+    print(os.getcwd())
+    return
+    #_model_dir = 
+
+
 
     # Asking the user what data to extract from the simulations
     choice = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}\n\nComponent type: ")
