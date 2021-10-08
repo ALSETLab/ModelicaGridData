@@ -54,7 +54,7 @@ def extract_data(tool, model, version, path, working_directory):
     _generators = model_components['generators']
     _buses = model_components['buses']
 
-    # Sorting elements
+    # Sorting elements in the lists
     _lines.sort()
     _generators.sort()
     _buses.sort()
@@ -189,17 +189,15 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
+                                print(v_mag.shape)
+                                print(v_angle.shape)
+
                                 df_mag[bus] = v_mag
                                 df_angle[bus] = v_angle
 
-                            print(df_mag.head())
-                            print(df_angle.head())
                     elif extract == 'lines':
                         pass
                     elif extract == 'generators':
                         pass
-
-                    print(v_mag)
-                    print(v_angle)
 
                     break
