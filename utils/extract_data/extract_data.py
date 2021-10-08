@@ -108,6 +108,9 @@ def extract_data(tool, model, version, path, working_directory):
         print("Wrong Choice, terminating the program.")
         return
 
+    # Counter for the number of scenarios
+    _n_sc_counter = 0
+
     # Getting the list of files in the working directory
     with os.scandir(working_directory) as proc_folder_list:
         # Going through every folder created by a process during time-domain simulation
@@ -131,6 +134,10 @@ def extract_data(tool, model, version, path, working_directory):
                     _n_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
                     _n_scenario = int(_n_scenario_regex.findall(file)[0])
 
+                    # Increasing scenario number counter
+                    _n_sc_counter += 1
+                    continue
+
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
 
@@ -140,20 +147,19 @@ def extract_data(tool, model, version, path, working_directory):
                     # Getting time vector
                     time = np.array(resData['Time'].data)
 
-                    # Creating a Pandas dataframe to store the data of each scenario
-                    df_scenario = pd.DataFrame()
-                    df_scenario['t'] = time
-
-                    print(df_scenario)
-
-                    # time = np.array(resData[])
-
                     # Extracting file depending on user selection
                     if extract == 'buses':
                         if res_format == 'rectangular':
                             # Look for p and then vi vr
                             pass
                         elif res_format == 'polar':
+
+                            # Creating dataframes for magnitude and angle
+                            df_mag = pd.DataFrame()
+                            df_angle = pd.DataFrame()
+
+
+
                             for bus in _buses:
                                 # Getting voltage magnitude (attribute depends on the OpenIPSL version)
                                 if _version == '1.5.0':
@@ -167,7 +173,7 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
-                                break
+                                df_scenario[]
                     elif extract == 'lines':
                         pass
                     elif extract == 'generators':
@@ -177,4 +183,5 @@ def extract_data(tool, model, version, path, working_directory):
                     print(v_angle)
 
                     break
-            break
+
+        print(_n_sc_counter)
