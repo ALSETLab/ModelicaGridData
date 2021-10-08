@@ -137,6 +137,10 @@ def extract_data(tool, model, version, path, working_directory):
                     # Opening `*.mat` file
                     resData = sdf.load(_file_path)
 
+                    print(resData) # for debugging
+
+                    # time = np.array(resData[])
+
                     # Extracting file depending on user selection
                     if extract == 'buses':
                         if res_format == 'rectangular':
@@ -144,17 +148,17 @@ def extract_data(tool, model, version, path, working_directory):
                             pass
                         elif res_format == 'polar':
                             for bus in _buses:
-                                # Getting voltage magnitude
+                                # Getting voltage magnitude (attribute depends on the OpenIPSL version)
                                 if _version == '1.5.0':
                                     v_mag = resData[bus]["V"]
                                 elif _version == '2.0.0':
                                     v_mag = resData[bus]["v"]
-
                                 # Getting voltage angle
                                 v_angle = resData[bus]["angle"]
 
                                 # Converting to numpy array
                                 v_mag = np.array(v_mag.data)
+                                v_angle = np.array(v_angle.data)
 
                                 v_angle = None
                                 break
