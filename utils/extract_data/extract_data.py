@@ -137,8 +137,14 @@ def extract_data(tool, model, version, path, working_directory):
                     # Opening `*.mat` file
                     resData = sdf.load(_file_path)
 
+                    # Getting time vector
                     time = np.array(resData['Time'].data)
-                    print(time)
+
+                    # Creating a Pandas dataframe to store the data of each scenario
+                    df_scenario = pd.DataFrame()
+                    df_scenario['t'] = time
+
+                    print(df_scenario)
 
                     # time = np.array(resData[])
 
@@ -161,7 +167,6 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
-                                v_angle = None
                                 break
                     elif extract == 'lines':
                         pass
