@@ -4,6 +4,7 @@ import sdf
 import numpy as np
 import pandas as pd
 import re
+import h5py
 
 from .generate_component_list import *
 
@@ -119,6 +120,8 @@ def extract_data(tool, model, version, path, working_directory):
 
     # Counter for the number of scenarios
     _n_sc_counter = 0
+    # Counter for the number of signals
+    _n_signals = 0
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -169,12 +172,13 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_real = resData[bus]["p"]["vr"]
                                 v_imag = resData[bus]["p"]["vi"]
 
+                                # Converting to numpy array
                                 v_real = np.array(v_real.data)
                                 v_imag = np.array(v_imag.data)
 
-                                print(v_real)
-                                print(v_imag)
-
+                                # Assigning to DataFrame
+                                df_real[bus] = v_real
+                                df_imag[bus] = v_imag
 
                         elif res_format == 'polar':
 
@@ -200,13 +204,27 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
-                                print(v_mag.shape)
-                                print(v_angle.shape)
-
+                                # Assigning to DataFrame
                                 df_mag[bus] = v_mag
                                 df_angle[bus] = v_angle
 
+                            # Saving `.csv` file with scenario data
+                            df_mag.to_csv()
+                            df_angle.to_csv()
+
                     elif extract == 'lines':
-                        pass
+                        if extract_signal == 'power':
+                            pass
+                        elif extract_signal == 'current':
+                            if res_format == 'rectangular':
+                                pass
+                            elif res_format == 'polar':
+                                pass
                     elif extract == 'generators':
                         pass
+
+    ##########################################################
+    #
+    ##########################################################
+
+    x = np.zeros(, 2, )
