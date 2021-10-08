@@ -54,6 +54,11 @@ def extract_data(tool, model, version, path, working_directory):
     _generators = model_components['generators']
     _buses = model_components['buses']
 
+    # Sorting elements
+    _lines.sort()
+    _generators.sort()
+    _buses.sort()
+
     # Asking the user what data to extract from the simulations
     choice = input(f"\nPlease enter a component type: \n {'1. Bus':>5}\n {'2. Line':>5}\n {'3. Generator':>5}\n\nComponent type: ")
     choice = int(choice)
