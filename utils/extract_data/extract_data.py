@@ -145,9 +145,11 @@ def extract_data(tool, model, version, path, working_directory):
     # Extracting the data for each scenario
     ##########################################################
 
-    return
+    sc_results = np.array(shape = (_n_sc_counter, None, None))
+    print(sc_results.shape)
 
     # Getting the list of files in the working directory
+    # (same code as above; repeated to get the number of scenarios alone)
     with os.scandir(working_directory) as proc_folder_list:
         # Going through every folder created by a process during time-domain simulation
         for folder in proc_folder_list:
