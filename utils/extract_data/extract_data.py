@@ -221,7 +221,9 @@ def extract_data(tool, model, version, path, working_directory):
                             elif res_format == 'polar':
                                 pass
                     elif extract == 'generators':
-                        pass
+
+
+                        print(resData[_generators[0]].keys())
 
     ##########################################################
     #
