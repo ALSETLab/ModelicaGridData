@@ -164,7 +164,18 @@ def extract_data(tool, model, version, path, working_directory):
                             # Assigning time
                             df_real['t'] = time
                             df_imag['t'] = time
-                            pass
+
+                            for bus in _buses:
+                                v_real = resData[bus]["p"]["vr"]
+                                v_imag = resData[bus]["p"]["vi"]
+
+                                v_real = np.array(v_real.data)
+                                v_imag = np.array(v_imag.data)
+
+                                print(v_real)
+                                print(v_imag)
+
+
                         elif res_format == 'polar':
 
                             # Creating dataframes for magnitude and angle
