@@ -199,5 +199,3 @@ def extract_data(tool, model, version, path, working_directory):
                         pass
                     elif extract == 'generators':
                         pass
-
-                    break
