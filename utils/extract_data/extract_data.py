@@ -139,7 +139,7 @@ def extract_data(tool, model, version, path, working_directory):
                     # Increasing scenario number counter
                     _n_sc_counter += 1
 
-    print(f'{'Number of scenarios:':<30} {_n_sc_counter}')
+    print(f'{'Number of scenarios':<30}: {_n_sc_counter}')
 
     ##########################################################
     # Extracting the data for each scenario
