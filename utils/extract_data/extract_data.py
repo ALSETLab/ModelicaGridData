@@ -112,9 +112,6 @@ def extract_data(tool, model, version, path, working_directory):
     # Extracting the data for each scenario
     ##########################################################
 
-    sc_results = np.array(shape = (_n_sc_counter, None, None))
-    print(sc_results.shape)
-
     # Counter for the number of scenarios
     _n_sc_counter = 0
 
