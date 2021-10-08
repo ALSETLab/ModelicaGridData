@@ -137,7 +137,8 @@ def extract_data(tool, model, version, path, working_directory):
                     # Opening `*.mat` file
                     resData = sdf.load(_file_path)
 
-                    print(resData) # for debugging
+                    time = np.array(resData['Time'].data)
+                    print(time)
 
                     # time = np.array(resData[])
 
