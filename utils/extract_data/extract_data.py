@@ -108,6 +108,10 @@ def extract_data(tool, model, version, path, working_directory):
         print("Wrong Choice, terminating the program.")
         return
 
+    ##########################################################
+    # Counting the number of scenarios
+    ##########################################################
+
     # Counter for the number of scenarios
     _n_sc_counter = 0
 
@@ -128,7 +132,37 @@ def extract_data(tool, model, version, path, working_directory):
                 # File is a dynamic simulation result
                 if file.endswith('.mat') and 'dsres' in file:
 
-                    print(file) # for debugging
+                    # Getting scenario number
+                    _n_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
+                    _n_scenario = int(_n_scenario_regex.findall(file)[0])
+
+                    # Increasing scenario number counter
+                    _n_sc_counter += 1
+
+    print(f'{'Number of scenarios:'<:30} {_n_sc_counter}')
+
+    ##########################################################
+    # Extracting the data for each scenario
+    ##########################################################
+
+    return
+
+    # Getting the list of files in the working directory
+    with os.scandir(working_directory) as proc_folder_list:
+        # Going through every folder created by a process during time-domain simulation
+        for folder in proc_folder_list:
+            # Current working directory
+            _res_directory = os.path.join(working_directory, folder.name)
+
+            # Getting list of files in result folder
+            with os.scandir(_res_directory) as entry_res:
+                # List of files
+                _list_files = [x.name for x in entry_res]
+
+            # Iterating through the resulting files
+            for file in _list_files:
+                # File is a dynamic simulation result
+                if file.endswith('.mat') and 'dsres' in file:
 
                     # Getting scenario number
                     _n_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
@@ -136,6 +170,8 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Increasing scenario number counter
                     _n_sc_counter += 1
+
+    ##########################################################
                     continue
 
                     # Getting the file path (current directory is `_res_directory`)
@@ -158,8 +194,6 @@ def extract_data(tool, model, version, path, working_directory):
                             df_mag = pd.DataFrame()
                             df_angle = pd.DataFrame()
 
-
-
                             for bus in _buses:
                                 # Getting voltage magnitude (attribute depends on the OpenIPSL version)
                                 if _version == '1.5.0':
@@ -173,7 +207,7 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
-                                df_scenario[]
+                                # df_scenario[]
                     elif extract == 'lines':
                         pass
                     elif extract == 'generators':
