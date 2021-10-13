@@ -16,13 +16,13 @@ def extract_data(tool, model, version, path, working_directory):
     - `tool`: tool that was used for data generation (i.e., either `dymola` or `om`)
     - `model`: model for which the simulation data will be extracted
     and processed. Default: `IEEE14`.
-    - `path`: path where the output `*.csv` files will be saved
+    - `path`: path where the output `*.hdf5` files will be saved
     - `openipsl_version`: version of the OpenIPSL library used to run the dynamic simulations
     -  `working_directory`: directory where the simulation outputs (i.e.,
     `*.mat` files`) are located for the given model
 
     OUTPUTS:
-    Writes `*.csv` files with the specified variables by the user in
+    Writes `*.hdf5` files with the specified variables by the user in
     `./data/<path>`
 
     LAST MODIFICATION DATE:
