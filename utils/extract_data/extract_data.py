@@ -237,15 +237,22 @@ def extract_data(tool, model, version, path, working_directory):
                         # choice = input('Select one generator from the list of available machines: ')
                         # choice = int(choice)
 
+                        n_gen = 0
 
-                        print(resData[_generators[0]].__dict__.keys())
 
-                        available_signals = [d.name for d in resData[_generators[0]].__dict__['datasets']]
-                        print(available_signals)
+                        # print(resData[_generators[0]].__dict__.keys())
 
-                        print(resData[_generators[0]].__dict__['name'])
-                        print(resData[_generators[0]].__dict__['datasets'])
-                        print(resData[_generators[0]].__dict__['groups'])
+                        # Available signals in the selected machine
+                        available_signals = [d.name for d in resData[_generators[n_gen]].__dict__['datasets']]
+
+                        # Available groups
+                        available_groups = [d.name for d in resData[_generators[n_gen]].__dict__['groups']]
+
+                        print(available_groups)
+
+                        # print(resData[_generators[0]].__dict__['name'])
+                        # print(resData[_generators[0]].__dict__['datasets'])
+                        # print(resData[_generators[0]].__dict__['groups'])
 
 
     ##########################################################
