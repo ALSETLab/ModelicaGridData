@@ -386,6 +386,8 @@ def extract_data(tool, model, version, path, working_directory):
                                         # Getting available signals and groups
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
+                                        print(resData[_gen_name][_component].__dict__)
+                                        continue
 
                                         if _version == '1.5.0':
                                             _comp_name = _component.upper()
