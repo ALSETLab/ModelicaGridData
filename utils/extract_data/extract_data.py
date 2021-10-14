@@ -280,7 +280,7 @@ def extract_data(tool, model, version, path, working_directory):
                                     gen_depth_signal = 1
 
                                 else:
-                                    print(f"\nThe following is the list of available components in generator {_gen_name}")
+                                    print(f"\nThe following is the list of available components in generator {_gen_name}:")
 
                                     for n, grp in enumerate(available_groups):
                                         print(f"{n + 1}. {grp}")
@@ -295,13 +295,19 @@ def extract_data(tool, model, version, path, working_directory):
                                         print("Component: ", _component)
                                         gen_selection = True;
 
-                                        _comp_available_signals = resData[_gen_name][_component].__dict__
-                                        print(_comp_available_signals)
+                                        # Getting available signals and groups
+                                        _comp_available_signals = resData[_gen_name][_component].__dict__['datasets']
+                                        _comp_available_groups = resData[_gen_name][_component].__dict__['groups']
 
+                                        print(f"\nThe following is the list of available signals in component {_component} in generator {_gen_name}:")
 
+                                        for n, sig in enumerate(available_signals):
+                                            print(f"{n + 1}. {sig}")
 
+                                        choice = input(f'Select a signal to extract\n')
+                                        choice = int(choice) - 1
 
-
+                                        gen_depth_signal = 2
 
                             # print(resData[_generators[0]].__dict__.keys())
 
