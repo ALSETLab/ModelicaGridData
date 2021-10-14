@@ -108,7 +108,7 @@ def extract_data(tool, model, version, path, working_directory):
         extract = 'generators'
 
         # Printing generator information
-        print(f'The following generators were found in the model:')
+        print(f'\nThe following generators were found in the model:')
         for n, gen in enumerate(_generators):
             print(f"{n+1}. {gen}")
 
@@ -127,6 +127,8 @@ def extract_data(tool, model, version, path, working_directory):
     _n_sc_counter = 0
     # Counter for the number of signals
     _n_signals = 0
+
+    # Creating empty `*.hdf5` file
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -230,7 +232,7 @@ def extract_data(tool, model, version, path, working_directory):
                             elif res_format == 'polar':
                                 pass
                     elif extract == 'generators':
-                        print(resData[_generators[0]])
+                        print(resData[_generators[0]].__dict__)
 
     ##########################################################
     # Concatenating all results in an `*.hdf5` file
