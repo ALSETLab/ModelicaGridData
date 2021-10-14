@@ -107,6 +107,11 @@ def extract_data(tool, model, version, path, working_directory):
     elif choice == 3:
         extract = 'generators'
 
+        # Printing generator information
+        print(f'The following generators were found in the model:')
+        for n, gen in enumerate(_generators):
+            print(f"{n+1}. {gen}")
+
         # Extracting generator signals
         print(f'\nExtracting generator signals')
         # TBD
@@ -157,7 +162,11 @@ def extract_data(tool, model, version, path, working_directory):
                     # Getting time vector
                     time = np.array(resData['Time'].data)
 
+                    # ===============================================
                     # Extracting file depending on user selection
+                    # ===============================================
+
+                    # Extracting data from buses
                     if extract == 'buses':
                         if res_format == 'rectangular':
                             # Look for p and then vi vr
