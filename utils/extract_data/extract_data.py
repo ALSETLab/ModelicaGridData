@@ -106,18 +106,10 @@ def extract_data(tool, model, version, path, working_directory):
             return
     elif choice == 3:
         extract = 'generators'
-
-        # Printing generator information
-        print(f'\nThe following generators were found in the model:')
-        for n, gen in enumerate(_generators):
-            print(f"{n+1}. {gen}")
-
         # Extracting generator signals
         print(f'\nExtracting generator signals')
-        # TBD
     else:
-        print("Wrong Choice, terminating the program.")
-        return
+        raise ValueError("Wrong Choice, terminating the program.")
 
     ##########################################################
     # Extracting the data for each scenario
@@ -233,9 +225,13 @@ def extract_data(tool, model, version, path, working_directory):
                                 pass
                     elif extract == 'generators':
 
-                        #
-                        # choice = input('Select one generator from the list of available machines: ')
-                        # choice = int(choice)
+                        for n, gen in enumerate(_generators):
+                            print(f"{n+1}. {gen}")
+                        choice = input('Select one generator from the list of available machines: ')
+                        choice = int(choice) - 1
+
+                        if choice > len(_generators):
+                            raise ValueError("Wrong Choice, terminating the program.")
 
                         n_gen = 0
 
