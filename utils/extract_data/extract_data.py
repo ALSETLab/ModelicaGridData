@@ -233,7 +233,7 @@ def extract_data(tool, model, version, path, working_directory):
                                 pass
                     elif extract == 'generators':
                         print(resData[_generators[0]].__dict__.keys())
-                        print(resData[_generators[0]]['name'])
+                        print(resData[_generators[0]].__dict__.['name'])
 
     ##########################################################
     # Concatenating all results in an `*.hdf5` file
