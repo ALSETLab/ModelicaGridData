@@ -232,10 +232,21 @@ def extract_data(tool, model, version, path, working_directory):
                             elif res_format == 'polar':
                                 pass
                     elif extract == 'generators':
+
+                        #
+                        # choice = input('Select one generator from the list of available machines: ')
+                        # choice = int(choice)
+
+
                         print(resData[_generators[0]].__dict__.keys())
+
+                        available_signals = [d.name for d in resData[_generators[0]].__dict__['datasets']]
+                        print(available_signals)
+
                         print(resData[_generators[0]].__dict__['name'])
                         print(resData[_generators[0]].__dict__['datasets'])
                         print(resData[_generators[0]].__dict__['groups'])
+
 
     ##########################################################
     # Concatenating all results in an `*.hdf5` file
