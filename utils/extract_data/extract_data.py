@@ -267,6 +267,8 @@ def extract_data(tool, model, version, path, working_directory):
                             choice = input(f'Select a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine\n')
                             choice = int(choice) - 1
 
+                            print(len(available_signals))
+
                             if choice > len(available_signals):
                                 raise ValueError("Invalid selection. Terminating program.")
                             else:
