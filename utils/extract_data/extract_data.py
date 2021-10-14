@@ -119,6 +119,8 @@ def extract_data(tool, model, version, path, working_directory):
             raise ValueError("Wrong Choice, terminating the program.")
         else:
             n_gen = choice
+            # boolean to indicate if generator signal has already been selected
+            gen_selection = False
 
     else:
         raise ValueError("Wrong Choice, terminating the program.")
@@ -238,19 +240,40 @@ def extract_data(tool, model, version, path, working_directory):
                     elif extract == 'generators':
 
                         # Generator to extract data from has been previously selected
+                        n_gen = 0 # for developing only
+                        # Machine name
+                        _gen_name = _generators[n_gen]
 
-                        n_gen = 0 # for developing
+                        # Selecting the signal that will be plotted
+                        if not gen_selection:
+
+                            # First we prompt the user if they want to get the data from a given signal
+                            # or from a component
+
+                            # Available signals in the selected machine
+                            available_signals = [d.name for d in resData[_generators[n_gen]].__dict__['datasets']]
+
+                            # Available groups
+                            available_groups = [d.name for d in resData[_generators[n_gen]].__dict__['groups']]
+
+                            print(f"The following is the list of available signals in generator {_gen_name}")
+
+                            for n, av_sig in enumerate(available_signals):
+                                print(f"{n+1}. {av_sig}")
+
+                            print(f"{n+1}. See more components within the machine")
+
+                            choice = input(f'Select a signal (or type {n+1}) if you want to see more components within the machine')
+
+                            gen_selection = True
 
 
-                        # print(resData[_generators[0]].__dict__.keys())
+                            # print(resData[_generators[0]].__dict__.keys())
 
-                        # Available signals in the selected machine
-                        available_signals = [d.name for d in resData[_generators[n_gen]].__dict__['datasets']]
 
-                        # Available groups
-                        available_groups = [d.name for d in resData[_generators[n_gen]].__dict__['groups']]
 
-                        print(available_groups)
+                            print(available_groups)
+
 
                         # print(resData[_generators[0]].__dict__['name'])
                         # print(resData[_generators[0]].__dict__['datasets'])
