@@ -304,7 +304,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
-                            signal = resData[_generators[n_gen][_gen_name][_signal_to_extract]].data
+                            signal = resData[_generators[_gen_name][_signal_to_extract]].data
                             print(signal)
 
                         elif gen_depth_signal == 2:
