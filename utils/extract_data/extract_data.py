@@ -391,11 +391,13 @@ def extract_data(tool, model, version, path, working_directory):
                                         print(LIST_OF_MACHINES_150.keys())
                                         print(_component)
                                         if _version == '1.5.0':
-                                            if _component in LIST_OF_MACHINES_150.keys():
+                                            _comp_name = _component.lower()
+                                            if _comp_name.strip() in LIST_OF_MACHINES_150.keys():
                                                 # remove all parameters from the display list
                                                 print(LIST_OF_MACHINES_150.keys())
                                         elif _version == '2.0.0':
-                                            if _component in LIST_OF_MACHINES_200.keys():
+                                            _comp_name = _component.lower()
+                                            if _comp_name.strip() in LIST_OF_MACHINES_200.keys():
                                                 print(LIST_OF_MACHINES_200.keys())
 
                                         print(f"\nThe following is the list of available signals in component {_component} in generator {_gen_name}:")
