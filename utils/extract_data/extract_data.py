@@ -381,22 +381,19 @@ def extract_data(tool, model, version, path, working_directory):
                                         raise ValueError("Invalid selection. Terminating program.")
                                     else:
                                         _component = available_groups[choice]
-                                        print("Component: '", _component,"'")
                                         gen_selection = True;
 
                                         # Getting available signals and groups
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
 
-                                        print(LIST_OF_MACHINES_150.keys())
-                                        print(_component)
                                         if _version == '1.5.0':
-                                            _comp_name = _component.lower()
+                                            _comp_name = _component.upper()
                                             if _comp_name.strip() in LIST_OF_MACHINES_150.keys():
                                                 # remove all parameters from the display list
                                                 print(LIST_OF_MACHINES_150.keys())
                                         elif _version == '2.0.0':
-                                            _comp_name = _component.lower()
+                                            _comp_name = _component.upper()
                                             if _comp_name.strip() in LIST_OF_MACHINES_200.keys():
                                                 print(LIST_OF_MACHINES_200.keys())
 
