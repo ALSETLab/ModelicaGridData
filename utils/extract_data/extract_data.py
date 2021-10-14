@@ -235,6 +235,7 @@ def extract_data(tool, model, version, path, working_directory):
                         print(resData[_generators[0]].__dict__.keys())
                         print(resData[_generators[0]].__dict__['name'])
                         print(resData[_generators[0]].__dict__['datasets'])
+                        print(resData[_generators[0]].__dict__['groups'])
 
     ##########################################################
     # Concatenating all results in an `*.hdf5` file
