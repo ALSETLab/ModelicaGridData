@@ -381,7 +381,7 @@ def extract_data(tool, model, version, path, working_directory):
                                         raise ValueError("Invalid selection. Terminating program.")
                                     else:
                                         _component = available_groups[choice]
-                                        print("Component: ", _component)
+                                        print("Component: '", _component,"")
                                         gen_selection = True;
 
                                         # Getting available signals and groups
