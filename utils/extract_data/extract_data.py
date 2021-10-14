@@ -245,6 +245,7 @@ def extract_data(tool, model, version, path, working_directory):
                         _gen_name = _generators[n_gen]
 
                         # Selecting the signal that will be plotted
+                        # The signal to extract is indicated in the variable `_signal_to_extract`
                         if not gen_selection:
 
                             # First we prompt the user if they want to get the data from a given signal
@@ -277,7 +278,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                                     gen_selection = True
                                     gen_depth_signal = 1
-                                    
+
                                 else:
                                     print(f"\nThe following is the list of available components in generator {_gen_name}")
 
@@ -297,7 +298,18 @@ def extract_data(tool, model, version, path, working_directory):
 
 
 
+
+
                             # print(resData[_generators[0]].__dict__.keys())
+
+                        if gen_depth_signal == 1:
+                            # Extracting a signal in the generator main attributes
+                            signal = resData[_generators[n_gen][_gen_name][_signal_to_extract]].data
+                            print(signal)
+
+                        elif gen_depth_signal == 2:
+                            # Extracting a signal
+
 
 
                         # print(resData[_generators[0]].__dict__['name'])
