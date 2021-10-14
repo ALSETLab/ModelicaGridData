@@ -309,6 +309,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                         elif gen_depth_signal == 2:
                             # Extracting a signal
+                            pass
 
 
 
