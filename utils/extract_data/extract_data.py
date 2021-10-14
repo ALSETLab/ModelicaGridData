@@ -256,16 +256,33 @@ def extract_data(tool, model, version, path, working_directory):
                             # Available groups
                             available_groups = [d.name for d in resData[_generators[n_gen]].__dict__['groups']]
 
-                            print(f"The following is the list of available signals in generator {_gen_name}")
+                            print(f"\nThe following is the list of available signals in generator {_gen_name}")
 
                             for n, av_sig in enumerate(available_signals):
                                 print(f"{n+1}. {av_sig}")
 
-                            print(f"{n+1}. See more components within the machine")
+                            print(f"{n+2}. See more components within the machine")
 
-                            choice = input(f'Select a signal (or type {n+1}) if you want to see more components within the machine')
+                            choice = input(f'Select a signal (or type {n+2}) if you want to see more components within the machine\n')
+                            choice = int(choice)
 
-                            gen_selection = True
+                            if choice > n+2:
+                                raise ValueError("Invalid selection. Terminating program.")
+                            else:
+                                if choice < n+2:
+                                    _signal_to_extract = available_signals[choice]
+                                    gen_selection = True
+                                    gen_depth_signal = 1
+                                else:
+                                    print(f"\nThe following is the list of available components in generator {_gen_name}")
+
+                                    for n, grp in enumerate(available_groups):
+                                        print(f"{n + 1}. {grp}")
+
+
+
+
+
 
 
                             # print(resData[_generators[0]].__dict__.keys())
