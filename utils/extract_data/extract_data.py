@@ -253,9 +253,10 @@ def extract_data(tool, model, version, path, working_directory):
                             # Available signals in the selected machine
                             available_signals = [d.name for d in resData[_generators[n_gen]].__dict__['datasets']]
 
-                            # Available groups
+                            # Available groups in the selected machine (i.e., components of the control systems)
                             available_groups = [d.name for d in resData[_generators[n_gen]].__dict__['groups']]
 
+                            # Prompting the user to select signal or see the list of components
                             print(f"\nThe following is the list of available signals in generator {_gen_name}")
 
                             for n, av_sig in enumerate(available_signals):
@@ -264,9 +265,9 @@ def extract_data(tool, model, version, path, working_directory):
                             print(f"{n+2}. See more components within the machine")
 
                             choice = input(f'Select a signal (or type {n+2}) if you want to see more components within the machine\n')
-                            choice = int(choice)
+                            choice = int(choice) - 1
 
-                            if choice > n+2:
+                            if choice > len(available_signals):
                                 raise ValueError("Invalid selection. Terminating program.")
                             else:
                                 if choice < n+2:
@@ -279,17 +280,19 @@ def extract_data(tool, model, version, path, working_directory):
                                     for n, grp in enumerate(available_groups):
                                         print(f"{n + 1}. {grp}")
 
+                                    choice = input(f'Select a component to see its list of available signals\n')
+                                    choice = int(choice) - 1
 
-
+                                    if choice > len(available_groups):
+                                        raise ValueError("Invalid selection. Terminating program.")
+                                    else:
+                                        selected_component = available_groups[choice]
+                                        print("Component: ", selected_component)
 
 
 
 
                             # print(resData[_generators[0]].__dict__.keys())
-
-
-
-                            print(available_groups)
 
 
                         # print(resData[_generators[0]].__dict__['name'])
