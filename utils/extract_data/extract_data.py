@@ -301,7 +301,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                                         print(f"\nThe following is the list of available signals in component {_component} in generator {_gen_name}:")
 
-                                        for n, sig in enumerate(available_signals):
+                                        for n, sig in enumerate(_comp_available_signals):
                                             print(f"{n + 1}. {sig}")
 
                                         choice = input(f'Select a signal to extract\n')
