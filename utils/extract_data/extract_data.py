@@ -252,10 +252,10 @@ def extract_data(tool, model, version, path, working_directory):
                             # or from a component
 
                             # Available signals in the selected machine
-                            available_signals = [d.name for d in resData[_generators[n_gen]].__dict__['datasets']]
+                            available_signals = [d.name for d in resData[_gen_name].__dict__['datasets']]
 
                             # Available groups in the selected machine (i.e., components of the control systems)
-                            available_groups = [d.name for d in resData[_generators[n_gen]].__dict__['groups']]
+                            available_groups = [d.name for d in resData[_gen_name].__dict__['groups']]
 
                             # Prompting the user to select signal or see the list of components
                             print(f"\nThe following is the list of available signals in generator {_gen_name}")
@@ -304,7 +304,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
-                            signal = resData[_generators[_gen_name][_signal_to_extract]].data
+                            signal = resData[_gen_name][_signal_to_extract]].data
                             print(signal)
 
                         elif gen_depth_signal == 2:
