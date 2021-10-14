@@ -299,11 +299,11 @@ def extract_data(tool, model, version, path, working_directory):
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
 
-                                        if openipsl_version == '1.5.0':
+                                        if _version == '1.5.0':
                                             if _component in LIST_OF_MACHINES_150.keys():
                                                 # remove all parameters from the display list
                                                 print(LIST_OF_MACHINES_150.keys())
-                                        elif openipsl_version == '2.0.0':
+                                        elif _version == '2.0.0':
                                             if _component in LIST_OF_MACHINES_200.keys():
                                                 print(LIST_OF_MACHINES_200.keys())
 
