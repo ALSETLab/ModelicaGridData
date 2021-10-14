@@ -272,7 +272,7 @@ def extract_data(tool, model, version, path, working_directory):
                             if choice > len(available_signals):
                                 raise ValueError("Invalid selection. Terminating program.")
                             else:
-                                if choice < len(available_signals) + 1:
+                                if choice < len(available_signals):
                                     print(choice)
                                     _signal_to_extract = available_signals[choice]
                                     gen_selection = True
