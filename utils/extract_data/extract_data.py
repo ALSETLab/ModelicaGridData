@@ -262,15 +262,15 @@ def extract_data(tool, model, version, path, working_directory):
                             for n, av_sig in enumerate(available_signals):
                                 print(f"{n+1}. {av_sig}")
 
-                            print(f"{n+2}. See more components within the machine")
+                            print(f"{len(available_signals) + 1}. See more components within the machine")
 
-                            choice = input(f'Select a signal (or type {n+2}) if you want to see more components within the machine\n')
+                            choice = input(f'Select a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine\n')
                             choice = int(choice) - 1
 
                             if choice > len(available_signals):
                                 raise ValueError("Invalid selection. Terminating program.")
                             else:
-                                if choice < n+2:
+                                if choice < len(available_signals) + 1:
                                     _signal_to_extract = available_signals[choice]
                                     gen_selection = True
                                     gen_depth_signal = 1
@@ -288,6 +288,7 @@ def extract_data(tool, model, version, path, working_directory):
                                     else:
                                         selected_component = available_groups[choice]
                                         print("Component: ", selected_component)
+                                        gen_selection = True;
 
 
 
