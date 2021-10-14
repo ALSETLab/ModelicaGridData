@@ -291,9 +291,12 @@ def extract_data(tool, model, version, path, working_directory):
                                     if choice > len(available_groups):
                                         raise ValueError("Invalid selection. Terminating program.")
                                     else:
-                                        selected_component = available_groups[choice]
-                                        print("Component: ", selected_component)
+                                        _component = available_groups[choice]
+                                        print("Component: ", _component)
                                         gen_selection = True;
+
+                                        _comp_available_signals = resData[_gen_name][_component].__dict__
+                                        print(_comp_available_signals)
 
 
 
@@ -304,7 +307,16 @@ def extract_data(tool, model, version, path, working_directory):
 
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
+
+
+                            # Extracting signal
                             signal = resData[_gen_name][_signal_to_extract].data
+                            signal = np.array(signal) # converting to numpy array
+
+                            # Extracting time
+                            # t =
+
+                            # Saving to `*.hdf5` file
                             print(signal)
 
                         elif gen_depth_signal == 2:
