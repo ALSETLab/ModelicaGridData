@@ -146,8 +146,8 @@ def extract_data(tool, model, version, path, working_directory):
     _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
 
     print(os.path.join(path, _output_file))
-    return
     data_output = h5py.File(os.path.join(path, _output_file), "w")
+    return
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
