@@ -391,7 +391,6 @@ def extract_data(tool, model, version, path, working_directory):
                                         # print(_shapes_datasets)
 
                                         print(resData[_gen_name][_component]["V_b"].data.shape)
-                                        continue
 
                                         print(resData[_gen_name][_component].__dict__)
                                         continue
