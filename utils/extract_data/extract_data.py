@@ -373,7 +373,7 @@ def extract_data(tool, model, version, path, working_directory):
                                 raise ValueError("Invalid selection. Terminating program.")
                             else:
                                 if choice < len(_signals):
-                                    _signal_to_extract = available_signals[choice]
+                                    _signal_to_extract = _signals[choice]
 
                                     print(f"\n\nExtracting signal {_signal_to_extract} in generator {_gen_name}\n\n")
 
@@ -438,7 +438,7 @@ def extract_data(tool, model, version, path, working_directory):
                             # Extracting a signal in the generator main attributes
                             # Getting signal data
                             signal = resData[_gen_name][_signal_to_extract].data
-                            print(resData[_gen_name][_signal_to_extract].data.shape)
+                            
                         elif gen_depth_signal == 2:
                             # Extracting a signal within the generator internal blocks
                             # Getting signal data
