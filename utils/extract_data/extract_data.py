@@ -142,10 +142,10 @@ def extract_data(tool, model, version, path, working_directory):
     _uuid = str(uuid4())
     _exp_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S_') + _uuid[:6]
 
+    # Name of the output file
     _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
-    print(_output_file)
 
-    # _data_output = sdf.Group()
+    data_output = h5py.File(_output_file, "w")
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -172,6 +172,9 @@ def extract_data(tool, model, version, path, working_directory):
 
                     _n_sc_counter += 1
 
+                    # Creating group for the scenario
+                    data_output.create_group(f"{_n_sc_counter}")
+
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
 
@@ -180,6 +183,9 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Getting time vector
                     time = np.array(resData['Time'].data)
+
+                    # Writing time in the output file
+                    data_output["t"] = time
 
                     # ===============================================
                     # Extracting file depending on user selection
@@ -377,3 +383,9 @@ def extract_data(tool, model, version, path, working_directory):
                         # add to existing group
 
                         print(signal)
+
+    # Printing info of created file
+    print([y for y in data_output.itervalues()])
+
+    # Closing file
+    data_output.close()
