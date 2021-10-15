@@ -415,8 +415,8 @@ def extract_data(tool, model, version, path, working_directory):
 
                                         print(f"\nThe following is the list of available signals in component {_component} in generator {_gen_name}:")
 
-                                        for n, sig in enumerate(_signals):
-                                            print(f" {n + 1}. {sig}")
+                                        for n, _signal in enumerate(_signals):
+                                            print(f" {n + 1}. {_signal}")
 
                                         choice = input(f'Select a signal to extract: ')
                                         choice = int(choice) - 1
@@ -438,6 +438,7 @@ def extract_data(tool, model, version, path, working_directory):
                             # Extracting a signal in the generator main attributes
                             # Getting signal data
                             signal = resData[_gen_name][_signal_to_extract].data
+                            print(resData[_gen_name][_signal_to_extract].data.shape)
                         elif gen_depth_signal == 2:
                             # Extracting a signal within the generator internal blocks
                             # Getting signal data
