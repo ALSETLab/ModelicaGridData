@@ -387,7 +387,14 @@ def extract_data(tool, model, version, path, working_directory):
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
 
+                                        # Getting the shapes for the datasets
                                         _shapes_datasets = [s.data.shape for s in resData[_gen_name][_component].__dict__['datasets']]
+
+                                        for n, _dataset in enumerate(_shapes_datasets):
+
+                                            if _dataset == ():
+                                                print(_dataset.name)
+
                                         print(_shapes_datasets)
 
                                         # print(resData[_gen_name][_component]["SPEED"].data.shape)
