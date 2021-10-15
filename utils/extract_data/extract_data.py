@@ -203,7 +203,7 @@ def extract_data(tool, model, version, path, working_directory):
                         # Getting time vector
                         time = np.array(resData['Time'].data)
                     elif tool == "om":
-                        print(get_dataset_keys(resData))
+                        print(resData.keys())
                         return
 
                     # Writing time in the output file
