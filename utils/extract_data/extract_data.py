@@ -208,8 +208,8 @@ def extract_data(tool, model, version, path, working_directory):
             raise ValueError("Wrong Choice, terminating the program.")
         else:
             n_gen = choice
-            # boolean to indicate if generator signal has already been selected
-            gen_selection = False
+            # Boolean to indicate if generator signal needs to be selected
+            gen_selection = True
 
     else:
         raise ValueError("Wrong Choice, terminating the program.")
@@ -335,7 +335,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                         # Selecting the signal that will be plotted
                         # The signal to extract is indicated in the variable `_signal_to_extract`
-                        if not gen_selection:
+                        if gen_selection:
 
                             # First we prompt the user if they want to get the data from a given signal
                             # or from a component
@@ -365,7 +365,9 @@ def extract_data(tool, model, version, path, working_directory):
 
                                     print(f"\n\nExtracting signal {_signal_to_extract} in generator {_gen_name}\n\n")
 
-                                    gen_selection = True
+                                    # Changing selection status to `False`
+                                    gen_selection = False
+                                    # Indicating that selection is in the first layer within the generator
                                     gen_depth_signal = 1
 
                                 else:
@@ -380,8 +382,8 @@ def extract_data(tool, model, version, path, working_directory):
                                     if choice > len(available_groups):
                                         raise ValueError("Invalid selection. Terminating program.")
                                     else:
+                                        # Getting the name of the component
                                         _component = available_groups[choice]
-                                        gen_selection = True;
 
                                         # Getting available signals and groups
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
@@ -410,34 +412,31 @@ def extract_data(tool, model, version, path, working_directory):
                                         if choice > len(_signals):
                                             raise ValueError("Invalid selection. Terminating program.")
                                         else:
-                                            _signal_data = _signals[choice]
-                                            print(f"\nExtracting signal {_signal_data} in component {_component} for machine {_gen_name}\n")
+                                            # Name of the signal to extract
+                                            _signal_to_extract = _signals[choice]
+
+                                            # Changing selection status to `True`
+                                            gen_selection = False
+
+                                            # Indicating that selection is in the second layer within the generator
+                                            gen_depth_signal = 2
+                                            print(f"\nExtracting signal {_signal_to_extract} in component {_component} for machine {_gen_name}\n")
 
                         return
 
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
-
-
-                            # Extracting signal
+                            # Getting signal data
                             signal = resData[_gen_name][_signal_to_extract].data
-                            signal = np.array(signal) # converting to numpy array
-
-                            # Extracting time
-                            # t =
-
-                            # Saving to `*.hdf5` file
-                            print(signal)
-
                         elif gen_depth_signal == 2:
-                            # Extracting a signal
-                            pass
+                            # Extracting a signal within the generator internal blocks
+                            # Getting signal data
+                            signal = resData[_gen_name][_component][_signal_to_extract].data
 
+                        # Converting to numpy array
+                        signal = np.array(signal)
 
-
-                        # print(resData[_generators[0]].__dict__['name'])
-                        # print(resData[_generators[0]].__dict__['datasets'])
-                        # print(resData[_generators[0]].__dict__['groups'])
+                        print(signal)
 
 
     ##########################################################
