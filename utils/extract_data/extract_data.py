@@ -220,10 +220,9 @@ def extract_data(tool, model, version, path, working_directory):
 
     # Counter for the number of scenarios
     _n_sc_counter = 0
-    # Counter for the number of signals
-    _n_signals = 0
 
-    # Creating empty `*.hdf5` file
+    # Creating empty `*.sdf` file
+    _data_output = sdf.Group()
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -434,11 +433,15 @@ def extract_data(tool, model, version, path, working_directory):
                                             gen_depth_signal = 2
                                             print(f"\nExtracting signal {_signal_to_extract} in component {_component} for machine {_gen_name}\n")
 
+                        ###########################################
+                        # EXTRACTING SIGNAL FROM SIMULATION RESULTS
+                        ###########################################
+
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
                             # Getting signal data
                             signal = resData[_gen_name][_signal_to_extract].data
-                            
+
                         elif gen_depth_signal == 2:
                             # Extracting a signal within the generator internal blocks
                             # Getting signal data
@@ -447,11 +450,7 @@ def extract_data(tool, model, version, path, working_directory):
                         # Converting to numpy array
                         signal = np.array(signal)
 
+                        # ds_signal = sdf.Dataset(_signal_to_extract, data = signal, display_name = _signal_to_extract)
+                        # add to existing group
+
                         print(signal)
-
-                        return
-
-
-    ##########################################################
-    # Concatenating all results in an `*.hdf5` file
-    ##########################################################
