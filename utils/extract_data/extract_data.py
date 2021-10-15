@@ -201,7 +201,7 @@ def extract_data(tool, model, version, path, working_directory):
         print("\n\nList of available machines: ")
         for n, gen in enumerate(_generators):
             print(f"{n+1}. {gen}")
-        choice = input('Select one generator from the list of available machines: ')
+        choice = input(' Select one generator from the list of available machines: ')
         choice = int(choice) - 1
 
         if choice > len(_generators):
@@ -350,7 +350,7 @@ def extract_data(tool, model, version, path, working_directory):
                             print(f"\nThe following is the list of available signals in generator {_gen_name}")
 
                             for n, av_sig in enumerate(available_signals):
-                                print(f"{n+1}. {av_sig}")
+                                print(f" {n+1}. {av_sig}")
 
                             print(f"{len(available_signals) + 1}. See more components within the machine")
 
@@ -372,7 +372,7 @@ def extract_data(tool, model, version, path, working_directory):
                                     print(f"\nThe following is the list of available components in generator {_gen_name}:")
 
                                     for n, grp in enumerate(available_groups):
-                                        print(f"{n + 1}. {grp}")
+                                        print(f" {n + 1}. {grp}")
 
                                     choice = input(f'\nSelect a component to see the corresponding list of available signals: ')
                                     choice = int(choice) - 1
@@ -387,39 +387,26 @@ def extract_data(tool, model, version, path, working_directory):
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
 
-                                        # Getting the shapes for the datasets
+                                        # Getting the shapes for the datasets (datasets combine both parameters and signals)
                                         _shapes_datasets = [(s.name, s.data.shape) for s in resData[_gen_name][_component].__dict__['datasets']]
-                                        print(_shapes_datasets)
 
                                         # Empty list for signals
                                         _signals = []
 
+                                        # Loop to filter out parameters from the list of signals
                                         for n, _dataset in enumerate(_shapes_datasets):
 
                                             if not _dataset[1] == ():
                                                 _signals.append(_dataset[0])
 
-                                        print(_signals)
-
-                                        continue
-
-                                        if _version == '1.5.0':
-                                            _comp_name = _component.upper()
-                                            if _comp_name.strip() in LIST_OF_MACHINES_150.keys():
-                                                # remove all parameters from the display list
-                                                print(LIST_OF_MACHINES_150.keys())
-                                        elif _version == '2.0.0':
-                                            _comp_name = _component.upper()
-                                            if _comp_name.strip() in LIST_OF_MACHINES_200.keys():
-                                                print(LIST_OF_MACHINES_200.keys())
-
                                         print(f"\nThe following is the list of available signals in component {_component} in generator {_gen_name}:")
 
-                                        for n, sig in enumerate(_comp_available_signals):
-                                            print(f"{n + 1}. {sig}")
+                                        for n, sig in enumerate(_signals):
+                                            print(f" {n + 1}. {sig}")
 
-                                        choice = input(f'Select a signal to extract\n')
+                                        choice = input(f'Select a signal to extract: ')
                                         choice = int(choice) - 1
+                                        continue
 
                                         gen_depth_signal = 2
 
