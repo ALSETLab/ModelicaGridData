@@ -391,6 +391,6 @@ def extract_data(tool, model, version, path, working_directory):
     data_output.close()
 
     # Moving output file to the storing directory
-    _src = os.path.join(os.path.join(os.path.getcwd(), _output_file))
+    _src = os.path.join(os.path.join(os.getcwd(), _output_file))
     _dst = os.path.join(path, _output_file)
     shutil.move(_src, _dst)
