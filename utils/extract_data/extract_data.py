@@ -169,8 +169,10 @@ def extract_data(tool, model, version, path, working_directory):
 
                     _n_sc_counter += 1
 
+                    print(_n_scenario)
+
                     # Creating group for the scenario
-                    data_output.create_group(f"{_n_scenario}")
+                    data_output.create_group(f"{_n_sc_counter}")
                     print(data_output.keys()) # for debugging
 
                     # Getting the file path (current directory is `_res_directory`)
@@ -201,8 +203,8 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_imag = np.array(v_imag.data)
 
                                 # Saving data
-                                data_output[f'/{_n_scenario}/vr_{bus}'] = v_real
-                                data_output[f'/{_n_scenario}/vi_{bus}'] = v_imag
+                                data_output[f'/{_n_sc_counter}/vr_{bus}'] = v_real
+                                data_output[f'/{_n_sc_counter}/vi_{bus}'] = v_imag
 
                         elif res_format == 'polar':
                             for bus in _buses:
@@ -220,8 +222,8 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_angle = np.array(v_angle.data)
 
                                 # Saving data
-                                data_output[f'/{_n_scenario}/v_mag_{bus}'] = v_mag
-                                data_output[f'/{_n_scenario}/v_angle_{bus}'] = v_angle
+                                data_output[f'/{_n_sc_counter}/v_mag_{bus}'] = v_mag
+                                data_output[f'/{_n_sc_counter}/v_angle_{bus}'] = v_angle
 
                     elif extract == 'lines':
                         if extract_signal == 'power':
@@ -242,10 +244,10 @@ def extract_data(tool, model, version, path, working_directory):
                                 Q21 = np.array(Q21.data)
 
                                 # Saving data
-                                data_output[f'/{_n_scenario}/P12_{line}'] = P12
-                                data_output[f'/{_n_scenario}/P21_{line}'] = P21
-                                data_output[f'/{_n_scenario}/Q12_{line}'] = Q12
-                                data_output[f'/{_n_scenario}/Q21_{line}'] = Q21
+                                data_output[f'/{_n_sc_counter}/P12_{line}'] = P12
+                                data_output[f'/{_n_sc_counter}/P21_{line}'] = P21
+                                data_output[f'/{_n_sc_counter}/Q12_{line}'] = Q12
+                                data_output[f'/{_n_sc_counter}/Q21_{line}'] = Q21
 
                         elif extract_signal == 'current':
                             if res_format == 'rectangular':
@@ -263,10 +265,10 @@ def extract_data(tool, model, version, path, working_directory):
                                     i_im_receiving = np.array(i_im_receiving.data)
 
                                     # Saving data
-                                    data_output[f'/{_n_scenario}/i_send_re_{line}'] = i_re_sending
-                                    data_output[f'/{_n_scenario}/i_send_im_{line}'] = i_im_sending
-                                    data_output[f'/{_n_scenario}/i_receiv_re_{line}'] = i_re_receiving
-                                    data_output[f'/{_n_scenario}/i_receiv_im_{line}'] = i_im_receiving
+                                    data_output[f'/{_n_sc_counter}/i_send_re_{line}'] = i_re_sending
+                                    data_output[f'/{_n_sc_counter}/i_send_im_{line}'] = i_im_sending
+                                    data_output[f'/{_n_sc_counter}/i_receiv_re_{line}'] = i_re_receiving
+                                    data_output[f'/{_n_sc_counter}/i_receiv_im_{line}'] = i_im_receiving
 
                             elif res_format == 'polar':
                                 for line in _lines:
@@ -290,10 +292,10 @@ def extract_data(tool, model, version, path, working_directory):
                                     i_receiving_angle = np.arctan2(i_im_receiving, i_re_receiving)
 
                                     # Saving data
-                                    data_output[f'/{_n_scenario}/i_send_mag_{line}'] = i_sending_mag
-                                    data_output[f'/{_n_scenario}/i_send_angle_{line}'] = i_sending_angle
-                                    data_output[f'/{_n_scenario}/i_receiv_mag_{line}'] = i_receiving_mag
-                                    data_output[f'/{_n_scenario}/i_receiv_angle_{line}'] = i_receiving_angle
+                                    data_output[f'/{_n_sc_counter}/i_send_mag_{line}'] = i_sending_mag
+                                    data_output[f'/{_n_sc_counter}/i_send_angle_{line}'] = i_sending_angle
+                                    data_output[f'/{_n_sc_counter}/i_receiv_mag_{line}'] = i_receiving_mag
+                                    data_output[f'/{_n_sc_counter}/i_receiv_angle_{line}'] = i_receiving_angle
 
                     elif extract == 'generators':
 
@@ -420,7 +422,7 @@ def extract_data(tool, model, version, path, working_directory):
                         # Converting to numpy array
                         signal = np.array(signal)
 
-                        data_output[f'/{_n_scenario}/{_gen_name}/{_signal_to_extract}'] = signal
+                        data_output[f'/{_n_sc_counter}/{_gen_name}/{_signal_to_extract}'] = signal
 
     data_output.visititems(printall)
 
