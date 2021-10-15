@@ -391,15 +391,16 @@ def extract_data(tool, model, version, path, working_directory):
                                         _shapes_datasets = [(s.name, s.data.shape) for s in resData[_gen_name][_component].__dict__['datasets']]
                                         print(_shapes_datasets)
 
+                                        # Empty list for signals
+                                        _signals = []
+
                                         for n, _dataset in enumerate(_shapes_datasets):
 
-                                            if _dataset[1] == ():
-                                                print(_dataset[0])
+                                            if not _dataset[1] == ():
+                                                _signals.append(_dataset[0])
 
+                                        print(_signals)
 
-                                        # print(resData[_gen_name][_component]["SPEED"].data.shape)
-
-                                        # print(resData[_gen_name][_component].__dict__)
                                         continue
 
                                         if _version == '1.5.0':
