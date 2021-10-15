@@ -173,8 +173,6 @@ def extract_data(tool, model, version, path, working_directory):
             _labels_init.append(list(_labels_init_sc["Label"].values))
             _labels_final.append(list(_labels_final_sc["Label"].values))
 
-            print(_labels_init, _labels_final)
-
             # Getting list of files in result folder
             with os.scandir(_res_directory) as entry_res:
                 # List of files
@@ -448,8 +446,11 @@ def extract_data(tool, model, version, path, working_directory):
     _labels_init = list(itertools.chain(*_labels_init))
     _labels_final = list(itertools.chain(*_labels_final))
 
-    print(_labels_init, _labels_final)
+    # Saving labels at initial and final values
+    data_output['/labels/init'] = _labels_init
+    data_output['/labels/final'] = _labels_final
 
+    # Saving eigenvalues
 
     print(get_dataset_keys(data_output))
 
