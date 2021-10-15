@@ -196,7 +196,7 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_real = resData[bus]['p']['vr']
                                 v_imag = resData[bus]['p']['vi']
 
-                                # Converting to numpy array
+                                # Converting to numpy arrays
                                 v_real = np.array(v_real.data)
                                 v_imag = np.array(v_imag.data)
 
@@ -215,7 +215,7 @@ def extract_data(tool, model, version, path, working_directory):
                                 # Getting voltage angle
                                 v_angle = resData[bus]["angle"]
 
-                                # Converting to numpy array
+                                # Converting to numpy arrays
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
@@ -225,7 +225,28 @@ def extract_data(tool, model, version, path, working_directory):
 
                     elif extract == 'lines':
                         if extract_signal == 'power':
-                            pass
+                            for line in _lines:
+
+                                # Getting power from sending to receiving end (12)
+                                P12 = resData[line]["P12"]
+                                Q12 = resData[line]["Q12"]
+
+                                # Getting power from receiving to sending end (21)
+                                P21 = resData[line]["P21"]
+                                Q21 = resData[line]["Q21"]
+
+                                # Converting to numpy arrays
+                                P12 = np.array(P12.data)
+                                P21 = np.array(P21.data)
+                                Q12 = np.array(Q12.data)
+                                Q21 = np.array(Q21.data)
+
+                                # Saving data
+                                data_output[f'/{_n_sc_counter}/P12_{line}'] = P12
+                                data_output[f'/{_n_sc_counter}/P21_{line}'] = P21
+                                data_output[f'/{_n_sc_counter}/Q12_{line}'] = Q12
+                                data_output[f'/{_n_sc_counter}/Q21_{line}'] = Q21
+
                         elif extract_signal == 'current':
                             if res_format == 'rectangular':
                                 pass
