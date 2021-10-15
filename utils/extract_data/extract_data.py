@@ -143,7 +143,7 @@ def extract_data(tool, model, version, path, working_directory):
     _exp_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S_') + _uuid[:6]
 
     # Name of the output file
-    _output_file = f'{_model}_{extract}_{_exp_id}.hdf5']
+    _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
 
     print(os.path.join(path, _output_file))
     return
