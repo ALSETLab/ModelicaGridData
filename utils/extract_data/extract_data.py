@@ -188,25 +188,26 @@ def extract_data(tool, model, version, path, working_directory):
                     _n_scenario_regex = re.compile(rf'{_model}_dsres_(\d+).(?:\w+)')
                     _n_scenario = int(_n_scenario_regex.findall(file)[0])
 
-                    # Getting eigenvalues for scenario
-                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy")):
-                        print("init eigenvalue file exists")
-                    else:
-                        print("init eigenvalue file does not exist")
-
-                    # Getting eigenvalues for scenario
-                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy")):
-                        _eigs_sc = np.load(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy"))
-                        # Removing repeated eigenvalues (if any)
-                        _eigs_sc = np.unique(_eigs_sc)
-                        print(_eigs_sc.shape)
-                    else:
-                        _eigs_sc = []
-
                     _n_sc_counter += 1
 
                     # Creating group for the scenario
                     data_output.create_group(f"{_n_sc_counter}")
+
+                    # Getting eigenvalues for scenario
+                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy")):
+                        _eigs_init_sc = np.load(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy"))
+                    else:
+                        _eigs_init_sc = []
+
+                    # Getting eigenvalues for scenario
+                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy")):
+                        _eigs_final_sc = np.load(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy"))
+                    else:
+                        _eigs_final_sc = []
+
+                    # Writing eigenvalues for scenario
+                    data_output[f"{_n_sc_counter}/eigs/initial"] = _eigs_init_sc
+                    data_output[f"{_n_sc_counter}/eigs/final"] = _eigs_final_sc
 
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
