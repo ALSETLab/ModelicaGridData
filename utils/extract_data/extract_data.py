@@ -85,10 +85,10 @@ def extract_data(tool, model, version, path, working_directory):
 
         # Validating user input
         if value1 == 1:
-            print("Extracting bus voltage as real and imaginary parts")
+            print("\nExtracting bus voltage as real and imaginary parts\n")
             res_format = 'rectangular' # real and imaginary parts
         elif value1 == 2:
-            print("Extracting bus voltage signal as magnitude and phase")
+            print("\nExtracting bus voltage signal as magnitude and phase\n")
             res_format = 'polar' # magnitude and phase
         else:
             raise ValueError("Wrong Choice, terminating the program.")
@@ -103,11 +103,11 @@ def extract_data(tool, model, version, path, working_directory):
 
         # Validating user input
         if value1 == 1:
-            print("Extracting power signals across lines")
+            print("\nExtracting power signals across lines\n")
             extract_signal = 'power'
             res_format = 'rectangular' # P and Q
         elif value1 == 2:
-            print("Extracting current signals across lines")
+            print("\nExtracting current signals across lines\n")
             extract_signal = 'current'
             res_format = 'rectangular' # real and imaginary parts
         else:
