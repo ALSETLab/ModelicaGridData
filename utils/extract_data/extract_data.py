@@ -411,6 +411,8 @@ def extract_data(tool, model, version, path, working_directory):
 
                             # print(resData[_generators[0]].__dict__.keys())
 
+                        return
+
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
 
