@@ -193,8 +193,8 @@ def extract_data(tool, model, version, path, working_directory):
                     if extract == 'buses':
                         if res_format == 'rectangular':
                             for bus in _buses:
-                                v_real = resData[f"/{bus}/p/vr"]
-                                v_imag = resData[f"/{bus}/p/vi"]
+                                v_real = resData[bus]['p']['vr']
+                                v_imag = resData[bus]['p']['vi']
 
                                 # Converting to numpy array
                                 v_real = np.array(v_real.data)
@@ -205,15 +205,6 @@ def extract_data(tool, model, version, path, working_directory):
                                 data_output[f'/{_n_sc_counter}/vi'] = v_imag
 
                         elif res_format == 'polar':
-
-                            # Creating dataframes for magnitude and angle
-                            df_mag = pd.DataFrame()
-                            df_angle = pd.DataFrame()
-
-                            # Assigning time
-                            df_mag['t'] = time
-                            df_angle['t'] = time
-
                             for bus in _buses:
                                 # Getting voltage magnitude
                                 # (attribute depends on the OpenIPSL version)
@@ -228,13 +219,8 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
-                                # Assigning to DataFrame
-                                df_mag[bus] = v_mag
-                                df_angle[bus] = v_angle
+                                # Saving data
 
-                            # Saving `.csv` file with scenario data
-                            df_mag.to_csv()
-                            df_angle.to_csv()
 
                     elif extract == 'lines':
                         if extract_signal == 'power':
