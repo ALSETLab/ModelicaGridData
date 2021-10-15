@@ -387,8 +387,8 @@ def extract_data(tool, model, version, path, working_directory):
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
 
-                                        _shapes_datasets = [s.shape for s in resData[_gen_name][_component].__dict__['datasets']]
-                                        print(_shapes_datasets)
+                                        # _shapes_datasets = [s.shape for s in resData[_gen_name][_component].__dict__['datasets']]
+                                        # print(_shapes_datasets)
 
                                         print(resData[_gen_name][_component]["V_b"].data.shape)
                                         continue
