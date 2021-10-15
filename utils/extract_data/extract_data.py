@@ -171,6 +171,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Creating group for the scenario
                     data_output.create_group(f"{_n_sc_counter}")
+                    print(data_output.keys())
 
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
