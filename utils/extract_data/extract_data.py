@@ -200,7 +200,7 @@ def extract_data(tool, model, version, path, working_directory):
                         _eigs_init_sc = []
 
                     # Getting eigenvalues for scenario
-                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy")):
+                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy")):
                         _eigs_final_sc = np.load(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy"))
                     else:
                         _eigs_final_sc = []
