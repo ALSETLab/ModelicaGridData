@@ -6,6 +6,7 @@ import pandas as pd
 import re
 import h5py
 import datetime
+from uuid import uuid4
 
 from .generate_component_list import *
 

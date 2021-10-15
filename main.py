@@ -6,7 +6,6 @@ import sys
 import multiprocessing as mp
 import psutil
 import time
-from uuid import uuid4
 
 # Importing global constants and variables useful for the execution of the code
 from utils import *
