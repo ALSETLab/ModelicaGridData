@@ -169,7 +169,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                 # Getting labels for initial and final condition
                 _labels_init_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_init.csv"))
-                _labels_final_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_init.csv"))
+                _labels_final_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_final.csv"))
 
                 print(_labels_init_sc)
                 print(_labels_final_sc)
