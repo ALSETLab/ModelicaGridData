@@ -196,9 +196,10 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Getting eigenvalues for scenario
                     if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy")):
-                        print("final eigenvalue file exists")
+                        _eigs_sc = np.load(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy"))
+                        print(_eigs_sc)
                     else:
-                        print("final eigenvalue file does not exist")
+                        _eigs_sc = []
 
                     _n_sc_counter += 1
 
