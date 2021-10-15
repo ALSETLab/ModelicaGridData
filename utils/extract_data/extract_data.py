@@ -444,6 +444,13 @@ def extract_data(tool, model, version, path, working_directory):
 
                         data_output[f'/{_n_sc_counter}/{_gen_name}/{_signal_to_extract}'] = signal
 
+    # Flattening list of labels
+    _labels_init = list(itertools.chain(*_labels_init))
+    _labels_final = list(itertools.chain(*_labels_final))
+
+    print(_labels_init, _labels_final)
+
+
     print(get_dataset_keys(data_output))
 
     # Closing file
