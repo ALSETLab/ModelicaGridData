@@ -182,9 +182,10 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Getting time vector
                     time = np.array(resData['Time'].data)
+                    print(time)
 
                     # Writing time in the output file
-                    data_output['/{_n_sc_counter}/Time'] = time
+                    data_output[f'/{_n_sc_counter}/Time'] = time
 
                     # ===============================================
                     # Extracting file depending on user selection
