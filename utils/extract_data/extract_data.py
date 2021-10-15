@@ -530,7 +530,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
 
     choice = input("Do you want to print the hierarchy of the output file? (Y/N): ")
     if choice.lower() == 'y':
-        for i in get_dataset_keys(data_output)):
+        for i in get_dataset_keys(data_output):
             print(f"{n}, {i}")
 
     print("Routine completed")
