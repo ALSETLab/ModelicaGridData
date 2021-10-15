@@ -18,7 +18,7 @@ def get_dataset_keys(f):
     f.visit(lambda key : keys.append(key) if isinstance(f[key], h5py.Dataset) else None)
     return keys
 
-def extract_data(tool, model, version, path, working_directory):
+def extract_data(tool, model, version, path, working_directory, mu, sigma):
     '''
     EXTRACT_DATA
 
@@ -30,6 +30,8 @@ def extract_data(tool, model, version, path, working_directory):
     - `openipsl_version`: version of the OpenIPSL library used to run the dynamic simulations
     -  `working_directory`: directory where the simulation outputs (i.e.,
     `*.mat` files`) are located for the given model
+    - `mu`: mean for additive measurement noise (default is 0.0)
+    - `sigma`: standard deviation for additive measurement noise (default is 0.01)
 
     OUTPUTS:
     Writes `*.hdf5` files with the specified variables by the user in
@@ -238,6 +240,10 @@ def extract_data(tool, model, version, path, working_directory):
                                 # Converting to numpy arrays
                                 v_real = np.array(v_real.data)
                                 v_imag = np.array(v_imag.data)
+
+                                # Adding noise
+                                v_real += np.random.normal(mu, sigma, v_real.shape)
+                                v_imag += np.random.normal(mu, sigma, v_real.shape)
 
                                 # Saving data
                                 data_output[f'/{_n_sc_counter}/vr_{bus}'] = v_real
@@ -470,7 +476,6 @@ def extract_data(tool, model, version, path, working_directory):
     data_output['/labels/final'] = _labels_final
 
     # Saving eigenvalues
-
     print(get_dataset_keys(data_output))
 
     # Closing file

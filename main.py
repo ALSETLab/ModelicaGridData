@@ -578,6 +578,18 @@ if __name__ == "__main__":
                     _version = '1.5.0'
                     warnings.warn("Please specify the version of OpenIPSL employed for data generation. The extraction script may fail defaulting to OpenIPSL 1.5.0.")
 
+                if args.mu:
+                    _mu = args.mu
+                else:
+                    _mu = 0.0
+                    print("No mean for Gaussian noise in measurements. Assumed mean = 0")
+
+                if args.sigma:
+                    _sigma = args.sigma
+                else:
+                    _sigma = 0.01
+                    print(f"No standard deviation for Gaussian noise in measurements. Assumed sigma = {_sigma}")
+
                 # Loading simulation parameters
                 with open(r'sim_parameters.yaml') as f:
                     sim_params = yaml.load(f, Loader = yaml.FullLoader)
@@ -615,7 +627,7 @@ if __name__ == "__main__":
                 print(f"{'Experiment result path':<30}\n {_path}")
 
                 # Extracting data
-                extract_data(_tool, _model, _version, _path, _working_directory)
+                extract_data(_tool, _model, _version, _path, _working_directory, _mu, _sigma)
 
             if _function == 'label':
                 # Driver for labeling code
