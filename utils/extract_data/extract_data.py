@@ -38,7 +38,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     `./data/<path>`
 
     LAST MODIFICATION DATE:
-    10/01/2021 BY SADR
+    10/15/2021 BY SADR
     '''
 
     # Model name in simulations
