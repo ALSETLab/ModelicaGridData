@@ -264,6 +264,10 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
                                 v_mag = np.array(v_mag.data)
                                 v_angle = np.array(v_angle.data)
 
+                                # Adding noise
+                                v_mag += np.random.normal(mu, sigma, v_mag.shape)
+                                v_angle += np.random.normal(mu, sigma, v_angle.shape)
+
                                 # Saving data
                                 data_output[f'/{_n_sc_counter}/v_mag_{bus}'] = v_mag
                                 data_output[f'/{_n_sc_counter}/v_angle_{bus}'] = v_angle
@@ -286,6 +290,12 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
                                 Q12 = np.array(Q12.data)
                                 Q21 = np.array(Q21.data)
 
+                                # Adding noise
+                                P12 += np.random.normal(mu, sigma, P12.shape)
+                                P21 += np.random.normal(mu, sigma, P21.shape)
+                                Q12 += np.random.normal(mu, sigma, Q12.shape)
+                                Q21 += np.random.normal(mu, sigma, Q21.shape)
+
                                 # Saving data
                                 data_output[f'/{_n_sc_counter}/P12_{line}'] = P12
                                 data_output[f'/{_n_sc_counter}/P21_{line}'] = P21
@@ -306,6 +316,12 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
                                     i_im_sending = np.array(i_im_sending.data)
                                     i_re_receiving = np.array(i_re_receiving.data)
                                     i_im_receiving = np.array(i_im_receiving.data)
+
+                                    # Adding noise
+                                    i_re_sending += np.random.normal(mu, sigma, i_re_sending.shape)
+                                    i_im_sending += np.random.normal(mu, sigma, i_im_sending.shape)
+                                    i_re_receiving += np.random.normal(mu, sigma, i_re_receiving.shape)
+                                    i_im_receiving += np.random.normal(mu, sigma, i_im_receiving.shape)
 
                                     # Saving data
                                     data_output[f'/{_n_sc_counter}/i_send_re_{line}'] = i_re_sending
@@ -333,6 +349,12 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
 
                                     i_receiving_mag = np.sqrt(np.power(i_re_receiving, 2) + np.power(i_im_receiving, 2))
                                     i_receiving_angle = np.arctan2(i_im_receiving, i_re_receiving)
+
+                                    # Adding noise
+                                    i_sending_mag += np.random.normal(mu, sigma, i_sending_mag.shape)
+                                    i_sending_angle += np.random.normal(mu, sigma, i_sending_angle.shape)
+                                    i_receiving_mag += np.random.normal(mu, sigma, i_receiving_mag.shape)
+                                    i_receiving_angle += np.random.normal(mu, sigma, i_receiving_angle.shape)
 
                                     # Saving data
                                     data_output[f'/{_n_sc_counter}/i_send_mag_{line}'] = i_sending_mag
@@ -464,6 +486,9 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
 
                         # Converting to numpy array
                         signal = np.array(signal)
+
+                        # Adding noise
+                        signal += np.random.normal(mu, sigma, signal.shape)
 
                         data_output[f'/{_n_sc_counter}/{_gen_name}/{_signal_to_extract}'] = signal
 
