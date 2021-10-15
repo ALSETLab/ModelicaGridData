@@ -184,7 +184,7 @@ def extract_data(tool, model, version, path, working_directory):
                     time = np.array(resData['Time'].data)
 
                     # Writing time in the output file
-                    data_output.create_dataset('t', data = time)
+                    data_output['/t'] = time
 
                     # ===============================================
                     # Extracting file depending on user selection
