@@ -222,6 +222,8 @@ def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
             # Dynamic simulation
             ##################################################################
 
+            print(f"({n_proc}): Dynamic simulation ({counter}/{total})")
+
             # Changing the name of the result according to the scenario number
             _simSettings = f"startTime={_startTime},stopTime={_stopTime}" \
                 + f",tolerance={_tolerance},method=\"{_method}\",numberOfIntervals={_numberOfIntervals}"
