@@ -145,7 +145,7 @@ def extract_data(tool, model, version, path, working_directory):
     # Name of the output file
     _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
 
-    data_output = h5py.File(_output_file, "w")
+    data_output = h5py.File(os.path.join(path, _output_file), "w")
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -185,7 +185,7 @@ def extract_data(tool, model, version, path, working_directory):
                     time = np.array(resData['Time'].data)
 
                     # Writing time in the output file
-                    data_output["t"] = time
+                    data_output.create_dataset('Time', data = time)
 
                     # ===============================================
                     # Extracting file depending on user selection
