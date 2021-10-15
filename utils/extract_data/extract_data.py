@@ -199,8 +199,12 @@ def extract_data(tool, model, version, path, working_directory):
                     # Opening `*.mat` file
                     resData = sdf.load(_file_path)
 
-                    # Getting time vector
-                    time = np.array(resData['Time'].data)
+                    if tool == "dymola":
+                        # Getting time vector
+                        time = np.array(resData['Time'].data)
+                    elif tool == "om":
+                        print(get_dataset_keys(resData))
+                        return
 
                     # Writing time in the output file
                     data_output[f'/{_n_sc_counter}/Time'] = time
