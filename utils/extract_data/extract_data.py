@@ -11,6 +11,11 @@ from uuid import uuid4
 
 from .generate_component_list import *
 
+def get_dataset_keys(f):
+    keys = []
+    f.visit(lambda key : keys.append(key) if isinstance(f[key], h5py.Dataset) else None)
+    return keys
+
 def extract_data(tool, model, version, path, working_directory):
     '''
     EXTRACT_DATA
@@ -424,7 +429,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                         data_output[f'/{_n_sc_counter}/{_gen_name}/{_signal_to_extract}'] = signal
 
-    data_output.visititems(printall)
+    print(get_dataset_keys(data_output))
 
     # Closing file
     data_output.close()
