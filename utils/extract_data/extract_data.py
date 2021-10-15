@@ -167,8 +167,9 @@ def extract_data(tool, model, version, path, working_directory):
             _labels_init_sc = pd.read_csv(os.path.join(_res_directory, f"{_model}_labels_init.csv"))
             _labels_final_sc = pd.read_csv(os.path.join(_res_directory, f"{_model}_labels_final.csv"))
 
-            print(_labels_init_sc)
-            print(_labels_final_sc)
+            _labels_init.append(_labels_init["Label"].values)
+            print(_labels_init)
+            # print(_labels_final_sc)
 
             # Getting list of files in result folder
             with os.scandir(_res_directory) as entry_res:
