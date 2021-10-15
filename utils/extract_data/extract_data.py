@@ -133,8 +133,6 @@ def extract_data(tool, model, version, path, working_directory):
     # Counter for the number of scenarios
     _n_sc_counter = 0
 
-    # file = h5py.File(f'{uuid}_{extract}_results.hdf5', 'w')
-
     # Creating empty `*.sdf` file
 
     # Creating unique ID for the experiment result data file
@@ -194,25 +192,17 @@ def extract_data(tool, model, version, path, working_directory):
                     # Extracting data from buses
                     if extract == 'buses':
                         if res_format == 'rectangular':
-                            # Look for p and then vi vr
-                            df_real = pd.DataFrame()
-                            df_imag = pd.DataFrame()
-
-                            # Assigning time
-                            df_real['t'] = time
-                            df_imag['t'] = time
-
                             for bus in _buses:
-                                v_real = resData[bus]["p"]["vr"]
-                                v_imag = resData[bus]["p"]["vi"]
+                                v_real = resData[f"/{bus}/p/vr"]
+                                v_imag = resData[f"/{bus}/p/vi"]
 
                                 # Converting to numpy array
                                 v_real = np.array(v_real.data)
                                 v_imag = np.array(v_imag.data)
 
-                                # Assigning to DataFrame
-                                df_real[bus] = v_real
-                                df_imag[bus] = v_imag
+                                # Saving data
+                                data_output[f'/{_n_sc_counter}/vr'] = v_real
+                                data_output[f'/{_n_sc_counter}/vi'] = v_imag
 
                         elif res_format == 'polar':
 
@@ -384,8 +374,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                         print(signal)
 
-    # Printing info of created file
-    print(data_output.__dict__)
+    print(data_output.keys())
 
     # Closing file
     data_output.close()
