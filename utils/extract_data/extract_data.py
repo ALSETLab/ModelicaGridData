@@ -137,10 +137,14 @@ def extract_data(tool, model, version, path, working_directory):
     # file = h5py.File(f'{uuid}_{extract}_results.hdf5', 'w')
 
     # Creating empty `*.sdf` file
+
+    # Creating unique ID for the experiment result data file
     _uuid = str(uuid4())
-    print(_uuid[:6])
-    # Creating unique ID for the experiment data result directory
-    # expid = datetime.datetime.now().strftime('%Y%m-%d%H-%M%S-') +
+    _exp_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S-') + _uuid[:6]
+
+    _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
+    print(_output_file)
+
     # _data_output = sdf.Group()
 
     # Getting the list of files in the working directory
