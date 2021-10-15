@@ -383,7 +383,7 @@ def extract_data(tool, model, version, path, working_directory):
                                         _component = available_groups[choice]
                                         gen_selection = True;
 
-                                        print(type(resData[_gen_name][_component]["V_b"]))
+                                        print(resData[_gen_name][_component]["V_b"].data.shape)
                                         continue
 
                                         # Getting available signals and groups
