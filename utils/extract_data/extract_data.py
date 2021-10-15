@@ -9,6 +9,8 @@ import datetime
 import shutil
 from uuid import uuid4
 
+import itertools
+
 from .generate_component_list import *
 
 def get_dataset_keys(f):
@@ -167,9 +169,11 @@ def extract_data(tool, model, version, path, working_directory):
             _labels_init_sc = pd.read_csv(os.path.join(_res_directory, f"{_model}_labels_init.csv"))
             _labels_final_sc = pd.read_csv(os.path.join(_res_directory, f"{_model}_labels_final.csv"))
 
+            # Appending to list
             _labels_init.append(list(_labels_init_sc["Label"].values))
-            print(_labels_init)
-            # print(_labels_final_sc)
+            _labels_final.append(list(_labels_final_sc["Label"].values))
+
+            print(_labels_init, _labels_final)
 
             # Getting list of files in result folder
             with os.scandir(_res_directory) as entry_res:
