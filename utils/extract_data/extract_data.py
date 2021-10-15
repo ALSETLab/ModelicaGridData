@@ -164,8 +164,8 @@ def extract_data(tool, model, version, path, working_directory):
             _res_directory = os.path.join(working_directory, folder.name)
 
             # Getting labels for initial and final condition
-            _labels_init_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_init.csv"))
-            _labels_final_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_final.csv"))
+            _labels_init_sc = pd.read_csv(os.path.join(_res_directory, f"{_model}_labels_init.csv"))
+            _labels_final_sc = pd.read_csv(os.path.join(_res_directory, f"{_model}_labels_final.csv"))
 
             print(_labels_init_sc)
             print(_labels_final_sc)
