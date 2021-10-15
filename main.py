@@ -599,12 +599,8 @@ if __name__ == "__main__":
                 if not os.path.exists(_working_directory):
                     raise ValueError('Working directory does not exist. Dynamic simulations may not have been dispatched (or results might have been removed)')
 
-                # Creating unique ID for the experiment data result directory
-                expid = datetime.datetime.now().strftime('%Y%m-%d%H-%M%S-') + str(uuid4())
-
-                # Creating path for experiment ID
-                _path = os.path.join(os.getcwd(), "data", "sim_res", _model, expid)
-
+                # Creating path to save data for experiment
+                _path = os.path.join(os.getcwd(), "data", "sim_res", _model)
 
                 # Printing working directory and tool
                 print(f"\n{'':-^45}")

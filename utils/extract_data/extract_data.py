@@ -5,97 +5,9 @@ import numpy as np
 import pandas as pd
 import re
 import h5py
+import datetime
 
 from .generate_component_list import *
-
-# List of machines in OpenIPSL 1.5.0
-LIST_OF_MACHINES_150 = {'GENSAL' : [('Epq', 'q-axis voltage behind transient reactance (pu)'),
-                    ('PSIkd',   'd-axis rotor flux linkage (pu)'),
-                    ('PSIppd',  'd-axis subtransient flux linkage (pu)'),
-                    ('PSIppq',  'q-axis subtransient flux linkage (pu)'),
-                    ('PSId',    'd-axis flux linkage (pu)'),
-                    ('PSIq',    'q-axis flux linkage (pu)'),
-                    ('XadIfd',  'machine field current (pu)')],
-    'GENROU' : [('Epd' , 'd-axis voltage behind transient reactance (pu)'),
-                    ('Epq',     'q-axis voltage behind transient reactance (pu)'),
-                    ('PSIkd',   'd-axis rotor flux linkage (pu)'),
-                    ('PSIkq',   'q-axis rotor flux linkage (pu)'),
-                    ('PSId',    'd-axis flux linkage (pu)'),
-                    ('PSIq',    'q-axis flux linkage (pu)'),
-                    ('PSIppd',  'd-axis subtransient flux linkage (pu)'),
-                    ('PSIppq',  'q-axis subtransient flux linkage (pu)'),
-                    ('XadIfd',  'd-axis machine field current (pu)'),
-                    ('XadIfq',  'q-axis machine field current (pu)')],
-    'GENROE' : [('Epd', 'd-axis voltage behind transient reactance (pu)'),
-                    ('Epq',     'q-axis voltage behind transient reactance (pu)'),
-                    ('PSIkd',   'd-axis rotor flux linkage (pu)'),
-                    ('PSIkq',   'q-axis rotor flux linkage (pu)'),
-                    ('PSId',    'd-axis flux linkage (pu)'),
-                    ('PSIq',    'q-axis flux linkage (pu)'),
-                    ('PSIppd',  'd-axis subtransient flux linkage (pu)'),
-                    ('PSIppq',  'q-axis subtransient flux linkage (pu)'),
-                    ('XadIfd',  'd-axis machine field current (pu)'),
-                    ('XadIfq',  'q-axis machine field current (pu)')],
-    'GENSAE' : [('Epq', 'q-axis voltage behind transient reactance (pu)'),
-                    ('PSIkd',   'd-axis rotor flux linkage (pu)'),
-                    ('PSId',   'd-axis flux linkage (pu)'),
-                    ('PSIq',   'q-axis flux linkage (pu)'),
-                    ('PSIppd', 'd-axis subtransient flux linkage (pu)'),
-                    ('PSIppq', 'q-axis subtransient flux linkage (pu)'),
-                    ('XadIfd', 'd-axis machine field current (pu)')],
-    'GENCLS' : [('delta', 'rotor angle (ang)'),
-                    ('omega', 'rotor speed (pu)]'),
-                    ('V' , 'bus voltage magnitude (pu)'),
-                    ('anglev', 'bus voltage angle (rad)')]}
-# List of machines in OpenIPSL 2.0.0
-LIST_OF_MACHINES_200 = {'GENCLS': [('delta', "Rotor angle"),
-                ('omega',   "Rotor speed"),
-                ('V',       "Bus voltage magnitude"),
-                ('anglev',  "Bus voltage angle"),
-                ('eq',      "Constant emf behind transient reactance"),
-                ('vd',      "d-axis voltage"),
-                ('vq',      "q-axis voltage"),
-                ('id',      "d-axis current"),
-                ('iq',      "q-axis current"),
-                ('P',       "Active power (system base)"),
-                ('Q',       "Reactive power (system base)")],
-    'GENROE' : [('Epd', "d-axis voltage behind transient reactance"),
-                ('Epq',     "q-axis voltage behind transient reactance"),
-                ('PSIkd',   "d-axis rotor flux linkage"),
-                ('PSIkq',   "q-axis rotor flux linkage"),
-                ('PSId',    "d-axis flux linkage"),
-                ('PSIq',    "q-axis flux linkage"),
-                ('PSIppd',  "d-axis subtransient flux linkage"),
-                ('PSIppq',  "q-axis subtransient flux linkage"),
-                ('PSIpp',   "Air-gap flux"),
-                ('XadIfd',  "d-axis machine field current"),
-                ('XaqIlq',  "q-axis Machine field current")],
-    'GENROU' : [('Epd', "d-axis voltage behind transient reactance"),
-                ('Epq',     "q-axis voltage behind transient reactance"),
-                ('PSIkd',   "d-axis rotor flux linkage"),
-                ('PSIkq',   "q-axis rotor flux linkage"),
-                ('PSId',    "d-axis flux linkage"),
-                ('PSIq',    "q-axis flux linkage"),
-                ('PSIppd',  "d-axis subtransient flux linkage"),
-                ('PSIppq',  "q-axis subtransient flux linkage"),
-                ('PSIpp',   "Air-gap flux"),
-                ('XadIfd',  "d-axis machine field current"),
-                ('XaqIlq',  "q-axis Machine field current")],
-    'GENSAE' : [('Epq',     "q-axis voltage behind transient reactance"),
-                ('PSIkd',   "d-axis rotor flux linkage"),
-                ('PSIppq',  "q-axis subtransient flux linkage"),
-                ('PSIppd',  "d-axis subtransient flux linkage"),
-                ('PSId',    "d-axis flux linkage"),
-                ('PSIq',    "q-axis flux linkage"),
-                ('XadIfd',  "Machine field current"),
-                ('PSIpp',   "Air-gap flux")],
-    'GENSAL' : [('Epq',     "q-axis voltage behind transient reactance"),
-                ('PSIkd',   "d-axis rotor flux linkage"),
-                ('PSIppq',  "q-axis subtransient flux linkage"),
-                ('PSIppd',  "d-axis subtransient flux linkage"),
-                ('PSId',    "d-axis flux linkage"),
-                ('PSIq',    "q-axis flux linkage"),
-                ('XadIfd',  "Machine field current")]}
 
 def extract_data(tool, model, version, path, working_directory):
     '''
@@ -221,7 +133,13 @@ def extract_data(tool, model, version, path, working_directory):
     # Counter for the number of scenarios
     _n_sc_counter = 0
 
+    # file = h5py.File(f'{uuid}_{extract}_results.hdf5', 'w')
+
     # Creating empty `*.sdf` file
+    _uuid = str(uuid4())
+    print(_uuid[:6])
+    # Creating unique ID for the experiment data result directory
+    # expid = datetime.datetime.now().strftime('%Y%m-%d%H-%M%S-') +
     # _data_output = sdf.Group()
 
     # Getting the list of files in the working directory
