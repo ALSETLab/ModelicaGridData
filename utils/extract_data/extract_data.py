@@ -343,24 +343,36 @@ def extract_data(tool, model, version, path, working_directory):
                             # Available signals in the selected machine
                             available_signals = [d.name for d in resData[_gen_name].__dict__['datasets']]
 
+                            # Getting the shapes for the datasets (datasets combine both parameters and signals)
+                            _shapes_datasets = [(s.name, s.data.shape) for s in resData[_gen_name].__dict__['datasets']]
+
+                            # Empty list for signals
+                            _signals = []
+
+                            # Loop to filter out parameters from the list of signals
+                            for n, _dataset in enumerate(_shapes_datasets):
+
+                                if not _dataset[1] == ():
+                                    _signals.append(_dataset[0])
+
                             # Available groups in the selected machine (i.e., components of the control systems)
                             available_groups = [d.name for d in resData[_gen_name].__dict__['groups']]
 
                             # Prompting the user to select signal or see the list of components
                             print(f"\nThe following is the list of available signals in generator {_gen_name}")
 
-                            for n, av_sig in enumerate(available_signals):
-                                print(f" {n+1}. {av_sig}")
+                            for n, _signal in enumerate(_signals):
+                                print(f" {n+1}. {_signal}")
 
-                            print(f" {len(available_signals) + 1}. See more components within the machine")
+                            print(f" {len(_signals) + 1}. See more components within the machine")
 
-                            choice = input(f'\nSelect a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine: ')
+                            choice = input(f'\nSelect a signal (or type {len(_signals) + 1}) if you want to see more components within the machine: ')
                             choice = int(choice) - 1
 
-                            if choice > len(available_signals):
+                            if choice > len(_signals):
                                 raise ValueError("Invalid selection. Terminating program.")
                             else:
-                                if choice < len(available_signals):
+                                if choice < len(_signals):
                                     _signal_to_extract = available_signals[choice]
 
                                     print(f"\n\nExtracting signal {_signal_to_extract} in generator {_gen_name}\n\n")
@@ -422,8 +434,6 @@ def extract_data(tool, model, version, path, working_directory):
                                             gen_depth_signal = 2
                                             print(f"\nExtracting signal {_signal_to_extract} in component {_component} for machine {_gen_name}\n")
 
-                        return
-
                         if gen_depth_signal == 1:
                             # Extracting a signal in the generator main attributes
                             # Getting signal data
@@ -437,6 +447,8 @@ def extract_data(tool, model, version, path, working_directory):
                         signal = np.array(signal)
 
                         print(signal)
+
+                        return
 
 
     ##########################################################
