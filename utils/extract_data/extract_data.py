@@ -84,8 +84,7 @@ def extract_data(tool, model, version, path, working_directory):
             print("Extracting bus voltage signal as magnitude and phase")
             res_format = 'polar' # magnitude and phase
         else:
-            print("Invalid choice. Terminating routine")
-            return
+            raise ValueError("Wrong Choice, terminating the program.")
 
     elif choice == 2:
         extract = 'lines'
@@ -105,8 +104,7 @@ def extract_data(tool, model, version, path, working_directory):
             extract_signal = 'current'
             res_format = 'rectangular' # real and imaginary parts
         else:
-            print("Invalid choice. Terminating routine")
-            return
+            raise ValueError("Wrong Choice, terminating the program.")
     elif choice == 3:
         extract = 'generators'
         # Extracting generator signals
@@ -147,7 +145,6 @@ def extract_data(tool, model, version, path, working_directory):
     _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
     # Creating output file
     data_output = h5py.File(_output_file, "w")
-
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
