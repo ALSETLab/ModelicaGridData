@@ -6,6 +6,7 @@ import pandas as pd
 import re
 import h5py
 import datetime
+import shutil
 from uuid import uuid4
 
 from .generate_component_list import *
@@ -144,10 +145,9 @@ def extract_data(tool, model, version, path, working_directory):
 
     # Name of the output file
     _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
+    # Creating output file
+    data_output = h5py.File(_output_file, "w")
 
-    print(os.path.join(path, _output_file))
-    data_output = h5py.File(os.path.join(path, _output_file), "w")
-    return
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -391,3 +391,8 @@ def extract_data(tool, model, version, path, working_directory):
 
     # Closing file
     data_output.close()
+
+    # Moving output file to the storing directory
+    _src = os.path.join(os.path.join(os.path.getcwd(), _output_file))
+    _dst = os.path.join(path, _output_file)
+    shutil.move(_src, _dst)

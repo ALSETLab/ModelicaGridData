@@ -601,6 +601,10 @@ if __name__ == "__main__":
                 # Creating path to save data for experiment
                 _path = os.path.join(os.getcwd(), "data", "sim_res", _model)
 
+                # Creating path to save results (if it does not exist)
+                if not os.path.exists(_path):
+                    os.makedirs(_path)
+
                 # Printing working directory and tool
                 print(f"\n{'':-^45}")
                 print('Summary for time-domain simulation data extraction')
