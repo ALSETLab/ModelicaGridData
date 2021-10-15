@@ -500,9 +500,6 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     data_output['/labels/init'] = _labels_init
     data_output['/labels/final'] = _labels_final
 
-    # Saving eigenvalues
-    print(get_dataset_keys(data_output))
-
     # Closing file
     data_output.close()
 
@@ -510,3 +507,30 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     _src = os.path.join(os.path.join(os.getcwd(), _output_file))
     _dst = os.path.join(path, _output_file)
     shutil.move(_src, _dst)
+
+    # Printing working directory and tool
+    print(f"\n{'':-^45}")
+    print('Summary for data extraction files')
+    print(f"{'':-^45}")
+    print(f"{'Model name':<30} {_model}")
+    print(f"{'Component for signal extraction':<30} {extract}")
+    if extract == 'generators':
+        if gen_depth_signal == 1:
+            print(f"{'Signal extracted':<30} {_signal_to_extract}")
+        elif gen_depth_signal == 2:
+            print(f"{'Signal extracted':<30} {_signal_to_extract} in {_component}")
+    print(f"{'Component for signal extraction':<30} {_output_file}")
+    print(f"{'Noise Mean':<30} {mu}")
+    print(f"{'Noise Standard Deviation':<30} {sigma}")
+    print(f"{'File Name':<30} {_output_file}")
+    print(f"{'Save directory:':<30} {_dst}")
+    print(f"{'':-^45}")
+    print(f"Please save this ID file: {_output_file}")
+    print(f"Check the documentation on how to extract the data from the `*.hdf5` file\n")
+
+    choice = input("Do you want to print the hierarchy of the output file? (Y/N): ")
+    if choice.lower() == 'y':
+        for i in get_dataset_keys(data_output)):
+            print(f"{n}, {i}")
+
+    print("Routine completed")
