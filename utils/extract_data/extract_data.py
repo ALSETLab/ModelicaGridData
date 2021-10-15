@@ -140,7 +140,7 @@ def extract_data(tool, model, version, path, working_directory):
 
     # Creating unique ID for the experiment result data file
     _uuid = str(uuid4())
-    _exp_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S-') + _uuid[:6]
+    _exp_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S_') + _uuid[:6]
 
     _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
     print(_output_file)
