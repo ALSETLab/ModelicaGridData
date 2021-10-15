@@ -354,7 +354,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                             print(f"{len(available_signals) + 1}. See more components within the machine")
 
-                            choice = input(f'\nSelect a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine\n')
+                            choice = input(f'\nSelect a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine: ')
                             choice = int(choice) - 1
 
                             if choice > len(available_signals):
@@ -374,7 +374,7 @@ def extract_data(tool, model, version, path, working_directory):
                                     for n, grp in enumerate(available_groups):
                                         print(f"{n + 1}. {grp}")
 
-                                    choice = input(f'\nSelect a component to see the corresponding list of available signals\n')
+                                    choice = input(f'\nSelect a component to see the corresponding list of available signals: ')
                                     choice = int(choice) - 1
 
                                     if choice > len(available_groups):
@@ -387,12 +387,12 @@ def extract_data(tool, model, version, path, working_directory):
                                         _comp_available_signals = [s.name for s in resData[_gen_name][_component].__dict__['datasets']]
                                         _comp_available_groups = [g.name for g in resData[_gen_name][_component].__dict__['groups']]
 
-                                        # _shapes_datasets = [s.shape for s in resData[_gen_name][_component].__dict__['datasets']]
-                                        # print(_shapes_datasets)
+                                        _shapes_datasets = [s.data.shape for s in resData[_gen_name][_component].__dict__['datasets']]
+                                        print(_shapes_datasets)
 
-                                        print(resData[_gen_name][_component]["SPEED"].data.shape)
+                                        # print(resData[_gen_name][_component]["SPEED"].data.shape)
 
-                                        print(resData[_gen_name][_component].__dict__)
+                                        # print(resData[_gen_name][_component].__dict__)
                                         continue
 
                                         if _version == '1.5.0':
