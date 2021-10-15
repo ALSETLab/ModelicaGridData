@@ -354,7 +354,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                             print(f"{len(available_signals) + 1}. See more components within the machine")
 
-                            choice = input(f'Select a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine\n')
+                            choice = input(f'\nSelect a signal (or type {len(available_signals) + 1}) if you want to see more components within the machine\n')
                             choice = int(choice) - 1
 
                             if choice > len(available_signals):
@@ -374,7 +374,7 @@ def extract_data(tool, model, version, path, working_directory):
                                     for n, grp in enumerate(available_groups):
                                         print(f"{n + 1}. {grp}")
 
-                                    choice = input(f'Select a component to see the corresponding list of available signals\n')
+                                    choice = input(f'\nSelect a component to see the corresponding list of available signals\n')
                                     choice = int(choice) - 1
 
                                     if choice > len(available_groups):
@@ -383,7 +383,7 @@ def extract_data(tool, model, version, path, working_directory):
                                         _component = available_groups[choice]
                                         gen_selection = True;
 
-                                        print(resData[_gen_name][_component]["V_b"]['data'])
+                                        print(type(resData[_gen_name][_component]["V_b"]))
                                         continue
 
                                         # Getting available signals and groups
