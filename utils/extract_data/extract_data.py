@@ -154,25 +154,26 @@ def extract_data(tool, model, version, path, working_directory):
     with os.scandir(working_directory) as proc_folder_list:
         # Going through every folder created by a process
         # during time-domain simulation
+
+        # Containers for labels computed with symbolic linearization
+        _labels_init = []
+        _labels_final = []
+
         for folder in proc_folder_list:
             # Current working directory
             _res_directory = os.path.join(working_directory, folder.name)
 
-            # Containers for labels computed with symbolic linearization
-            _labels_init = []
-            _labels_final = []
+            # Getting labels for initial and final condition
+            _labels_init_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_init.csv"))
+            _labels_final_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_final.csv"))
+
+            print(_labels_init_sc)
+            print(_labels_final_sc)
 
             # Getting list of files in result folder
             with os.scandir(_res_directory) as entry_res:
                 # List of files
                 _list_files = [x.name for x in entry_res]
-
-                # Getting labels for initial and final condition
-                _labels_init_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_init.csv"))
-                _labels_final_sc = pd.read_csv(os.path.join(entry_res, f"{_model}_labels_final.csv"))
-
-                print(_labels_init_sc)
-                print(_labels_final_sc)
 
             # Iterating through the resulting files
             for file in _list_files:
