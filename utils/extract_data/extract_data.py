@@ -202,8 +202,8 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_imag = np.array(v_imag.data)
 
                                 # Saving data
-                                data_output[f'/{_n_sc_counter}/vr'] = v_real
-                                data_output[f'/{_n_sc_counter}/vi'] = v_imag
+                                data_output[f'/{_n_sc_counter}/vr_{bus}'] = v_real
+                                data_output[f'/{_n_sc_counter}/vi_{bus}'] = v_imag
 
                         elif res_format == 'polar':
                             for bus in _buses:
