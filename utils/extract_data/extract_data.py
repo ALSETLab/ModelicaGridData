@@ -189,13 +189,13 @@ def extract_data(tool, model, version, path, working_directory):
                     _n_scenario = int(_n_scenario_regex.findall(file)[0])
 
                     # Getting eigenvalues for scenario
-                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy"):
+                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_init_{_n_scenario}.npy")):
                         print("init eigenvalue file exists")
                     else:
                         print("init eigenvalue file does not exist")
 
                     # Getting eigenvalues for scenario
-                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy"):
+                    if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy")):
                         print("final eigenvalue file exists")
                     else:
                         print("final eigenvalue file does not exist")
