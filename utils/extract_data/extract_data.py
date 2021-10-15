@@ -171,7 +171,7 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Creating group for the scenario
                     data_output.create_group(f"{_n_sc_counter}")
-                    print(data_output.keys())
+                    print(data_output.keys()) # for debugging
 
                     # Getting the file path (current directory is `_res_directory`)
                     _file_path = os.path.join(_res_directory, file)
@@ -181,7 +181,6 @@ def extract_data(tool, model, version, path, working_directory):
 
                     # Getting time vector
                     time = np.array(resData['Time'].data)
-                    print(time)
 
                     # Writing time in the output file
                     data_output[f'/{_n_sc_counter}/Time'] = time
@@ -221,7 +220,8 @@ def extract_data(tool, model, version, path, working_directory):
                                 v_angle = np.array(v_angle.data)
 
                                 # Saving data
-
+                                data_output[f'/{_n_sc_counter}/v_mag_{bus}'] = v_mag
+                                data_output[f'/{_n_sc_counter}/v_angle_{bus}'] = v_angle
 
                     elif extract == 'lines':
                         if extract_signal == 'power':
