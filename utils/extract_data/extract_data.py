@@ -222,7 +222,7 @@ def extract_data(tool, model, version, path, working_directory):
     _n_sc_counter = 0
 
     # Creating empty `*.sdf` file
-    _data_output = sdf.Group()
+    # _data_output = sdf.Group()
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
