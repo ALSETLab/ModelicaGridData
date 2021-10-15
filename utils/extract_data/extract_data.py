@@ -197,6 +197,8 @@ def extract_data(tool, model, version, path, working_directory):
                     # Getting eigenvalues for scenario
                     if os.path.exists(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy")):
                         _eigs_sc = np.load(os.path.join(_res_directory, f"{_model}_eigs_final_{_n_scenario}.npy"))
+                        # Removing repeated eigenvalues (if any)
+                        _eigs_sc = np.unique(_eigs_sc)
                         print(_eigs_sc.shape)
                     else:
                         _eigs_sc = []
