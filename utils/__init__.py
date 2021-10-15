@@ -36,3 +36,7 @@ HELP_CORES = "(`val_pf` and `run_sim`) Number of cores to be used inside a proce
 # HELP TO FILES IN 'run_sim' FUNCTION
 HELP_POWER_FLOWS = "(`run_sim`) Number of power flows to run dynamic simulations. Defaults to all available"
 HELP_SCENARIOS = "(`run_sim`) Number of contingency scenarios to run the dynamic simulations. Defaults to all available or `50`, for large systems"
+
+# HELP TO FILES IN `extract` FUNCTION
+HELP_MU = "(`extract`) Mean of additive Gaussian noise added to the measurements. Defaults to 0.0."
+HELP_SIGMA = "(`run_sim`) Standard deviation of additive Gaussian noise added to the measurements. Defaults to 0.01."
