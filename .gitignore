@@ -3,4 +3,5 @@ __pycache__/
 .DS_Store
 Actual_Load/
 Load_Forecast/
+sim_res/
 _temp/
