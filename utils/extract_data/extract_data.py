@@ -529,7 +529,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
         for n, info in enumerate(get_dataset_keys(data_output)):
             print(f"{f' {n}. {info}':<30} {data_output[info][:].shape}")
 
-    print("Routine completed")
+    print("\nRoutine completed")
 
     # Closing file
     data_output.close()
