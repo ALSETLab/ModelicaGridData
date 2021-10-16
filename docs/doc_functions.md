@@ -28,11 +28,15 @@ python main.py val_pf --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --co
 python main.py run_sim --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --cores 1 --n_pf 2 --n_sc 10
 ```
 
-- `extract`: organizes the simulation data from the Dymola output `*.mat` files into `*.csv` files. The `*.csv` files are placed inside `./data` in a directory with a unique experiment ID. An example call is given below
+**NB:** it is recommended to set the number of
+
+- `extract`: organizes the simulation data from the Dymola output `*.mat` files into `*.hdf5` files. The `*.hdf5` files are placed inside `./data/sim_res` using a file name with a unique experiment ID. Here, an 'experiment' is understood as each run of the extract function where the user gets a different set of parameters. Note that it is possible to add measurement noise (assumed Gaussian) to the data. The default values are `mu = 0.0` (mean) and `sigma = 0.01` (standard deviation). However, the user can specify any mean and standard deviation when calling the function.
 
 ```python
-python main.py extract --tool dymola --model IEEE14
+python main.py extract --tool om --model IEEE14 --mu 0.01 --sigma 0.1
 ```
+
+This function will be prompting the user for which data is to be extracted. _Only one type of data can be saved for each run of the function_. So, two runs of the function are needed if the user wants to save line power flows and bus voltages (one run for each quantity). Regarding generators, a single quantity must be selected (i.e., a signal of the generator or its associated control system components).
 
 ### List of Arguments per Function
 
@@ -49,7 +53,7 @@ python main.py extract --tool dymola --model IEEE14
   - `--delete`: Delete previous power flow results. **Default:** `True`.
   - `--seed`: Seed value for load randomization. **Default:** `0`.
 
-**Note**: since `val_pf` and `run_sim` are both time-domain simulation-based routines, they share some arguments. For clarity's sake, the full list is given here.
+**NB**: since `val_pf` and `run_sim` are both time-domain simulation-based routines, they share some arguments. For clarity's sake, the full list is given here.
 
 - `val_pf`:
   - `--model`: model that will be used for the routine. Note that it corresponds to the name of the package of the OpenIPSL model. **Default:** `IEEE14`.
@@ -70,3 +74,6 @@ python main.py extract --tool dymola --model IEEE14
 - `extract`:
   - `--model`: model for which the simulation data will be extracted and processed. **Default:** `IEEE14` (it may return an error if the directory for the given model does not exist).
   - `--tool`: tool used for dynamic time-domain simulations. **Default:** `dymola` (it may return an error if the working directory for the given model does not exist).
+  - `--version`: version of the OpenIPSL library used to generate the data. **Default:** `1.5.0` (it may return an error if the version does not match the library release used for data generation).
+  - `--mu`: mean for the Gaussian noise injected to data measurements. **Default:** `0.0`.
+  - `--sigma`: standard deviation for the Gaussian noise injected to data measurements. **Default:** `0.01`.
