@@ -527,7 +527,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     choice = input("Do you want to print the hierarchy of the output file? (Y/N): ")
     if choice.lower() == 'y':
         for n, info in enumerate(get_dataset_keys(data_output)):
-            print(f" {n}. {info} {'':<20} {data_output[info][:].shape}")
+            print(f"{f' {n}. {info}':<30} {data_output[info][:].shape}")
 
     print("Routine completed")
 
