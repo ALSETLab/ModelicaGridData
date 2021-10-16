@@ -497,8 +497,8 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     _labels_final = list(itertools.chain(*_labels_final))
 
     # Saving labels at initial and final values
-    data_output['/labels/init'] = _labels_init
-    data_output['/labels/final'] = _labels_final
+    data_output['/labels/init'] = np.array(_labels_init)
+    data_output['/labels/final'] = np.array(_labels_final)
 
     # Moving output file to the storing directory
     _src = os.path.join(os.path.join(os.getcwd(), _output_file))
@@ -527,7 +527,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     choice = input("Do you want to print the hierarchy of the output file? (Y/N): ")
     if choice.lower() == 'y':
         for n, info in enumerate(get_dataset_keys(data_output)):
-            print(f"{n}. {info}")
+            print(f" {n}. {info} {'':<20} {data_output[info].data.shape}")
 
     print("Routine completed")
 
