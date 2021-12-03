@@ -1,7 +1,7 @@
-Trajectory Generation Tool
+ModelicaGridData
 =========================================
 
-The **trajectory generation tool** allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns.
+`ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns.
 
 ## Installation
 
@@ -46,3 +46,7 @@ Further examples with the `nyiso` module are provided as Jupyter Notebooks. Thes
 ## Troubleshooting
 
 - In Windows, open a Command Prompt as Administrator (**important**). Make sure the working directory is writable (i.e., folders and files and be created and deleted during runtime).
+
+## License
+
+This project is [licensed](./LICENSE.txt) under the [GNU Affero General Public License (GNU AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html).
