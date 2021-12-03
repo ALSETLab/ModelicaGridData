@@ -6,6 +6,7 @@ import sys
 import multiprocessing as mp
 import psutil
 import time
+import timeit
 
 # Importing global constants and variables useful for the execution of the code
 from utils import *
@@ -46,6 +47,9 @@ args = parser.parse_args()
 _function = args.function
 
 if __name__ == "__main__":
+
+    # Recording execution time
+    start_time = timeit.default_timer()
 
     # Validating function and arguments
     if args.function:
@@ -636,3 +640,8 @@ if __name__ == "__main__":
             if _function == 'label':
                 # Driver for labeling code
                 pass
+
+    stop_time = timeit.default_timer()
+
+    execution_time = stop - start
+    print(f"\nProgram executed in {execution_time} s")

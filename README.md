@@ -1,9 +1,11 @@
 ModelicaGridData
 =========================================
 
-`ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns.
+`ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns. The simulations are run on a local computer to take advantage of existing computing infrastructure.
 
 ## Installation
+
+Below, we provide a list of the dependencies required to use the tool, together with installation guidelines.
 
 - [GridCal](docs/gridcal_installation.md)
 - [OMPython](docs/OMPython_installation.md)
