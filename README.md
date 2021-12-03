@@ -5,11 +5,20 @@ ModelicaGridData
 
 ## Installation
 
-Below, we provide a list of the dependencies required to use the tool, together with installation guidelines.
+We recommend to install the tool dependencies in a new virtual environment. Most of the Python dependencies can be installed using `pip` as follows:
+
+```
+pip install -r requirements.txt
+```
+
+Other dependencies, such as GridCal and the Python API for OpenModelica and Dymola are not installed using the `requirements.txt` file above. Installation guidelines for this libraries are linked below:
 
 - [GridCal](docs/gridcal_installation.md)
 - [OMPython](docs/OMPython_installation.md)
 - [Dymola](https://www.3ds.com/products-services/catia/products/dymola/) - Proprietary software. A license is needed. Testing has been carried out with Dymola 2021. It is not encouraged to work with newer Dymola releases (to do so, please guarantee that the Modelica Standard Library version is set to 3.2 instead of the 4.0+ release).
+
+The OpenIPSL library has to be downloaded separately.
+
 - [OpenIPSL](www.OpenIPSL.com) - Compatible with release 1.5.0 and version 2.0.0 beta (with Dymola). **OpenModelica** (tested with release 1.16.2 on both Linux and Windows) is supported for version 1.5.0 only. A safe copy of the OpenIPSL versions used to develop and test this project is found [here](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0).
 
 ## Description
