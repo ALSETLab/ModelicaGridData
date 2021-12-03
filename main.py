@@ -643,5 +643,5 @@ if __name__ == "__main__":
 
     stop_time = timeit.default_timer()
 
-    execution_time = stop - start
+    execution_time = stop_time - start_time
     print(f"\nProgram executed in {execution_time} s")
