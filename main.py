@@ -644,4 +644,5 @@ if __name__ == "__main__":
     stop_time = timeit.default_timer()
 
     execution_time = stop_time - start_time
-    print(f"\nProgram executed in {execution_time} s")
+    print(f"\nProgram executed in {execution_time:.4f} s")
+    print(f"({execution_time/60:.4f} min / {execution_time/3600:.4f} h)")
