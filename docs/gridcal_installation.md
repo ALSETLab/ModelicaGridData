@@ -66,3 +66,8 @@ No errors should arise.
 ```
   pip install jupyterlab
 ```
+**Note:** with newer GridCal releases, it may be worth to install `numba` using conda
+
+```
+conda install numba
+```

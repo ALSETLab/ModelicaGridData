@@ -1,3 +1,3 @@
 from .data_filter import *
-from .prony import *
+from .pronyitesla import *
 from .sssi import *

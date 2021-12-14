@@ -15,7 +15,25 @@ from .generate_component_list import *
 
 def dymola_validation(pf_list, data_path, val_params, n_proc):
     '''
+    DYMOLA_VALIDATION
 
+    DESCRIPTION:
+    This function validates whether a mathematically valid solution stemming from
+    a power flow computation is also a valid initialization condition for a dynamic simulation.
+    If not, the code deletes the corresponding `*.mo` files containing the record files for
+    the power flow simulation
+
+    INPUTS:
+    - `pf_list`: list of power flows that will be checked with the function
+    - `data_path`: path to the directory where the power flow records are located
+    - `val_params`: dictionary containing the validation parameters for the dynamic simulation
+    - `n_proc`: identifier of the number of process
+
+    OUTPUTS:
+    None
+
+    LAST MODIFICATION DATE:
+    12/14/2021 by SADR
     '''
 
     # Getting version information

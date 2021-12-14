@@ -13,8 +13,13 @@ def download_weather_data(start_year = 1999, destination_folder = os.path.join(o
     DOWNLOAD_WEATHER_DATA
 
     INPUTS:
+    - `start_year`: year from which the data starts being downloaded. It defaults to current year.
+    - `destination_folder`: path of the target folder to download the files (relative to the script path). It defaults to "data". If the folder does not exist,
+    the script creates it.
+    - `verbose`: if `True`, prints verbose statements to show progress of the download and the data organization processes.
 
     OUTPUTS:
+    None
 
     LAST MODIFICATION DATE:
     04/10/2020 by SADR
