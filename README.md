@@ -5,6 +5,15 @@ ModelicaGridData
 
 ## Installation
 
+For out-of-the-box testing, we prepared two VirtualBox virtual machines with `ModelicaGridData` already set up.
+
+- [**Ubuntu:**]()
+  - Login: `DeepGrid`
+  - Password: `DeepGrid`
+- [**Windows:**]()
+  - Login: `DeepGrid`
+  - Password: `DeepGrid`
+
 We recommend to install the tool dependencies in a new virtual environment. Most of the Python dependencies can be installed using `pip` as follows:
 
 ```

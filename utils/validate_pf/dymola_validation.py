@@ -138,10 +138,9 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
         model_mo_data = model_mo.read()
 
         # Finding the power flow record declaration via regex
-        #
         _pf_regex = re.compile(r'pf\(redeclare record PowerFlow =(?:\n*\s*)\w*[.]*PF_Data.PF(?:_\w+)*_\d{5}\)')
         _match = re.findall(_pf_regex, model_mo_data)
-        print(_match)
+        # print(_match)
 
         # Replacing the declaration with the corresponding power flow
         model_mo_data = model_mo_data.replace(_match[0], pf_modifier)

@@ -28,7 +28,12 @@ python main.py val_pf --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --co
 python main.py run_sim --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --cores 1 --n_pf 2 --n_sc 10
 ```
 
-**NB:** it is recommended to set the number of
+- `small_signal_stability` (not included in the main run of the program):
+  -
+  -
+  -
+
+**NB:** The number of simulation scenarios is `n_pf * n_sc`. These scenarios are split along `proc` processes, each one using `cores` cores. For efficiency, it is recommended to make `n_pf * n_sc` divisible by `proc` so that each process has the same batch of simulations.
 
 - `extract`: organizes the simulation data from the Dymola output `*.mat` files into `*.hdf5` files. The `*.hdf5` files are placed inside `./data/sim_res` using a file name with a unique experiment ID. Here, an 'experiment' is understood as each run of the extract function where the user gets a different set of parameters. Note that it is possible to add measurement noise (assumed Gaussian) to the data. The default values are `mu = 0.0` (mean) and `sigma = 0.01` (standard deviation). However, the user can specify any mean and standard deviation when calling the function.
 
