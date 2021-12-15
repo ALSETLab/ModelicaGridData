@@ -1,3 +1,14 @@
+import sys
+import numpy as np
+import math
+import pandas as pd
+import numpy.linalg as lin
+import matplotlib.pyplot as plt
+
+#from scipy.interpolate import CubicSpline
+from scipy import interpolate
+# from scipy.interpolate import UnivariateSpline
+
 def pronyitesla(t,y,XX,tstart,tend,T,shift,tstplot,tedplot,plotFlag):
 
     '''
@@ -29,17 +40,6 @@ def pronyitesla(t,y,XX,tstart,tend,T,shift,tstplot,tedplot,plotFlag):
     LAST MODIFICATION DATE:
     WRITTEN BY D. TRUDNOWSKY IN 1999 AND LAST UPDATED BY FERNANDO FACHINI IN 12/13/2021
     '''
-
-    import sys
-    import numpy as np
-    import math
-    import pandas as pd
-    import numpy.linalg as lin
-    import matplotlib.pyplot as plt
-
-    #from scipy.interpolate import CubicSpline
-    from scipy import interpolate
-    # from scipy.interpolate import UnivariateSpline
 
     # -----------------------------------------------------------------------------------------------------
     # ------------------------------------ BASIC ERROR CHECKS ---------------------------------------------

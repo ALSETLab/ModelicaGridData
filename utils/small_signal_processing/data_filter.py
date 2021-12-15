@@ -1,3 +1,8 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from PyEMD import EMD
+
 def data_filter(sig,t,var_thr,step_min):
 
     '''
@@ -21,11 +26,6 @@ def data_filter(sig,t,var_thr,step_min):
     LAST MODIFICATION DATE:
     12/13/2021 BY FERNANDO FACHINI
     '''
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import pandas as pd
-    from PyEMD import EMD
 
     nL = len(sig[0])
     ts = t

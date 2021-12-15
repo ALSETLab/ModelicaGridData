@@ -16,15 +16,24 @@ def remove_prefix(text, prefix):
 
 def generate_component_list(model_mo_path):
     '''
+    GENERATE_COMPONENT_LIST
+
     DESCRIPTION:
-    this function generates a dictionary of lists with the component names of the devices employed to construct the power system models using the OpenIPSL library.
+    This function generates a dictionary of lists with the component names of the devices
+    employed to construct the power system models using the OpenIPSL library.
+
     INPUTS:
-    - model_mo_path: absolute path to the `.mo` file of the model
+    - `model_mo_path`: absolute path to the `.mo` file of the model
     If the `.mo` file is `IEEE_14_Base_Case.mo`, then the absolute path can be constructed as:
         model_mo_path = os.path.join(os.getcwd(), 'IEEE_14_Base_Case.mo')
+
     OUTPUTS:
-    - components: dictionary containing lists of the line, transformer, generator, load, bus and faults model name in each of the models.
-    Note that the keys of the dictionaries are `lines`, `trafos`, `generators`, `loads`, `buses` and `faults`.
+    - `components`: dictionary containing lists of the line, transformer, generator, load, bus and faults model name in each of the models.
+    Note that the keys of the dictionaries are `lines`, `trafos`, `generators`,
+    `loads`, `buses` and `faults`.
+
+    LAST MODIFICATION DATE:
+    12/14/2021 by SADR
     '''
 
     lines = []

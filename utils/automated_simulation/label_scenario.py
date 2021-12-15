@@ -3,9 +3,22 @@ import scipy.linalg as sl
 
 def label_scenario(A, verbose = False):
     '''
+    LABEL_SCENARIO
 
+    DESCRIPTION:
+    function computing an analytical label using the damping ratio of the
+    eigenvalues of an A matrix given by the user
 
+    INPUTS:
+    - `A`: A matrix to be processed
+    - `verbose`: verbosity of the function
 
+    OUTPUTS:
+    - `label`: label of the given scenario using the A matrix (classification based
+    on the dominant pole)
+
+    LAST MODIFICATION DATE:
+    12/14/2021 by SADR
     '''
 
     EPS = np.finfo(float).eps

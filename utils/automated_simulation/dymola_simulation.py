@@ -22,13 +22,24 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(s, d)
 
-def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
+def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
     '''
     DYMOLA_SIMULATION
 
+    DESCRIPTION:
+    this function dispatches several phasor-domain simulations along a single
+    process using pre-defined simulation settings and a list of pre-specified
+    contingency scenarios
+
     INPUTS:
+    - `pf_list`: list of the power flows for the current simulation batch
+    -  `scenarios`: list of simulation scenarios for the current batch
+    - `sim_params`: simulation parameters specified by the user
+    - `n_proc`: number identifying the process on which the Dymola instance will be run.
+    Useful for multi-process simulation.
 
     OUTPUTS:
+    None
 
     LAST MODIFICATION DATE:
     10/01/2021 BY SADR
@@ -202,7 +213,7 @@ def dymola_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
                     dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
 
                 print(f"({n_proc}): Dynamic simulation for {_model_name} (in {_working_directory}) ({counter}/{total})")
-                
+
                 _dyn_sim_out = f"{_model_package}_dsres_{counter}"
                 res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000)}",
                     startTime = _startTime,

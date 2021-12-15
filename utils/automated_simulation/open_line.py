@@ -1,18 +1,27 @@
 def open_line(model_name, scenario, simulation_time, line_reclosing_time):
     '''
-    Description:
+    OPEN_LINE
 
-    This function produces the argument of the dymola function linearizeModel for any contingency scenario. It uses a generic
-    model name that is passed as an argument by the user, and a corresponding scenario (i.e., lines that will be opened)
-    It can handle any number of lines simultaneously.
+    DESCRIPTION:
+    this function produces the argument `simulateModel` (or `simulateExtendedModel`)
+    for any contingency scenario. It uses a generic model name that is passed as an
+    argument by the user, and a corresponding scenario (i.e., lines that will be opened).
+    It can handle any number of lines simultaneously. Use with Dymola only.
 
-    Arguments:
+    Do not confuse with `trip_line` which produces the class constructor for `linearizeModel`.
 
+    INPUTS:
     - model_name: name of the model
     - scenario: corresponding scenario (i.e., lines that will be opened)
     - simulation_time: span of the simulation (in seconds)
     - line_reclosing_time: number of seconds to close a line after being opened
 
+    OUTPUT:
+    String that may be used as a class constructor in the call for `simulateModel`
+    (or `simulateExtendedModel`) to specify the contingency scenario of interest.
+
+    LAST MODIFICATION DATE:
+    12/15/2021 by SADR
     '''
 
     if len(scenario) == 1:

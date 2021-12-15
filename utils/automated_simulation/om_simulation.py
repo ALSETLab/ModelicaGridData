@@ -28,16 +28,27 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(s, d)
 
-def om_simulation(pf_list, scenarios, data_path, sim_params, n_proc):
+def om_simulation(pf_list, scenarios, sim_params, n_proc):
     '''
     OM_SIMULATION
 
+    DESCRIPTION:
+    this function dispatches several phasor-domain simulations along a single
+    process using pre-defined simulation settings and a list of pre-specified
+    contingency scenarios
+
     INPUTS:
+    - `pf_list`: list of the power flows for the current simulation batch
+    -  `scenarios`: list of simulation scenarios for the current batch
+    - `sim_params`: simulation parameters specified by the user
+    - `n_proc`: number identifying the process on which the Dymola instance will be run.
+    Useful for multi-process simulation.
 
     OUTPUTS:
+    None
 
     LAST MODIFICATION DATE:
-
+    10/01/2021 BY SADR
     '''
     _version = sim_params['version']
     _model_path = os.path.abspath(sim_params['model_path'])

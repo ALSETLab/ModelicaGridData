@@ -1,3 +1,10 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+import pandas as pd
+from .pronyitesla import *
+from .data_filter import *
+
 def sssi(signal,ts,stepsize_min,variance_min,Freq,Damp,Nm):
 
     '''
@@ -21,13 +28,6 @@ def sssi(signal,ts,stepsize_min,variance_min,Freq,Damp,Nm):
     LAST MODIFICATION DATE:
     12/13/2021 BY FERNANDO FACHINI
     '''
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import math
-    import pandas as pd
-    from prony import pronyitesla
-    from data_filter import data_filter
 
     yh,x,l,yhd = data_filter(signal,ts,variance_min,stepsize_min)
 

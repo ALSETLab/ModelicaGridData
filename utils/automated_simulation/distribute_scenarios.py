@@ -1,15 +1,21 @@
 def distribute_scenarios(scenarios, num_batches, print_info = False):
     '''
-    Description:
+    DISTRIBUTE_SCENARIOS
 
-    This function takes a list of scenarios and distributes them along quasi-equal batches. This is intended
-    to use scenario data for simulation parallelization
+    DESCRIPTION:
+    This function takes a list of scenarios and distributes them along quasi-equal batches.
+    Each batch contains scenario samples for simulation parallelization
 
-    Arguments:
+    INPUTS:
+    - `scenarios`: list containing an arbitrary number of simulation scenarios (n_scenarios in total)
+    - `num_batches`: number of batches (>=1) to divide the scenario data into
+    - `print_info`: print index information during execution of the function
 
-    - scenarios: list containing an arbitrary number of simulation scenarios
-    - num_batches: number of batches (>=1) to divide the scenario data in
-    - print_info: print index information during execution of the function
+    OUTPUTS:
+    - `scen_trip`: list of distributed scenarios (n_scenarios along `num_batches`)
+
+    LAST MODIFICATION DATE:
+    12/15/2021 by SADR
     '''
 
     # Container for distributed scenarios

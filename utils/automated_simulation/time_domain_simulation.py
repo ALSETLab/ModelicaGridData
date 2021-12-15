@@ -14,12 +14,27 @@ import platform
 def time_domain_simulation(model_info, scenarios, dymola_path = None, n_proc = 1,
                             verbose = True, simulation_setup = None):
     '''
-    
+    TIME_DOMAIN_SIMULATION
 
+    DESCRIPTION:
+    this function carries out a time domain simulation for a given model and computes
+    the small-signal stability labels using the analytical linerization routines.
+    Used only for debugging.
+
+    INPUTS:
+    - `model_info`: information of the model to be simulated
+    - `scenarios`: different simulation scenarios to process
+    - `dymola_path`: path to the Dymola executable (Linux only)
+    - `n_proc`: number of processes for serial parallelization
+    - `verbose`: verbosity of the program
+    - `simulation_setup`: simulation settings
+
+    OUTPUTS:
+    None
+
+    LAST MODIFICATION DATE:
+    12/15/2021 by SADR
     '''
-
-
-
 
     # Assignating an empty object to the variable dymola
     dymola = None
