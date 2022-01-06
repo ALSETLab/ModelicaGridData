@@ -3,9 +3,9 @@ ModelicaGridData
 
 `ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns. The simulations are run on a local computer to take advantage of existing computing infrastructure.
 
-## Installation
+## Running ModelicaGridData from a Virtual Machine
 
-For out-of-the-box testing, we prepared two VirtualBox virtual machines with `ModelicaGridData` already set up.
+For off-the-shelf testing, we prepared two VirtualBox virtual machines with `ModelicaGridData` already set up. Both machines are intended for demonstration only.
 
 - [**Ubuntu:**]()
   - Login: `DeepGrid`
@@ -14,17 +14,33 @@ For out-of-the-box testing, we prepared two VirtualBox virtual machines with `Mo
   - Login: `DeepGrid`
   - Password: `DeepGrid`
 
-We recommend to install the tool dependencies in a new virtual environment. Most of the Python dependencies can be installed using `pip` as follows:
+To use the virtual machines, first open a terminal and activate the `modgriddata` conda environment.
 
 ```
-pip install -r requirements.txt
+conda activate modgriddata
 ```
 
-Other dependencies, such as GridCal and the Python API for OpenModelica and Dymola are not installed using the `requirements.txt` file above. Installation guidelines for this libraries are linked below:
+Next, navigate the to the directory where `ModelicaGridData` is located (`Documents/ModelicaGridData`), and run any command. For example, to download the data from the NYISO website, do:
 
-- [GridCal](docs/gridcal_installation.md)
-- [OMPython](docs/OMPython_installation.md)
-- [Dymola](https://www.3ds.com/products-services/catia/products/dymola/) - Proprietary software. A license is needed. Testing has been carried out with Dymola 2021. It is not encouraged to work with newer Dymola releases (to do so, please guarantee that the Modelica Standard Library version is set to 3.2 instead of the 4.0+ release).
+```
+python main.py nyiso
+```
+
+By default, the working directories are located inside `Documents` in the virtual machines (both located on the main user directory): `Dymola/_working_directory` for Dymola and `OpenModelica/_working_directory`  for OpenModelica. The [OpenIPSL libraries](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0) are located inside `Documents/ModelicaLibraries`.
+
+## Installation
+
+We recommend to install the tool dependencies in a new virtual environment with Python 3.7. Once the new environment is set up, install the following dependencies using `pip`:
+
+```
+pip install psutil && pip install matplotlib && pip install pandas && pip install tqdm
+```
+
+Then, proceed installing the following dependencies in order:
+
+1. [GridCal](docs/gridcal_installation.md): please stick with [release 4.2.0](https://github.com/SanPen/GridCal/releases/tag/4.2.0). We experienced some issues after upgrading to the latest commit.
+2. [OMPython](docs/OMPython_installation.md)
+3. [Dymola](https://www.3ds.com/products-services/catia/products/dymola/) - Proprietary software. **A license is needed**. Testing has been carried out with Dymola 2021. It is not encouraged to work with newer Dymola releases (to do so, please guarantee that the Modelica Standard Library version is set to 3.2 instead of the 4.0+ release).
 
 The OpenIPSL library has to be downloaded separately.
 

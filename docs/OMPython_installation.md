@@ -8,7 +8,13 @@ Download the 1.16.2 release installer here: [32-bit](https://build.openmodelica.
 
 #### Linux
 
-This installation guide corresponds to OpenModelica 1.16.2. If you have a newer release in your system, first uninstall it and remote its dependencies by running
+This installation guide corresponds to OpenModelica 1.16.2. Before proceeding with the installation, make sure `ca-certificates` is installed:
+
+```
+sudo apt install ca-certificates
+```
+
+If you have a newer OpenModelica release in your system, first uninstall it and remote its dependencies by running
 
 ```
 sudo apt remove openmodelica
@@ -35,7 +41,7 @@ sudo apt update
 sudo apt install openmodelica
 ```
 
-Finally, install additional Modelica libraries
+Finally, install additional Modelica libraries by running the following command:
 
 ```
 for PKG in `apt-cache search "omlib-.*" | cut -d" " -f1`; do sudo apt-get install -y "$PKG"; done

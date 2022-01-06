@@ -29,9 +29,9 @@ python main.py run_sim --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --c
 ```
 
 - `small_signal_stability` (not included in the main run of the program):
-  -
-  -
-  -
+  - `data_filter`: filters the input signal using a variance threshold, `var_thr`. Data points with under the threshold are removed. It requires a variable step-size time vector `T`. If no oscillation is detected in the input data, the function returns empty matrices.
+  - `pronyitesla`: Python implementation of the [Prony](https://en.wikipedia.org/wiki/Prony%27s_method) method.
+  - `sssi`: 
 
 **NB:** The number of simulation scenarios is `n_pf * n_sc`. These scenarios are split along `proc` processes, each one using `cores` cores. For efficiency, it is recommended to make `n_pf * n_sc` divisible by `proc` so that each process has the same batch of simulations.
 
