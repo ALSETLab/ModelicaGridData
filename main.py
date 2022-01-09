@@ -291,7 +291,10 @@ if __name__ == "__main__":
                 if args.cores:
                     _n_cores = args.cores
                 else:
-                    _n_cores = psutil.cpu_count(logical = False) - 1
+                    if psutil.cpu_count(logical = False) == 1:
+                        _n_cores = 1
+                    else:
+                        _n_cores = psutil.cpu_count(logical = False) - 1
                     print("Cores to use for simulation not specified")
                     print(f"Setting number of cores to {_n_cores}")
 
@@ -418,7 +421,10 @@ if __name__ == "__main__":
                 if args.cores:
                     _n_cores = args.cores
                 else:
-                    _n_cores = psutil.cpu_count(logical = False) - 1
+                    if psutil.cpu_count(logical = False) == 1:
+                        _n_cores = 1
+                    else:
+                        _n_cores = psutil.cpu_count(logical = False) - 1
                     print("Cores to use for simulation not specified")
                     print(f"Setting number of cores to {_n_cores}")
 

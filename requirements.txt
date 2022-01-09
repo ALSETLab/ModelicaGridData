@@ -8,7 +8,7 @@ cycler>=0.10.0
 decorator>=4.4.2
 dill>=0.3.1.1
 et-xmlfile>=1.0.1
-EMD-signal>=1.2.0
+EMD-signal==1.2.0
 folium>=0.10.1
 future>=0.18.2
 geographiclib>=1.50

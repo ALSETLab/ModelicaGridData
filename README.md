@@ -33,7 +33,7 @@ By default, the working directories are located inside `Documents` in the virtua
 We recommend to install the tool dependencies in a new virtual environment with Python 3.7. Once the new environment is set up, install the following dependencies using `pip`:
 
 ```
-pip install psutil && pip install matplotlib && pip install pandas && pip install tqdm
+pip install psutil && pip install matplotlib && pip install pandas && pip install tqdm && pip install sdf && pip install pyyaml && pip install h5py && pip install EMD-signal==1.2.0
 ```
 
 Then, proceed installing the following dependencies in order:
