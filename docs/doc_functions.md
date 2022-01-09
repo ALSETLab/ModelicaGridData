@@ -27,13 +27,12 @@ python main.py val_pf --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --co
 ```python
 python main.py run_sim --tool dymola --model IEEE14 --version 2.0.0 --proc 2 --cores 1 --n_pf 2 --n_sc 10
 ```
+**NB:** The number of simulation scenarios is `n_pf * n_sc`. These scenarios are split along `proc` processes, each one using `cores` cores. For efficiency, it is recommended to make `n_pf * n_sc` divisible by `proc` so that each process has the same batch of simulations.
 
 - `small_signal_stability` (not included in the main run of the program):
   - `data_filter`: filters the input signal using a variance threshold, `var_thr`. Data points with under the threshold are removed. It requires a variable step-size time vector `T`. If no oscillation is detected in the input data, the function returns empty matrices.
   - `pronyitesla`: Python implementation of the [Prony](https://en.wikipedia.org/wiki/Prony%27s_method) method.
-  - `sssi`: 
-
-**NB:** The number of simulation scenarios is `n_pf * n_sc`. These scenarios are split along `proc` processes, each one using `cores` cores. For efficiency, it is recommended to make `n_pf * n_sc` divisible by `proc` so that each process has the same batch of simulations.
+  - `sssi`: computation of the small-signal stability indices according to the method proposed in this [paper](https://ieeexplore.ieee.org/document/6938842).
 
 - `extract`: organizes the simulation data from the Dymola output `*.mat` files into `*.hdf5` files. The `*.hdf5` files are placed inside `./data/sim_res` using a file name with a unique experiment ID. Here, an 'experiment' is understood as each run of the extract function where the user gets a different set of parameters. Note that it is possible to add measurement noise (assumed Gaussian) to the data. The default values are `mu = 0.0` (mean) and `sigma = 0.01` (standard deviation). However, the user can specify any mean and standard deviation when calling the function.
 
