@@ -46,6 +46,8 @@ The OpenIPSL library has to be downloaded separately.
 
 - [OpenIPSL](www.OpenIPSL.com) - Compatible with release 1.5.0 and version 2.0.0 beta (with Dymola). **OpenModelica** (tested with release 1.16.2 on both Linux and Windows) is supported for version 1.5.0 only. A safe copy of the OpenIPSL versions used to develop and test this project is found [here](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0).
 
+The installation is summarized in the step-by-step guideline in the [documentation](docs/stepwise_installation.md).
+
 ## Description
 
 This tool implements several functionalities such as data scrapping, massive time series power flow computations, power flow validation, massive phasor-domain dynamic simulation, and small-signal labeling. It represents a full end-to-end tool that can be used to generate big data for power systems. Such big data can be used in applications such as system identification and training for Machine Learning modules. By default, the tool uses the IEEE 14 bus model as a study case, but it can be replaced by any OpenIPSL model. The repository is shipped with the following models:
