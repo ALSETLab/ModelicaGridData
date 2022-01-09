@@ -39,8 +39,8 @@ parser.add_argument("--n_pf", help = HELP_POWER_FLOWS, type = int)
 parser.add_argument("--n_sc", help = HELP_SCENARIOS, type = int)
 
 # Arguments to `extract`
-parser.add_argument("--mu", help = HELP_MU, type = int)
-parser.add_argument("--sigma", help = HELP_SIGMA, type = int)
+parser.add_argument("--mu", help = HELP_MU, type = float32)
+parser.add_argument("--sigma", help = HELP_SIGMA, type = float32)
 
 args = parser.parse_args()
 
