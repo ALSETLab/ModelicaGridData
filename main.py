@@ -486,7 +486,7 @@ if __name__ == "__main__":
                     _n_sc = 50
 
                 if _n_sc > len(_line_contingencies['scenarios']):
-                    _n_sc = len(_line_contingencies)
+                    _n_sc = len(_line_contingencies['scenarios'])
 
                 print(f"Working with {_n_sc} contingency scenarios")
 
