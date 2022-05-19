@@ -65,6 +65,7 @@ This function will be prompting the user for which data is to be extracted. _Onl
   - `--tool`: Tool to run time-domain simulations. `OM` for OpenModelica and `dymola` for Dymola. **Default:** `dymola`.
   - `--proc`: Number of processes (i.e., parallel serial instances) executed simultaneously. **Default:** `1`.
   - `--cores`: Number of cores to be used inside a process (i.e., serial parallel simulation). **Default:** `n_cores - 1` where `n_cores` is the number of available physical cores.
+  - `--pc`: machine on which the code is running. Specify `vm` for virtual machine. **Default:** `pc`.
 
 - `run_sim`:
   - `--model`: model that will be used for the routine. Note that it corresponds to the name of the package of the OpenIPSL model. **Default:** `IEEE14`.
@@ -74,6 +75,8 @@ This function will be prompting the user for which data is to be extracted. _Onl
   - `--cores`: Number of cores to be used inside a process (i.e., serial parallel simulation). **Default:** `n_cores - 1` where `n_cores` is the number of available physical cores.
   - `--n_pf`: Number of power flows to run dynamic simulations. **Default:** all available power flow results.
   - `--n_sc`: Number of contingency scenarios to run the dynamic simulations. **Default:** to all available or 50, for large systems (i.e., systems with more than 50 scenarios available).
+  - `--pc`: machine on which the code is running. Specify `vm` for virtual machine. **Default:** `pc`.
+  - `--n_sim`: maximum number of simulations allowed. **Default:** $min(1000, n_pf\times n_sc)$.
 
 - `extract`:
   - `--model`: model for which the simulation data will be extracted and processed. **Default:** `IEEE14` (it may return an error if the directory for the given model does not exist).
@@ -81,3 +84,4 @@ This function will be prompting the user for which data is to be extracted. _Onl
   - `--version`: version of the OpenIPSL library used to generate the data. **Default:** `1.5.0` (it may return an error if the version does not match the library release used for data generation).
   - `--mu`: mean for the Gaussian noise injected to data measurements. **Default:** `0.0`.
   - `--sigma`: standard deviation for the Gaussian noise injected to data measurements. **Default:** `0.01`.
+  - `--pc`: machine on which the code is running. Specify `vm` for virtual machine. **Default:** `pc`.
