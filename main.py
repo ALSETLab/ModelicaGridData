@@ -540,7 +540,7 @@ if __name__ == "__main__":
                 else:
                     print("Maximum number of simulations not specified.")
 
-                if _n_sim > _n_sc*_n_pf:
+                if _max_simulations > _n_sc*_n_pf:
                     _max_simulations = min(1000, _n_sc*_n_pf)
 
                 print(f"Working with {_max_simulations} simulations")
