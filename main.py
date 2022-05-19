@@ -33,10 +33,12 @@ parser.add_argument("--model", help = HELP_MODEL) # also needed for `val_pf`, `r
 parser.add_argument("--tool", help = HELP_TOOL) # also needed for extract
 parser.add_argument("--proc", help = HELP_PROC, type = int)
 parser.add_argument("--cores", help = HELP_CORES, type = int)
+parser.add_argument("--pc", help = HELP_PC)
 
 # Arguments to `run_sim`
 parser.add_argument("--n_pf", help = HELP_POWER_FLOWS, type = int)
 parser.add_argument("--n_sc", help = HELP_SCENARIOS, type = int)
+parser.add_argument("--n_sim", help = HELP_NSIM, type = int)
 
 # Arguments to `extract`
 parser.add_argument("--mu", help = HELP_MU, type = float)
@@ -266,9 +268,21 @@ if __name__ == "__main__":
                 _model_name = f"{_model}_Base_Case"
                 _model_package = _model
 
-                # Loading validation parameters
-                with open(r'val_parameters.yaml') as f:
-                    val_params = yaml.load(f, Loader = yaml.FullLoader)
+                if args.pc:
+                    _type_pc = args.pc
+                    if _type_pc not in ['pc', 'vm']:
+                        raise ValueError("Type of PC not supported")
+                else:
+                    _type_pc = "pc"
+
+                if _type_pc == 'vm':
+                    # Loading validation parameters
+                    with open(r'val_parameters_vm.yaml') as f:
+                        val_params = yaml.load(f, Loader = yaml.FullLoader)
+                elif _type_pc == 'pc':
+                    # Loading validation parameters
+                    with open(r'val_parameters_pc.yaml') as f:
+                        val_params = yaml.load(f, Loader = yaml.FullLoader)
 
                 # Converting relative path to absolute paths
                 if _version == '1.5.0':
@@ -396,9 +410,22 @@ if __name__ == "__main__":
                 _model_name = f"{_model}_Base_Case"
                 _model_package = _model
 
-                # Loading simulation parameters
-                with open(r'sim_parameters.yaml') as f:
-                    sim_params = yaml.load(f, Loader = yaml.FullLoader)
+                if args.pc:
+                    _type_pc = args.pc
+                    if _type_pc not in ['pc', 'vm']:
+                        raise ValueError("Type of PC not supported")
+                else:
+                    _type_pc = "pc"
+
+                print(f"Setting simulations to run on {_type_pc}")
+
+                if _type_pc == 'vm':
+                    # Loading simulation parameters for virtual machine
+                    with open(r'sim_parameters_vm.yaml') as f:
+                        sim_params = yaml.load(f, Loader = yaml.FullLoader)
+                elif _type_pc == 'pc':
+                    with open(r'sim_parameters_pc.yaml') as f:
+                        sim_params = yaml.load(f, Loader = yaml.FullLoader)
 
                 # Converting relative path to absolute paths
                 if _version == '1.5.0':
@@ -504,6 +531,19 @@ if __name__ == "__main__":
                 else:
                     os.mkdir(_temp_dir_models) # could be removed but test it
 
+                if args.n_sim:
+                    _max_simulations = args.n_sim
+                else:
+                    print("Maximum number of simulations not specified.")
+
+                if _n_sim > _n_sc*_n_pf:
+                    _max_simulations = min(1000, _n_sc*_n_pf)
+
+                print(f"Working with {_max_simulations} simulations")
+
+                # Adding the maximum number of simulations to `sim_params`
+                sim_params['max_simulations'] = int(_max_simulations / _n_proc)
+
                 ##################################################
                 ### DISPATCHING SIMULATIONS
                 ##################################################
@@ -517,8 +557,8 @@ if __name__ == "__main__":
                 print(f"{'Process(es)':<30} {_n_proc:<20}")
                 print(f"{'Core(s) per process':<30} {_n_cores:<20}")
                 print(f"{'Power flows':<30} {_n_pf:<20}")
-                print(f"{'Simulation scenarios':<30} {_n_scenarios:<20}")
-                print(f"{'Total simulations:':<30} {_n_pf*_n_scenarios:<20}\n")
+                print(f"{'Contingency scenarios':<30} {_n_scenarios:<20}")
+                print(f"{'Max simulations:':<30} {_max_simulations} {'('}{int(_max_simulations/n_proc)}{'/process)':<20}\n")
 
                 # Commanding parallel simulations using multiprocessing
                 p = mp.Pool()
@@ -604,9 +644,22 @@ if __name__ == "__main__":
                     _sigma = 0.01
                     print(f"No standard deviation for Gaussian noise in measurements. Assumed sigma = {_sigma}")
 
-                # Loading simulation parameters
-                with open(r'sim_parameters.yaml') as f:
-                    sim_params = yaml.load(f, Loader = yaml.FullLoader)
+                if args.pc:
+                    _type_pc = args.pc
+                    if _type_pc not in ['pc', 'vm']:
+                        raise ValueError("Type of PC not supported")
+                else:
+                    _type_pc = "pc"
+
+                print(f"Loading simulations results of {_type_pc}")
+
+                if _type_pc == 'vm':
+                    # Loading simulation parameters for virtual machine
+                    with open(r'sim_parameters_vm.yaml') as f:
+                        sim_params = yaml.load(f, Loader = yaml.FullLoader)
+                elif _type_pc == 'pc':
+                    with open(r'sim_parameters_pc.yaml') as f:
+                        sim_params = yaml.load(f, Loader = yaml.FullLoader)
 
                 # Getting working directory (according to tool and OS)
                 if platform.system() == 'Windows':

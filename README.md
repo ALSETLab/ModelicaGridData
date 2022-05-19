@@ -5,11 +5,11 @@ ModelicaGridData
 
 ## Running ModelicaGridData from a Virtual Machine
 
-For off-the-shelf testing, we prepared two VirtualBox virtual machines with `ModelicaGridData` already set up. Both machines are intended for demonstration only.
+Two VirtualBox virtual machines were prepared with `ModelicaGridData` already set up for off-the-shelf testing. Both machines are intended for demonstration only.
 
 - [**Ubuntu:**]()
-  - Login: `DeepGrid`
-  - Password: `DeepGrid`
+  - Login: `ModelicaGridData`
+  - Password: `ModelicaGridData`
 - [**Windows:**]()
   - Login: `DeepGrid`
   - Password: `DeepGrid`

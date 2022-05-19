@@ -196,7 +196,7 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
     dymolaInstance.close()
     dymolaInstance = None
 
-    # Remove all files but the '.mat' files
+    # Remove all files but the `*.mat` files
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)
         if not file_object_path.endswith(".mat"):
@@ -258,9 +258,9 @@ def dymola_validation(pf_list, data_path, val_params, n_proc):
                 os.unlink(pf_path[file])
 
     ##################################################################
-    # Remove all `.mat` files from working directory: they are useless
+    # Remove all `*.mat` files from working directory: they are useless
     ##################################################################
-    print(f"({n_proc}): Removing all '.mat' files from current working directory")
+    print(f"({n_proc}): Removing all `*.mat` files from current working directory")
 
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)

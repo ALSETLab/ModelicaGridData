@@ -1,0 +1,38 @@
+# sim_parameters_vm.yaml file
+
+# '_old' stands for version 1.5.0 (2017 release) of OpenIPSL
+# '_new' stands for version 2.0.0.beta of OpenIPSL
+
+############################################################################
+### GENERAL SETTINGS
+### Note: The dymola, OpenIPSL and working directory paths are absolute
+############################################################################
+
+# --------------------------------------------------------------------------
+# Linux
+# --------------------------------------------------------------------------
+dymola_path_linux: '/opt/dymola-2021-x86_64/bin64/dymola.sh'
+
+working_directory_linux : '/home/modelicagriddata/Dymola/_experiments'
+om_working_directory_linux : '/home/modelicagriddata/OpenModelica/_experiments'
+openipsl_path_linux_old: '/home/modelicagriddata/ModelicaLibraries/OpenIPSL_1.5/OpenIPSL/package.mo'
+openipsl_path_linux_new: '/home/modelicagriddata/ModelicaLibraries/OpenIPSL_2_beta/OpenIPSL/package.mo'
+
+# --------------------------------------------------------------------------
+# Windows
+# --------------------------------------------------------------------------
+working_directory_windows : 'C:\Users\DeepGrid\Documents\Dymola\_experiments'
+om_working_directory_windows : 'C:\Users\DeepGrid\Documents\OpenModelica\_experiments'
+openipsl_path_windows_old: 'C:\Users\DeepGrid\Documents\ModelicaLibraries\OpenIPSL_1.5\OpenIPSL\package.mo' # version 1.5
+openipsl_path_windows_new: 'C:\Users\DeepGrid\Documents\ModelicaLibraries\OpenIPSL_2_beta\OpenIPSL\package.mo' # version 2.0
+
+# ===========================
+# == SIMULATION PARAMETERS ==
+# ===========================
+startTime: 0.0
+stopTime: 120
+numberOfIntervals: 2500
+method: 'dassl'
+tolerance: 0.0001 # do not pass in scientific format! (1e-7) will generate an error
+fixedstepsize: 0.001 # for fixed step solver
+# resultFile: 'default'

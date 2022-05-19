@@ -140,7 +140,7 @@ if __name__ == "__main__":
     # Closing OM process
     omc.sendExpression("quit()")
 
-    # Remove all files but the '.mat' files
+    # Remove all files but the `*.mat` files
     for file_object in os.listdir(_working_directory):
         file_object_path = os.path.join(_working_directory, file_object)
         if not file_object_path.endswith(".mat"):

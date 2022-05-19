@@ -26,10 +26,12 @@ HELP_MODEL = "(`run_pf`, `val_pf`, `run_sim`, and `extract`) Model that will be 
 HELP_TOOL = "(`val_pf`, `run_sim`, and `extract`) Tool to run time-domain simulations. `OM` for OpenModelica and `dymola` for Dymola. Defaults to `dymola`"
 HELP_PROC = "(`val_pf` and `run_sim`) Number of processes (i.e., parallel serial instances) executed simultaneously"
 HELP_CORES = "(`val_pf` and `run_sim`) Number of cores to be used inside a process (i.e., serial parallel simulation)"
+HELP_PC = "(`val_pf` and `run_sim`) Type of PC to execute the program. Input `vm` for virtual machine and `pc` for physical machine. Defaults to `pc`"
 
 # HELP TO FILES IN 'run_sim' FUNCTION
 HELP_POWER_FLOWS = "(`run_sim`) Number of power flows to run dynamic simulations. Defaults to all available"
 HELP_SCENARIOS = "(`run_sim`) Number of contingency scenarios to run the dynamic simulations. Defaults to all available or `50`, for large systems"
+HELP_NSIM = "(`run_sim`) Maximum number of scenarios. Defaults to 1000."
 
 # HELP TO FILES IN `extract` FUNCTION
 HELP_MU = "(`extract`) Mean of additive Gaussian noise added to the measurements. Defaults to 0.0."

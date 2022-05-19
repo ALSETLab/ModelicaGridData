@@ -84,6 +84,7 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
     _method = sim_params['method']
     _tolerance = sim_params['tolerance']
     _fixedstepsize = sim_params['fixedstepsize']
+    _max_simulations = sim_params['max_simulations']
 
     # Getting path to the '.mo' file of the model
     _mo_model_folder = os.path.dirname(_model_path)
@@ -285,6 +286,11 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
             # Evaluating system small-signal stability using eigenvalues
             sc_labels_final[counter] = label_scenario(A)
             counter += 1
+
+            # Breaking if the number of simulations is larger than the max number
+            if counter >= _max_simulations:
+                break
+
         counter_pf +=1
 
     # Closing OM process
