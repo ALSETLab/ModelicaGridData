@@ -269,7 +269,7 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
             counter += 1
 
             # Breaking if the number of simulation is larger than the max number
-            if counter >= _max_simulations
+            if counter >= _max_simulations:
                 break
 
         # Closing Dymola active model
