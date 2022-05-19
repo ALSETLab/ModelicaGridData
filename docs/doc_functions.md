@@ -1,6 +1,6 @@
 ## Trajectory Generation Tool Documentation
 
-The trajectory generation tool is a fully back-end developed pipeline that operates from the command line directly. Some of the arguments
+The trajectory generation tool is a fully back-end developed pipeline that operates from the command line directly. Some of the arguments are required while some are optional and have a default value. See below for more information.
 
 ### Functions
 
