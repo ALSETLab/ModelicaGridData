@@ -562,7 +562,7 @@ if __name__ == "__main__":
                 print(f"{'Core(s) per process':<30} {_n_cores:<20}")
                 print(f"{'Power flows':<30} {_n_pf:<20}")
                 print(f"{'Contingency scenarios':<30} {_n_scenarios:<20}")
-                print(f"{'Max simulations:':<30} {_max_simulations} {'('}{int(_max_simulations/n_proc)}{'/process)':<20}\n")
+                print(f"{'Max simulations:':<30} {_max_simulations} {'('}{int(_max_simulations/_n_proc)}{'/process)':<20}\n")
 
                 # Commanding parallel simulations using multiprocessing
                 p = mp.Pool()
