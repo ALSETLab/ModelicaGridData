@@ -313,14 +313,13 @@ if __name__ == "__main__":
                     print(f"Setting number of cores to {_n_cores}")
 
                 if _n_proc*_n_cores > (psutil.cpu_count(logical = False) - 1):
-                    print(f"Too many processes/cores. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes/cores")
-                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
-                    print(f"Setting number of cores to {1}")
                     _n_proc = psutil.cpu_count(logical = False) - 1
                     if psutil.cpu_count(logical = False) == 1:
                         _n_proc = 1
                     _n_cores = 1
-                    _n_cores = 1
+                    print(f"Too many processes/cores. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes/cores")
+                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                    print(f"Setting number of cores to {_n_cores}")
 
                 val_params['version'] = _version
                 val_params['n_cores'] = _n_cores
@@ -460,13 +459,13 @@ if __name__ == "__main__":
 
                 # Validating number of processes and cores
                 if _n_proc*_n_cores > (psutil.cpu_count(logical = False) - 1):
-                    print(f"Too many processes/cores. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes/cores")
-                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
-                    print(f"Setting number of cores to {1}")
                     _n_proc = psutil.cpu_count(logical = False) - 1
                     if psutil.cpu_count(logical = False) == 1:
                         _n_proc = 1
                     _n_cores = 1
+                    print(f"Too many processes/cores. I can handle maximum {psutil.cpu_count(logical = False) - 1} processes/cores")
+                    print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
+                    print(f"Setting number of cores to {_n_cores}")
 
                 sim_params['version'] = _version
                 sim_params['n_cores'] = _n_cores
