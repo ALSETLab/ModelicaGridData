@@ -56,7 +56,7 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
     _method = sim_params['method']
     _tolerance = sim_params['tolerance']
     _fixedstepsize = sim_params['fixedstepsize']
-    _max_simulations = sim_params['']
+    _max_simulations = sim_params['max_simulations']
 
     _model_path = os.path.abspath(sim_params['model_path'])
     _model_package = sim_params['model_package']
