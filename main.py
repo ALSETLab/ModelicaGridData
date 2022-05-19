@@ -461,7 +461,7 @@ if __name__ == "__main__":
                     print(f"Setting number of processes to {psutil.cpu_count(logical = False) - 1}")
                     print(f"Setting number of cores to {1}")
                     _n_proc = psutil.cpu_count(logical = False) - 1
-                    if psutil.cpu_count(logical = False) == 1
+                    if psutil.cpu_count(logical = False) == 1:
                         _n_proc = 1
                     _n_cores = 1
 
