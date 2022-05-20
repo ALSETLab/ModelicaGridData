@@ -150,7 +150,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     _exp_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S_') + _uuid[:6]
 
     # Name of the output file
-    _output_file = f'{_model}_{extract}_{_exp_id}.hdf5'
+    _output_file = os.path.join(path, f'{_model}_{extract}_{_exp_id}.hdf5')
     # Creating output file
     data_output = h5py.File(_output_file, "w")
 
@@ -501,15 +501,15 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     data_output['/labels/init'] = np.array(_labels_init)
     data_output['/labels/final'] = np.array(_labels_final)
 
-    # Moving output file to the storing directory
-    _src = os.path.join(os.path.join(os.getcwd(), _output_file))
-    _dst = os.path.join(path, _output_file)
-
-    if platform.system() == 'Windows':
-        os.popen(f'copy {_src} {_dst}')
-        os.remove(_src)
-    elif platform.system() == 'Linux':
-        shutil.move(_src, _dst)
+    # # Moving output file to the storing directory
+    # _src = os.path.join(os.path.join(os.getcwd(), _output_file))
+    # _dst = os.path.join(path, _output_file)
+    #
+    # if platform.system() == 'Windows':
+    #     os.popen(f'copy {_src} {_dst}')
+    #     os.remove(_src)
+    # elif platform.system() == 'Linux':
+    #     shutil.move(_src, _dst)
 
     # Printing working directory and tool
     print(f"\n{'':-^45}")
@@ -541,5 +541,3 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
 
     # Closing file
     data_output.close()
-    if platform.system() == 'Windows':
-        os.remove(_src)
