@@ -507,6 +507,7 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
 
     if platform.system() == 'Windows':
         os.popen(f'copy {_src} {_dst}')
+        os.close(_src)
         os.remove(_src)
     elif platform.system() == 'Linux':
         shutil.move(_src, _dst)
