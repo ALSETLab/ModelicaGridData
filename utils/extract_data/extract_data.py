@@ -151,8 +151,10 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
 
     # Name of the output file
     _output_file = os.path.join(path, f'{_model}_{extract}_{_exp_id}.hdf5')
+    # Destination directory
+    _dst = os.path.join(path, _output_file)
     # Creating output file
-    data_output = h5py.File(_output_file, "w")
+    data_output = h5py.File(_dst, "w")
 
     # Getting the list of files in the working directory
     # (same code as above; repeated to get the number of scenarios alone)
@@ -500,9 +502,6 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     # Saving labels at initial and final values
     data_output['/labels/init'] = np.array(_labels_init)
     data_output['/labels/final'] = np.array(_labels_final)
-
-    # Destination folder of the output file
-    _dst = os.path.join(path, _output_file)
 
     # Printing working directory and tool
     print(f"\n{'':-^45}")
