@@ -7,6 +7,7 @@ import re
 import h5py
 import datetime
 import shutil
+import platform
 from uuid import uuid4
 
 import itertools
@@ -501,12 +502,14 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     data_output['/labels/final'] = np.array(_labels_final)
 
     # Moving output file to the storing directory
-    _src = os.path.abspath(os.path.join(os.path.join(os.getcwd(), _output_file)))
-    _dst = os.path.abspath(os.path.join(path, _output_file))
-    f_src = open(_src, 'rb')
-    f_dst = open(_dst, 'wb')
-    shutil.copyfileobj(f_src, f_dst)
-    os.remove(_src)
+    _src = os.path.join(os.path.join(os.getcwd(), _output_file))
+    _dst = os.path.join(path, _output_file)
+
+    if platform.system() == 'Windows':
+        os.popen(f'copy {_src} {_dst}')
+        os.remove(_src)
+    elif platform.system() == 'Linux':
+        shutil.move(_src, _dst)
 
     # Printing working directory and tool
     print(f"\n{'':-^45}")
