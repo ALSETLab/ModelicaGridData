@@ -503,7 +503,8 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     # Moving output file to the storing directory
     _src = os.path.join(os.path.join(os.getcwd(), _output_file))
     _dst = os.path.join(path, _output_file)
-    shutil.move(_src, _dst)
+    shutil.copy2(_src, _dst)
+    os.remove(_src)
 
     # Printing working directory and tool
     print(f"\n{'':-^45}")
