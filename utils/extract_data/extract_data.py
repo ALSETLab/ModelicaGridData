@@ -501,15 +501,8 @@ def extract_data(tool, model, version, path, working_directory, mu, sigma):
     data_output['/labels/init'] = np.array(_labels_init)
     data_output['/labels/final'] = np.array(_labels_final)
 
-    # # Moving output file to the storing directory
-    # _src = os.path.join(os.path.join(os.getcwd(), _output_file))
-    # _dst = os.path.join(path, _output_file)
-    #
-    # if platform.system() == 'Windows':
-    #     os.popen(f'copy {_src} {_dst}')
-    #     os.remove(_src)
-    # elif platform.system() == 'Linux':
-    #     shutil.move(_src, _dst)
+    # Destination folder of the output file
+    _dst = os.path.join(path, _output_file)
 
     # Printing working directory and tool
     print(f"\n{'':-^45}")
