@@ -151,6 +151,9 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
     n_sc = len(scenarios)
     total = n_pf * n_sc
 
+    # Controlling the maximum number of simulations so that the cores with an uneven number of simulations complete this number
+    _max_simulations = min(_max_simulations, total)
+
     # Regex for getting power flow name
     pf_name_regex = re.compile(r'(\w+)*(?:.mo)')
     pf_identifier_regex = re.compile(r'(?:PF_)([\w+_]*\d{5})')
@@ -199,7 +202,7 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
                 eigs_scenario = sl.eig(A)[0]
                 # Saving eigenvalues
                 np.save(os.path.join(_working_directory, f"{_model_package}_eigs_init_{counter}.npy"), eigs_scenario)
-                print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{total})")
+                print(f"({n_proc}): {'Saved eigenvalues and labels at initial condition':<60} ({counter}/{_max_simulations})")
                 # Evaluating system small-signal stability using eigenvalues
                 sc_labels_init[counter] = label_scenario(A)
             except DymolaException as ex:
@@ -213,7 +216,7 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
                 if _method == 'dassl':
                     dymolaInstance.ExecuteCommand("Advanced.Define.DAEsolver = true")
 
-                print(f"({n_proc}): Dynamic simulation for {_model_name} (in {_working_directory}) ({counter}/{total})")
+                print(f"({n_proc}): Dynamic simulation for {_model_name} (in {_working_directory}) ({counter}/{_max_simulations})")
 
                 _dyn_sim_out = f"{_model_package}_dsres_{counter}"
                 res_dyn_sim = dymolaInstance.simulateModel(f"{_model_package}.{open_line(_model_name, scenario, _stopTime, 1000)}",
@@ -224,7 +227,7 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
                     tolerance = _tolerance,
                     resultFile = _dyn_sim_out)
                 if res_dyn_sim:
-                    print(f"({n_proc}): {'Simulation completed':<60} ({counter}/{total})")
+                    print(f"({n_proc}): {'Simulation completed':<60} ({counter}/{_max_simulations})")
             except DymolaException as ex:
                 print(f"({n_proc}): Error -" + str(ex))
 
@@ -246,7 +249,7 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
                         resultFile = _final_lin_out)
 
                     if res_fin_lin:
-                        print(f"({n_proc}): {'Linearization at final simulation conditions successful':<60} ({counter}/{total})")
+                        print(f"({n_proc}): {'Linearization at final simulation conditions successful':<60} ({counter}/{_max_simulations})")
                         # Reading ABCD matrices
                         A_dim = dymolaInstance.readMatrixSize(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD")
                         A = dymolaInstance.readMatrix(os.path.join(_working_directory, _final_lin_out) + '.mat', "ABCD", A_dim[0], A_dim[1])
@@ -260,9 +263,9 @@ def dymola_simulation(pf_list, scenarios, sim_params, n_proc):
                         # Computing label at final state
                         sc_labels_final[counter] = label_scenario(A)
 
-                        print(f"({n_proc}): {'Saved eigenvalues and labels at final state':<60} ({counter}/{total})")
+                        print(f"({n_proc}): {'Saved eigenvalues and labels at final state':<60} ({counter}/{_max_simulations})")
                 else:
-                    print(f"({n_proc}): {'I cannot do linearization at final state since time-domain simulation failed':<60} ({counter}/{total})")
+                    print(f"({n_proc}): {'I cannot do linearization at final state since time-domain simulation failed':<60} ({counter}/{_max_simulations})")
                     sc_labels_final[counter] = 0
             except DymolaException as ex:
                 print(f"({n_proc}): Error - " + str(ex))

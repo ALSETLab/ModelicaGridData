@@ -539,7 +539,7 @@ if __name__ == "__main__":
                     _max_simulations = args.n_sim
                 else:
                     print("Maximum number of simulations not specified.")
-                    _max_simulations = 1000
+                    _max_simulations = 2000
 
                 if _max_simulations > _n_sc*_n_pf:
                     _max_simulations = min(1000, _n_sc*_n_pf)
@@ -563,9 +563,8 @@ if __name__ == "__main__":
                 print(f"{'Core(s) per process':<30} {_n_cores:<20}")
                 print(f"{'Power flows':<30} {_n_pf:<20}")
                 print(f"{'Contingency scenarios':<30} {_n_scenarios:<20}")
-                print(f"{'Max simulations:':<30} {_max_simulations} {'('}{int(_max_simulations/_n_proc)}{'/process)':<20}\n")
-
-                # Commanding parallel simulations using multiprocessing
+                print(f"{'Total simulations: ~':<30} {int(_max_simulations/_n_proc)}{'/process ('}{_max_simulations}{')':<20} \n")                # Commanding parallel simulations using multiprocessing
+                
                 p = mp.Pool()
                 # List of running processes
                 process = []

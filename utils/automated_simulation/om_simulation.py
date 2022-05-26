@@ -149,6 +149,9 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
     n_sc = len(scenarios)
     total = n_pf * n_sc
 
+    # Controlling the maximum number of simulations so that the cores with an uneven number of simulations complete this number
+    _max_simulations = min(_max_simulations, total)
+
     # Containers for the labels (at initial and final simulation time, respectively)
     sc_labels_init = dict.fromkeys(range(1, total + 1))
     sc_labels_final = dict.fromkeys(range(1, total + 1))
@@ -234,7 +237,7 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
             # Dynamic simulation
             ##################################################################
 
-            print(f"({n_proc}): Dynamic simulation ({counter}/{total})")
+            print(f"({n_proc}): Dynamic simulation ({counter}/{_max_simulations})")
 
             # Changing the name of the result according to the scenario number
             _simSettings = f"startTime={_startTime},stopTime={_stopTime}" \
