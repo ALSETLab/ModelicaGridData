@@ -547,7 +547,7 @@ if __name__ == "__main__":
                 print(f"Working with {_max_simulations} simulations")
 
                 # Adding the maximum number of simulations to `sim_params`
-                sim_params['max_simulations'] = int(_max_simulations / _n_proc)
+                sim_params['max_simulations'] = int(_max_simulations/_n_proc)
 
                 ##################################################
                 ### DISPATCHING SIMULATIONS
@@ -563,8 +563,8 @@ if __name__ == "__main__":
                 print(f"{'Core(s) per process':<30} {_n_cores:<20}")
                 print(f"{'Power flows':<30} {_n_pf:<20}")
                 print(f"{'Contingency scenarios':<30} {_n_scenarios:<20}")
-                print(f"{'Total simulations: ~':<30} {int(_max_simulations/_n_proc)}{'/process ('}{_max_simulations}{')':<20} \n")                # Commanding parallel simulations using multiprocessing
-                
+                print(f"{'Total simulations:':<30} {'~ '}{int(_max_simulations/_n_proc)}{'/process ('}{int(_max_simulations/_n_proc)*n_proc}{')':<20} \n")                # Commanding parallel simulations using multiprocessing
+
                 p = mp.Pool()
                 # List of running processes
                 process = []
