@@ -544,7 +544,7 @@ if __name__ == "__main__":
                 if _max_simulations > _n_sc*_n_pf:
                     _max_simulations = min(1000, _n_sc*_n_pf)
 
-                print(f"Working with {_max_simulations} simulations")
+                print(f"Working with ~ {_max_simulations} simulations (exactly ({_n_proc * int(_max_simulations/_n_proc)}))")
 
                 # Adding the maximum number of simulations to `sim_params`
                 sim_params['max_simulations'] = int(_max_simulations/_n_proc)
