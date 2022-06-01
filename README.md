@@ -7,10 +7,10 @@ ModelicaGridData
 
 Two VirtualBox virtual machines were prepared with `ModelicaGridData` already set up for off-the-shelf testing. Both machines are intended for demonstration only.
 
-- [**Ubuntu:**]()
+- [**Ubuntu:**](https://www.dropbox.com/s/z1lbo1rimq7vjr2/ModelicaGridData_Ubuntu.vdi?dl=0)
   - Login: `ModelicaGridData`
   - Password: `ModelicaGridData`
-- [**Windows:**]()
+- [**Windows:**](https://www.dropbox.com/s/76hhso7bjkpix2z/ModelicaGridData_Win10.vdi?dl=0)
   - Login: `DeepGrid`
   - Password: `DeepGrid`
 
@@ -80,6 +80,8 @@ python main.py run_pf --loads 3
 Further examples with the `nyiso` module are provided as Jupyter Notebooks. These files illustrate some functionalities that are not necessarily used in the code but included within the submodules:
 
 - [NYISO Data Scripts](docs/examples_nyiso_data.ipynb)
+
+An example on how to extract data from the is available [here](docs/extract_data_example.md) ([Jupyter Notebook](docs/example_extract_data.ipynb)).
 
 ## Troubleshooting
 
