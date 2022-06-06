@@ -9,7 +9,7 @@ import time
 import timeit
 
 # Importing global constants and variables useful for the execution of the code
-from utils import *
+from src import *
 
 LIST_OF_MODELS = ['AVRI', 'IEEE9', 'IEEE14', 'SMIB', 'TwoAreas']
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
                 # Importing dependencies (just those required to speed up code execution)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    from utils.nyiso_data import *
+                    from src.nyiso_data import *
 
                 print(f"\n{'':=^45}")
                 print(f"{'DOWNLOADING NYISO DATA':^45}")
@@ -100,8 +100,8 @@ if __name__ == "__main__":
                 # Importing dependencies (just those required to speed up code execution)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    from utils.pf2rec import *
-                    from utils.nyiso_data import *
+                    from src.pf2rec import *
+                    from src.nyiso_data import *
 
                 print(f"\n{'':=^45}")
                 print(f"RUNNING TIME-SERIES POWER FLOW WITH NYISO DATA")
@@ -235,7 +235,7 @@ if __name__ == "__main__":
                 # Importing dependencies (just those required to speed up code execution)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    from utils.validate_pf import *
+                    from src.validate_pf import *
 
                 print(f"\n{'':=^45}")
                 print(f"VALIDATING POWER FLOWS FOR DYNAMIC SIMULATIONS")
@@ -379,7 +379,7 @@ if __name__ == "__main__":
                 # Importing dependencies (just those required to speed up code execution)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    from utils.automated_simulation import *
+                    from src.automated_simulation import *
 
                 print(f"\n{'':=^45}")
                 print(f"RUNNING DYNAMIC SIMULATIONS")
@@ -603,7 +603,7 @@ if __name__ == "__main__":
                 # Importing dependencies (just those required to speed up code execution)
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    from utils.extract_data import *
+                    from src.extract_data import *
 
                 print(f"\n{'':=^45}")
                 print(f"EXTRACTING DATA FROM DYNAMIC SIMULATION RESULTS")
