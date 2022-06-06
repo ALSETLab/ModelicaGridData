@@ -26,6 +26,8 @@ Next, navigate the to the directory where `ModelicaGridData` is located (`Docume
 python main.py nyiso
 ```
 
+Please run your nyiso script after 12:00 pm NY time. NYISO updates the data in their website at this time and uploads the measurements from the previous day.
+
 By default, the working directories are located inside `Documents` in the virtual machines (both located on the main user directory): `Dymola/_working_directory` for Dymola and `OpenModelica/_working_directory`  for OpenModelica. The [OpenIPSL libraries](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0) are located inside `Documents/ModelicaLibraries`.
 
 ## Installation
