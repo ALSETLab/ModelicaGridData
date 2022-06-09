@@ -1,8 +1,8 @@
 ModelicaGridData
 =========================================
 
-<p align="center"
-![Example of `run_sim`.](docs/tutorials/figs/gif_run_sim-example.gif)
+<p align="center">
+  <img = "docs/tutorials/figs/gif_run_sim-example.gif">
 </p>
 
 `ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns. The simulations are run on a local computer to take advantage of existing computing infrastructure.
@@ -62,7 +62,7 @@ The installation is summarized in the step-by-step guideline in the [documentati
 
 This tool implements several functionalities such as data scrapping, massive time series power flow computations, power flow validation, massive phasor-domain dynamic simulation, and small-signal labeling.
 
-<p align="center"
+<p align="center">
   <img src="docs/tutorials/figs/fig_software-architecture-revisited.png" width=75%>
 </p>
 
