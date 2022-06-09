@@ -32,11 +32,11 @@ python main.py nyiso
 
 Please run your nyiso script after 12:00 pm NY time. NYISO updates the data in their website at this time and uploads the measurements from the previous day.
 
-![Example of `nyiso`.](docs/tutorials/figs/gif_nyiso-example.gif)
+<p align="center">
+  <img src = "docs/tutorials/figs/gif_nyiso-example.gif">
+</p>
 
 By default, the working directories are located inside `Documents` in the virtual machines (both located on the main user directory): `Dymola/_working_directory` for Dymola and `OpenModelica/_working_directory`  for OpenModelica. The [OpenIPSL libraries](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0) are located inside `Documents/ModelicaLibraries`.
-
-![Example of `extract`.](docs/tutorials/figs/gif_extract-example.gif)
 
 ## Installation
 
@@ -93,7 +93,9 @@ Likewise, to run a time series power flow using the information from yesterday's
 python main.py run_pf --loads 3
 ```
 
-![Example of `run_pf`.](docs/tutorials/figs/gif_run_pf-example.gif)
+<p align="center">
+  <img src = "docs/tutorials/figs/gif_run_pf-example.gif">
+</p>
 
 Further examples with the `nyiso` module are provided as [Jupyter Notebooks](docs/notebooks/example_nyiso_data.ipynb). These files illustrate some functionalities that are not necessarily used in the code but included within the submodules:
 

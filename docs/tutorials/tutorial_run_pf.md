@@ -1,7 +1,9 @@
 `run_pf` Module Tutorial
 ========================
 
-![Example of the `extract` module](figs/gif_run_pf-example.gif)
+<p align="center">
+  <img src="figs/gif_run_pf-example.gif">
+</p>
 
 #### Example
 

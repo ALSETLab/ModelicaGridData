@@ -1,7 +1,9 @@
 `extract` Module Tutorial
 ========================
 
-![Example of the `extract` module](figs/gif_extract-example.gif)
+<p align="center">
+  <img src="figs/gif_extract-example.gif">
+</p>
 
 #### Background
 
@@ -67,4 +69,6 @@ Afterward, the code lists down the available signals for extraction. This list v
 
 Finally, the program prints a summary of the extraction process, including a unique file ID (in blue) that has the name of the model, the component being extracted, the date on which the code was executed, and a unique identifier. If the user is interested in getting more signals from the simulation batch, `extract` must be run again.
 
-![Example of an execution of the `extract` module to obtain the PSS output signal from a synchronous generator.](figs/fig_extract-example-prompt.png)
+<p align="center">
+  <img src="figs/fig_extract-example-prompt.png" width=75>
+</p>

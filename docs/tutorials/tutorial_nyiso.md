@@ -1,7 +1,9 @@
 `nyiso` Module Tutorial
 ========================
 
-![Example of the `nyiso` module](figs/gif_nyiso-example.gif)
+<p align="center">
+  <img src="figs/gif_nyiso-example.gif">
+</p>
 
 #### Example
 
@@ -36,6 +38,8 @@ Program executed in 71.2743 s (1.1879 min / 0.0198 h)
 
 The organization of the data scrapped from the NYISO website is presented in the Figure below. These structure is the result from the data preprocessing that organizes the measurements and forecasts per load area.
 
-![Data organization after scrapping through the `nyiso` module.](figs/fig_NYISO-data-scrapping.png)
+<p align="center">
+  <img src="figs/fig_NYISO-data-scrapping.png" width=75%>
+</p>
 
 Continue with the [next tutorial](tutorial_run_pf.md).
