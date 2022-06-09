@@ -10,7 +10,7 @@
 The power flow solution is computed after solving a nonlinear system of equations numerically. Then, it is plausible that the power flow solver produces a _mathematically valid_ result that has no physical significance. In other words, despite being a solution of the nonlinear system of equations, a particular power flow result does not correspond to an equilibrium of the dynamical system under study. Then, when a simulation is run using such power flow as an initial condition, the states of the system drift and do not stay in the state coordinates specified by the power flow. Such a power flow result is meaningless as an initial condition for numerical integration. When the states remain in the equilibrium condition after the dynamic simulation starts, the model is said to _initialize flat_ and the power flow is therefore valid as an initial condition (see Figure below).
 
 <p align="center">
-  <img src="figs/fig_initialization-data.png">
+  <img src="figs/fig_initialization-data.png" width=75%>
 </p>
 
 #### Example
