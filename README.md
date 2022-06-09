@@ -2,7 +2,7 @@ ModelicaGridData
 =========================================
 
 <p align="center">
-  <img = "docs/tutorials/figs/gif_run_sim-example.gif">
+  <img src = "docs/tutorials/figs/gif_run_sim-example.gif">
 </p>
 
 `ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns. The simulations are run on a local computer to take advantage of existing computing infrastructure.
