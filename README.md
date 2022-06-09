@@ -1,11 +1,13 @@
 ModelicaGridData
 =========================================
 
+![Example of `run_sim`.](docs/tutorials/figs/gif_run_sim-example.gif)
+
 `ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns. The simulations are run on a local computer to take advantage of existing computing infrastructure.
 
 ## Running ModelicaGridData from a Virtual Machine
 
-Two VirtualBox virtual machines were prepared with `ModelicaGridData` already set up for off-the-shelf testing. Both machines are intended for demonstration only.
+Two VirtualBox virtual machines were prepared with `ModelicaGridData` already set up for off-the-shelf testing. Both machines are intended for demonstration only. For configuration, check the [documentation](docs/guidelines/VM_installation.md).
 
 - [**Ubuntu:**](https://www.dropbox.com/s/z1lbo1rimq7vjr2/ModelicaGridData_Ubuntu.vdi?dl=0)
   - Login: `ModelicaGridData`
@@ -28,7 +30,11 @@ python main.py nyiso
 
 Please run your nyiso script after 12:00 pm NY time. NYISO updates the data in their website at this time and uploads the measurements from the previous day.
 
+![Example of `nyiso`.](docs/tutorials/figs/gif_nyiso-example.gif)
+
 By default, the working directories are located inside `Documents` in the virtual machines (both located on the main user directory): `Dymola/_working_directory` for Dymola and `OpenModelica/_working_directory`  for OpenModelica. The [OpenIPSL libraries](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0) are located inside `Documents/ModelicaLibraries`.
+
+![Example of `extract`.](docs/tutorials/figs/gif_extract-example.gif)
 
 ## Installation
 
@@ -40,19 +46,23 @@ pip install psutil && pip install matplotlib && pip install pandas && pip instal
 
 Then, proceed installing the following dependencies in order:
 
-1. [GridCal](docs/gridcal_installation.md): please stick with [release 4.2.0](https://github.com/SanPen/GridCal/releases/tag/4.2.0). We experienced some issues after upgrading to the latest commit.
-2. [OMPython](docs/OMPython_installation.md)
+1. [GridCal](docs/guidelines/gridcal_installation.md): we recommend to stick with [release 4.2.0](https://github.com/SanPen/GridCal/releases/tag/4.2.0). However, newer versions should also be compatible.
+2. [OMPython](docs/guidelines/OMPython_installation.md)
 3. [Dymola](https://www.3ds.com/products-services/catia/products/dymola/) - Proprietary software. **A license is needed**. Testing has been carried out with Dymola 2021. It is not encouraged to work with newer Dymola releases (to do so, please guarantee that the Modelica Standard Library version is set to 3.2 instead of the 4.0+ release).
 
 The OpenIPSL library has to be downloaded separately.
 
 - [OpenIPSL](www.OpenIPSL.com) - Compatible with release 1.5.0 and version 2.0.0 beta (with Dymola). **OpenModelica** (tested with release 1.16.2 on both Linux and Windows) is supported for version 1.5.0 only. A safe copy of the OpenIPSL versions used to develop and test this project is found [here](https://www.dropbox.com/s/kj0ivboxq3a7tet/OpenIPSL_.zip?dl=0).
 
-The installation is summarized in the step-by-step guideline in the [documentation](docs/stepwise_installation.md).
+The installation is summarized in the step-by-step guideline in the [documentation](docs/guidelines/stepwise_installation.md).
 
 ## Description
 
-This tool implements several functionalities such as data scrapping, massive time series power flow computations, power flow validation, massive phasor-domain dynamic simulation, and small-signal labeling. It represents a full end-to-end tool that can be used to generate big data for power systems. Such big data can be used in applications such as system identification and training for Machine Learning modules. By default, the tool uses the IEEE 14 bus model as a study case, but it can be replaced by any OpenIPSL model. The repository is shipped with the following models:
+This tool implements several functionalities such as data scrapping, massive time series power flow computations, power flow validation, massive phasor-domain dynamic simulation, and small-signal labeling.
+
+![Structure of the tool.](docs/tutorials/figs/fig_software-architecture-revisited.png)
+
+`ModelicaGridData` represents a full end-to-end tool that can be used to generate big data for power systems. Such big data can be used in applications such as system identification and training for Machine Learning modules. By default, the tool uses the IEEE 14 bus model as a study case, but it can be replaced by any OpenIPSL model. The repository is shipped with the following models:
 
 - SMIB (`SMIB`)
 - Kundur Two Area (`TwoAreas`)
@@ -60,11 +70,11 @@ This tool implements several functionalities such as data scrapping, massive tim
 - IEEE9 (`IEEE9`)
 - IEEE14 (`IEEE14`)
 
-Unfortunately, we have no function that links the power flow records to the models. It has to be done manually (at least, for the time being).
+Unfortunately, we have no function that links the power flow records to the models. It has to be done manually.
 
 ## How to Use
 
-The functionalities to validate power flow results and dispatch massive time-domain simulations are widely customizable. For this reason, the arguments are specified using the `.yaml` corresponding files: `val_params.yaml` for power flow validation and `sim_params.yaml` for massive time domain simulation.
+The functionalities to validate power flow results and dispatch massive time-domain simulations are widely customizable. For this reason, the arguments are specified using the `.yaml` corresponding files: `val_params.yaml` for power flow validation and `sim_params.yaml` for massive time domain simulation. Check the accompanying [tutorial](docs/tutorials/tutorial_nyiso.md) to gain insight into the tool mechanics.
 
 ## Examples
 
@@ -79,11 +89,13 @@ Likewise, to run a time series power flow using the information from yesterday's
 python main.py run_pf --loads 3
 ```
 
-Further examples with the `nyiso` module are provided as Jupyter Notebooks. These files illustrate some functionalities that are not necessarily used in the code but included within the submodules:
+![Example of `run_pf`.](docs/tutorials/figs/gif_run_pf-example.gif)
 
-- [NYISO Data Scripts](docs/examples_nyiso_data.ipynb)
+Further examples with the `nyiso` module are provided as [Jupyter Notebooks](docs/notebooks/example_nyiso_data.ipynb). These files illustrate some functionalities that are not necessarily used in the code but included within the submodules:
 
-An example on how to extract data from the is available [here](docs/extract_data_example.md) ([Jupyter Notebook](docs/example_extract_data.ipynb)).
+- [NYISO Data Scripts](docs/notebooks/example_nyiso_data.ipynb)
+
+An example on how to extract data from the is available [here](docs/examples/extract_data_example.md) ([Jupyter Notebook](docs/notebooks/example_extract_data.ipynb)).
 
 ## Troubleshooting
 
