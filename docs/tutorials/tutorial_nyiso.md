@@ -36,6 +36,6 @@ Program executed in 71.2743 s (1.1879 min / 0.0198 h)
 
 The organization of the data scrapped from the NYISO website is presented in the Figure below. These structure is the result from the data preprocessing that organizes the measurements and forecasts per load area.
 
-![Data organization after scrapping through the `nyiso` module.](docs/tutorials/figs/fig_NYISO-data-scrapping.png)
+![Data organization after scrapping through the `nyiso` module.](figs/fig_NYISO-data-scrapping.png)
 
 Continue with the [next tutorial](tutorial_run_pf.md).

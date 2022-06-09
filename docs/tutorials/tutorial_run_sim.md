@@ -1,7 +1,7 @@
 `run_sim` Module Tutorial
 ===========================
 
-![Example of the `extract` module](docs/tutorials/figs/gif_run_sim-example.gif)
+![Example of the `extract` module](figs/gif_run_sim-example.gif)
 
 #### Background
 

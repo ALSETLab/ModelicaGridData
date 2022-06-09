@@ -20,7 +20,7 @@ Likewise, the eigenvalues obtained after the initial- and final-condition linear
 
 A pictorial example of such data hierarchy is shown in the Figure below.
 
-![Hierarchy of the output `*.hdf5` file containing the simulation results.](docs/tutorials/figs/fig_extract-result-illustation.png)
+![Hierarchy of the output `*.hdf5` file containing the simulation results.](figs/fig_extract-result-illustation.png)
 
 #### Example
 
@@ -67,4 +67,4 @@ Afterward, the code lists down the available signals for extraction. This list v
 
 Finally, the program prints a summary of the extraction process, including a unique file ID (in blue) that has the name of the model, the component being extracted, the date on which the code was executed, and a unique identifier. If the user is interested in getting more signals from the simulation batch, `extract` must be run again.
 
-![Example of an execution of the `extract` module to obtain the PSS output signal from a synchronous generator.](docs/tutorials/figs/fig_extract-example-prompt.png)
+![Example of an execution of the `extract` module to obtain the PSS output signal from a synchronous generator.](figs/fig_extract-example-prompt.png)
