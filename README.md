@@ -10,7 +10,7 @@ ModelicaGridData
 ## Quick Start
 
 - [Installation](docs/guidelines/stepwise_installation.md)
-- [Tutorial](docs/tutorials/figs/gif_nyiso-example.gif).
+- [Tutorial](docs/tutorials/figs/gif_nyiso-example.gif)
 - [YouTube Playlist](https://www.youtube.com/watch?v=9KvV3BtDZuk&list=PLQSmZRKvTZtH940Oaw5yybX3RQaHNXpmZ)
 
 ## Running ModelicaGridData from a Virtual Machine
