@@ -97,9 +97,7 @@ python main.py run_pf --loads 3
   <img src = "docs/tutorials/figs/gif_run_pf-example.gif">
 </p>
 
-Further examples with the `nyiso` module are provided as [Jupyter Notebooks](docs/notebooks/example_nyiso_data.ipynb). These files illustrate some functionalities that are not necessarily used in the code but included within the submodules:
-
-- [NYISO Data Scripts](docs/notebooks/example_nyiso_data.ipynb)
+Further examples with the `nyiso` module are provided as [Jupyter Notebooks](docs/notebooks/example_nyiso_data.ipynb). These files illustrate some functionalities that are not necessarily used in the code but included within the submodules.
 
 An example on how to extract data from the is available [here](docs/examples/extract_data_example.md) ([Jupyter Notebook](docs/notebooks/example_extract_data.ipynb)).
 
