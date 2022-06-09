@@ -7,6 +7,12 @@ ModelicaGridData
 
 `ModelicaGridData` allows to generate data using an OpenIPSL phasor-domain simulation model fed with power flow solutions computed using real load data patterns. The simulations are run on a local computer to take advantage of existing computing infrastructure.
 
+## Quick Start
+
+- [Installation](docs/guidelines/stepwise_installation.md)
+- [Tutorial](docs/tutorials/figs/gif_nyiso-example.gif).
+- [YouTube Playlist](https://www.youtube.com/watch?v=9KvV3BtDZuk&list=PLQSmZRKvTZtH940Oaw5yybX3RQaHNXpmZ)
+
 ## Running ModelicaGridData from a Virtual Machine
 
 Two VirtualBox virtual machines were prepared with `ModelicaGridData` already set up for off-the-shelf testing. Both machines are intended for demonstration only. For configuration, check the [documentation](docs/guidelines/VM_installation.md).
