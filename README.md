@@ -60,7 +60,7 @@ The installation is summarized in the step-by-step guideline in the [documentati
 
 This tool implements several functionalities such as data scrapping, massive time series power flow computations, power flow validation, massive phasor-domain dynamic simulation, and small-signal labeling.
 
-![Structure of the tool.](docs/tutorials/figs/fig_software-architecture-revisited.png | width=75)
+![Structure of the tool.](docs/tutorials/figs/fig_software-architecture-revisited.png|width=75)
 
 `ModelicaGridData` represents a full end-to-end tool that can be used to generate big data for power systems. Such big data can be used in applications such as system identification and training for Machine Learning modules. By default, the tool uses the IEEE 14 bus model as a study case, but it can be replaced by any OpenIPSL model. The repository is shipped with the following models:
 
