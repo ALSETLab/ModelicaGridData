@@ -38,4 +38,4 @@ The organization of the data scrapped from the NYISO website is presented in the
 
 ![Data organization after scrapping through the `nyiso` module.](docs/tutorials/figs/fig_NYISO-data-scrapping.png)
 
-Continue with the [next tutorial](docs/tutorials/tutorial_run_pf.md).
+Continue with the [next tutorial](tutorial_run_pf.md).
