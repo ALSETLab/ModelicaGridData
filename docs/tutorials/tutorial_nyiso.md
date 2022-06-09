@@ -1,7 +1,7 @@
 `nyiso` Module Tutorial
 ========================
 
-![Example of the `nyiso` module](docs/tutorials/figs/gif_nyiso-example.gif)
+![Example of the `nyiso` module](figs/gif_nyiso-example.gif)
 
 #### Example
 

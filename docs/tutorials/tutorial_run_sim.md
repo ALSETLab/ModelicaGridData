@@ -49,8 +49,8 @@ Max simulations:               15 (5/process)
 
 To emphasize on the importance of the `extract` module, we will deep dive into the file output of the routine `run_sim`. One of the parameters that can be modified by the user in either `sim_parameters_pc.yaml` or `sim_parameters_vm.yaml` is the working directory (i.e., the location in the hard drive where the simulation results will be stored). The organization of files is presented in the Figure below.
 
-![Organization of the output files in the working directory.](docs/tutorials/figs/fig_output-file-organization.png)
+![Organization of the output files in the working directory.](figs/fig_output-file-organization.png)
 
 In the given working directory, the program creates a folder called `_experiments`, where the results are organized inside a directory with the same name of the model (in this case, `IEEE14`). Inside `/_experiments/IEEE14`, a subfolder is created for each individual process. In the previous example, we commanded the simulations to run on three processes, so we observe three subdirectories: `proc_1`, `proc_2`, and `proc_3`. There, we observe the results for the time series data (`*.mat` files), initial and final linearization results (eigenvalues stored as `NumPy` arrays), and the small-signal stability labels for all simulated scenarios evaluated with the initial and final conditions as `*.csv` files.
 
-Continue with the [next tutorial](docs/tutorials/tutorial_extract.md).
+Continue with the [next tutorial](tutorial_extract.md).

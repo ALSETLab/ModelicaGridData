@@ -41,4 +41,4 @@ Power flow validations         73
 (1): dymola using port: 44111
 ```
 
-Continue with the [next tutorial](docs/tutorials/tutorial_run_sim.md).
+Continue with the [next tutorial](tutorial_run_sim.md).

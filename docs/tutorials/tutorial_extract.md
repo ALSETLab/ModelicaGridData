@@ -1,7 +1,7 @@
 `extract` Module Tutorial
 ========================
 
-![Example of the `extract` module](docs/tutorials/figs/gif_extract-example.gif)
+![Example of the `extract` module](figs/gif_extract-example.gif)
 
 #### Background
 
