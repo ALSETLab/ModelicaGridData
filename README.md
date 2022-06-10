@@ -105,7 +105,7 @@ python main.py run_pf --loads 3
 
 Further examples with the `nyiso` module are provided as [Jupyter Notebooks](docs/notebooks/example_nyiso_data.ipynb). These files illustrate some functionalities that are not necessarily used in the code but included within the submodules.
 
-An example on how to extract data from the is available [here](docs/examples/extract_data_example.md) ([Jupyter Notebook](docs/notebooks/example_extract_data.ipynb)).
+An example on how to extract data after an execution of the simulation module is available [here](docs/examples/extract_data_example.md) ([Jupyter Notebook](docs/notebooks/example_extract_data.ipynb)).
 
 ## Troubleshooting
 
