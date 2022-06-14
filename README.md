@@ -114,3 +114,7 @@ An example on how to extract data after an execution of the simulation module is
 ## License
 
 This project is [licensed](./LICENSE.txt) under the [GNU Affero General Public License (GNU AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
+## Acknowledgements
+
+This work was funded in part by the New York State Energy Research and Development Authority (NYSERDA) under grant agreement numbers 137951 and 137940, and in part by the Center of Excellence for NEOM Research at King Abdullah University of Science and Technology.
