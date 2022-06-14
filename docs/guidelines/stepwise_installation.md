@@ -22,7 +22,7 @@
 6. Inside the GridCal main directory, go to `./src` and run the following command
 
     ```
-    python -m pip install . --use-feature=in-three-build
+    python -m pip install . --use-feature=in-tree-build
     ```
 
 ## Setting up the Python-Dymola and Python-OM Interfaces
