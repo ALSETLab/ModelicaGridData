@@ -16,7 +16,7 @@
     pip install psutil && pip install matplotlib && pip install pandas && pip install tqdm && pip install sdf && pip install pyyaml && pip install h5py && pip install EMD-signal==1.2.0
     ```
 
-3. Clone the GridCal repository for release 4.2.0 or later (important)
+3. Clone the [GridCal](http://sanpen.github.io/GridCal/) repository for release 4.2.0 or later (important)
 4. Activate the conda environment where the installation will be hosted
 5. Navigate with a terminal to the GridCal repository folder
 6. Inside the GridCal main directory, go to `./src` and run the following command
