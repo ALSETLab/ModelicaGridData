@@ -101,6 +101,9 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
     _temp_dir = os.path.join(os.getcwd(), "_temp", f"{n_proc}", _model_package)
     if not os.path.exists(_temp_dir):
         os.makedirs(_temp_dir)
+    else:
+        shutil.rmtree(_temp_dir) # removing existing temporal directory
+        os.makedirs(_temp_dir) # creating an empty new temporal directory
     # Copying model
     copytree(_mo_model_folder, os.path.join(_temp_dir))
 
@@ -158,6 +161,7 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
 
     counter = 1
     counter_pf = 1
+    _exit_loop = False
 
     for pf in pf_list:
         # Getting power flow name and identifier via regex
@@ -291,9 +295,11 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
             counter += 1
 
             # Breaking if the number of simulations is larger than the max number
-            if counter >= _max_simulations:
+            if counter > _max_simulations:
+                _exit_loop = True
                 break
 
+        if _exit_loop: break
         counter_pf +=1
 
     # Closing OM process
@@ -321,3 +327,5 @@ def om_simulation(pf_list, scenarios, sim_params, n_proc):
     sc_label_df_final = pd.DataFrame(index = sc_keys, columns = ["Label"])
     sc_label_df_final["Label"] = [sc_labels_final[x] for x in sc_keys]
     sc_label_df_final.to_csv(os.path.join(_working_directory, f"{_model_package}_labels_final.csv"))
+
+    shutil.rmtree(_temp_dir) # removing existing temporal directory
